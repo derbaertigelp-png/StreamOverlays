@@ -160,7 +160,36 @@ body{width:1920px;height:1080px;background:transparent;overflow:hidden;font-fami
 /* ============ GEAR ORNAMENT ============ */
 .gear{position:absolute;z-index:10;pointer-events:none;opacity:.15;animation:gearSpin 30s linear infinite}
 @keyframes gearSpin{to{transform:rotate(360deg)}}
+/* ============================================================
+   PORTRAIT MODE (1080x1920 vertical for Streamlabs Dual Output)
+   Bottom Ticker: 1080px breit, ueber dem Footer (y=1760)
+   ============================================================ */
+.portrait body{width:1080px;height:1920px}
+.portrait .ticker-bar{width:1080px;top:1760px}
+/* SVG-Ornamente ausblenden (passen nicht in 1080px) */
+.portrait .ticker-bar svg[width="1920"]{display:none}
+.portrait .gear{display:none}
+/* Scroll-Dauer an schmalere Bahn anpassen */
+.portrait .ticker-content{animation-duration:25s}
+
 </style>
+<script>
+(function(){
+  var url=new URLSearchParams(window.location.search);
+  var force=url.has('portrait')?'p':url.has('landscape')?'l':null;
+  function isP(){return force==='p'||(force===null&&window.innerHeight>window.innerWidth)}
+  function apply(){
+    var p=isP();
+    document.documentElement.classList.toggle('portrait',p);
+    if(p){
+      var tb=document.querySelector('.ticker-bar');
+      if(tb){tb.style.width='1080px';tb.style.top='1760px';}
+    }
+  }
+  apply();
+  window.addEventListener('resize',apply);
+})();
+</script>
 </head>
 <body>
 <div class="ticker-bar">
