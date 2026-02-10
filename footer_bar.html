@@ -133,9 +133,20 @@ body{width:1920px;height:1080px;background:transparent;overflow:visible;font-fam
 .platform-icon{display:inline-block;vertical-align:middle;margin-right:5px;width:14px;height:14px;position:relative;top:-1px}
 .platform-icon svg{width:14px;height:14px}
 
-/* TikTok: cyan <-> magenta */
+/* TikTok: cyan <-> magenta (Landscape) */
 .platform-tiktok{animation:tiktokShift 3s ease-in-out infinite alternate}
 @keyframes tiktokShift{0%{color:#25f4ee;text-shadow:0 0 6px rgba(37,244,238,.3)}100%{color:#fe2c55;text-shadow:0 0 6px rgba(254,44,85,.3)}}
+
+/* Twitch: lila <-> helles lila (Portrait) */
+.platform-twitch{animation:twitchShift 3s ease-in-out infinite alternate}
+@keyframes twitchShift{0%{color:#9146ff;text-shadow:0 0 6px rgba(145,70,255,.4)}100%{color:#b9a3e3;text-shadow:0 0 6px rgba(185,163,227,.3)}}
+
+/* Landscape: TikTok sichtbar, Twitch versteckt */
+.slot-tiktok{display:inline}
+.slot-twitch{display:none}
+/* Portrait: Twitch sichtbar, TikTok versteckt */
+.portrait .slot-tiktok{display:none}
+.portrait .slot-twitch{display:inline}
 
 /* YouTube: red <-> white */
 .platform-youtube{animation:youtubeShift 3s ease-in-out infinite alternate}
@@ -261,7 +272,97 @@ body{width:1920px;height:1080px;background:transparent;overflow:visible;font-fam
 }
 @keyframes shimmerSlide{0%{left:-50px}100%{left:calc(100% + 50px)}}
 
+/* ============================================================
+   PORTRAIT MODE (1080x1920 vertical for Streamlabs Dual Output)
+   Footer: 1080px breit, proportional skaliert
+   ============================================================ */
+.portrait body{width:1080px;height:1920px}
+.portrait .footer{
+  width:1080px;height:80px;
+  bottom:0;overflow:hidden;
+}
+/* Plattformen nebeneinander, etwas enger */
+.portrait .info-area{
+  gap:20px;
+}
+.portrait .info-text{font-size:10px;letter-spacing:2px}
+/* Decorative rules enger */
+.portrait .deco-rule-left{right:calc(50% + 200px);left:30px}
+.portrait .deco-rule-right{left:calc(50% + 200px);right:30px}
+/* Shimmer-Linien auf 1080px */
+.portrait .shimmer-line{width:1080px !important}
+
 </style>
+<script>
+(function(){
+  var url=new URLSearchParams(window.location.search);
+  var force=url.has('portrait')?'p':url.has('landscape')?'l':null;
+  function isP(){return force==='p'||(force===null&&window.innerHeight>window.innerWidth)}
+  var applied=false;
+  var R=1080/1920; // Skalierungsfaktor
+
+  function adaptPortrait(){
+    var f=document.querySelector('.footer');
+    if(!f)return;
+    f.style.width='1080px';
+
+    /* SVG Ornamente skalieren (nicht verstecken) */
+    f.querySelectorAll('svg[width="1920"]').forEach(function(svg){
+      svg.setAttribute('viewBox','0 0 1920 '+(svg.getAttribute('height')||80));
+      svg.setAttribute('width','1080');
+    });
+
+    /* Alle Rune Plaques proportional repositionieren */
+    f.querySelectorAll('.rune-plaque').forEach(function(el){
+      var l=parseFloat(el.style.left);
+      if(!isNaN(l)){el.style.left=Math.round(l*R)+'px';}
+    });
+
+    /* Alle Diamonds proportional repositionieren */
+    f.querySelectorAll('.deco-diamond').forEach(function(el){
+      var l=parseFloat(el.style.left);
+      var r=el.style.right;
+      if(!isNaN(l)&&l>0){el.style.left=Math.round(l*R)+'px';}
+      if(r){
+        var rv=parseFloat(r);
+        if(!isNaN(rv)){el.style.right=Math.round(rv*R)+'px';}
+      }
+    });
+
+    /* Alle Glitter proportional repositionieren */
+    f.querySelectorAll('.glitter').forEach(function(el){
+      var l=parseFloat(el.style.left);
+      if(!isNaN(l)){el.style.left=Math.round(l*R)+'px';}
+    });
+
+    /* Alle Sparks proportional repositionieren */
+    f.querySelectorAll('.spark').forEach(function(el){
+      var l=parseFloat(el.style.left);
+      if(!isNaN(l)){el.style.left=Math.round(l*R)+'px';}
+    });
+
+    /* Shimmer Lines auf 1080 begrenzen */
+    f.querySelectorAll('.shimmer-line').forEach(function(el){
+      el.style.width='1080px';
+    });
+  }
+
+  function apply(){
+    var p=isP();
+    document.documentElement.classList.toggle('portrait',p);
+    if(p&&!applied){
+      applied=true;
+      if(document.readyState==='loading'){
+        document.addEventListener('DOMContentLoaded',adaptPortrait);
+      } else {
+        adaptPortrait();
+      }
+    }
+  }
+  apply();
+  window.addEventListener('resize',apply);
+})();
+</script>
 </head>
 <body>
 <div class="footer">
@@ -314,7 +415,7 @@ body{width:1920px;height:1080px;background:transparent;overflow:visible;font-fam
 
   <!-- ====== CENTER INFO AREA ====== -->
   <div class="info-area">
-    <span class="info-text"><span class="platform-icon"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V8.71a8.35 8.35 0 004.88 1.56V6.82a4.84 4.84 0 01-1.12-.13z" fill="#25f4ee"/><path d="M16.37 2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.04-.85 2.89 2.89 0 004.04-2.64V2h3.45a4.8 4.8 0 00-.12 1v1.44a4.83 4.83 0 003.22 1.81V2z" fill="#fe2c55" opacity=".6"/></svg></span><span class="platform-tiktok">@beardflix</span></span>
+    <span class="info-text slot-tiktok"><span class="platform-icon"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V8.71a8.35 8.35 0 004.88 1.56V6.82a4.84 4.84 0 01-1.12-.13z" fill="#25f4ee"/><path d="M16.37 2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.04-.85 2.89 2.89 0 004.04-2.64V2h3.45a4.8 4.8 0 00-.12 1v1.44a4.83 4.83 0 003.22 1.81V2z" fill="#fe2c55" opacity=".6"/></svg></span><span class="platform-tiktok">@beardflix</span></span><span class="info-text slot-twitch"><span class="platform-icon"><svg viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z" fill="#9146ff"/></svg></span><span class="platform-twitch">Beardflix</span></span>
     <div class="info-separator"></div>
     <span class="info-text"><span class="platform-icon"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z" fill="#FF0000"/><path d="M9.545 15.568V8.432L15.818 12z" fill="#fff"/></svg></span><span class="platform-youtube">Beardflix</span></span>
     <div class="info-separator"></div>
@@ -330,6 +431,11 @@ body{width:1920px;height:1080px;background:transparent;overflow:visible;font-fam
   <div class="rune-plaque" style="left:1876px;top:50%;transform:translateY(-50%)"><span>&#5768;</span></div>
   <div class="rune-plaque" style="left:200px;top:50%;transform:translateY(-50%)"><span>&#5792;</span></div>
   <div class="rune-plaque" style="left:1706px;top:50%;transform:translateY(-50%)"><span>&#5810;</span></div>
+  <!-- Extra rune plaques -->
+  <div class="rune-plaque" style="left:500px;top:50%;transform:translateY(-50%)"><span>&#5794;</span></div>
+  <div class="rune-plaque" style="left:1410px;top:50%;transform:translateY(-50%)"><span>&#5800;</span></div>
+  <div class="rune-plaque" style="left:700px;top:14px"><span>&#5804;</span></div>
+  <div class="rune-plaque" style="left:1220px;top:14px"><span>&#5816;</span></div>
 
   <!-- ====== DIAMONDS ====== -->
   <div class="deco-diamond dd-sm" style="left:70px;top:20px"></div>
@@ -338,6 +444,15 @@ body{width:1920px;height:1080px;background:transparent;overflow:visible;font-fam
   <div class="deco-diamond dd-sm" style="right:70px;bottom:18px"></div>
   <div class="deco-diamond dd-md" style="left:960px;top:8px"></div>
   <div class="deco-diamond dd-sm dd-purple" style="left:960px;bottom:8px"></div>
+  <!-- Extra diamonds -->
+  <div class="deco-diamond dd-sm dd-red" style="left:250px;top:12px"></div>
+  <div class="deco-diamond dd-sm dd-purple" style="left:400px;bottom:12px"></div>
+  <div class="deco-diamond dd-sm" style="left:600px;top:10px"></div>
+  <div class="deco-diamond dd-sm dd-red" style="left:750px;bottom:14px"></div>
+  <div class="deco-diamond dd-sm" style="left:1170px;top:10px"></div>
+  <div class="deco-diamond dd-sm dd-purple" style="left:1320px;bottom:14px"></div>
+  <div class="deco-diamond dd-sm dd-red" style="left:1520px;top:12px"></div>
+  <div class="deco-diamond dd-sm" style="left:1670px;bottom:12px"></div>
 
   <!-- ====== SHIMMER LINES ====== -->
   <div class="shimmer-line" style="left:0;right:0;top:20px;--sd:10s;--sdelay:0s"></div>
@@ -357,6 +472,17 @@ body{width:1920px;height:1080px;background:transparent;overflow:visible;font-fam
   <div class="glitter" style="left:1850px;top:45px;--gc:rgba(145,70,255,.55);--gd:4s;--go:.4;animation-delay:.2s"></div>
   <div class="glitter" style="left:150px;top:40px;--gc:rgba(255,255,255,.35);--gd:5s;--go:.25;animation-delay:3s"></div>
   <div class="glitter" style="left:1780px;top:20px;--gc:rgba(255,255,255,.35);--gd:4.5s;--go:.25;animation-delay:1.2s"></div>
+  <!-- Extra glitter -->
+  <div class="glitter" style="left:200px;top:60px;--gc:rgba(145,70,255,.55);--gd:3.3s;--go:.4;animation-delay:.4s"></div>
+  <div class="glitter" style="left:400px;top:12px;--gc:rgba(201,169,97,.6);--gd:4.4s;--go:.35;animation-delay:2.2s"></div>
+  <div class="glitter" style="left:600px;top:62px;--gc:rgba(145,70,255,.5);--gd:2.7s;--go:.4;animation-delay:1.3s"></div>
+  <div class="glitter" style="left:800px;top:10px;--gc:rgba(200,35,45,.35);--gd:3.9s;--go:.3;animation-delay:.9s"></div>
+  <div class="glitter" style="left:1000px;top:58px;--gc:rgba(201,169,97,.55);--gd:4.1s;--go:.4;animation-delay:2.8s"></div>
+  <div class="glitter" style="left:1200px;top:15px;--gc:rgba(145,70,255,.6);--gd:3.4s;--go:.45;animation-delay:.6s"></div>
+  <div class="glitter" style="left:1400px;top:60px;--gc:rgba(201,169,97,.55);--gd:2.6s;--go:.35;animation-delay:1.7s"></div>
+  <div class="glitter" style="left:1600px;top:12px;--gc:rgba(200,35,45,.3);--gd:4.3s;--go:.3;animation-delay:3.2s"></div>
+  <div class="glitter" style="left:1900px;top:55px;--gc:rgba(201,169,97,.5);--gd:3.7s;--go:.35;animation-delay:2.1s"></div>
+  <div class="glitter" style="left:50px;top:58px;--gc:rgba(145,70,255,.5);--gd:4.6s;--go:.35;animation-delay:.1s"></div>
 
   <!-- ====== SPARK PARTICLES ====== -->
   <div class="spark" style="left:250px;top:35px;background:rgba(145,70,255,.4);animation-duration:4s;--so:.3;--sy:-18px;--sx:4px"></div>
@@ -364,6 +490,12 @@ body{width:1920px;height:1080px;background:transparent;overflow:visible;font-fam
   <div class="spark" style="left:1050px;top:30px;background:rgba(145,70,255,.35);animation-duration:4.5s;animation-delay:2s;--so:.28;--sy:-20px;--sx:5px"></div>
   <div class="spark" style="left:1450px;top:50px;background:rgba(200,35,45,.3);animation-duration:3.8s;animation-delay:.5s;--so:.22;--sy:-16px;--sx:-4px"></div>
   <div class="spark" style="left:1800px;top:25px;background:rgba(145,70,255,.4);animation-duration:5s;animation-delay:3s;--so:.3;--sy:-22px;--sx:3px"></div>
+  <!-- Extra sparks -->
+  <div class="spark" style="left:150px;top:20px;background:rgba(201,169,97,.35);animation-duration:4.2s;animation-delay:.7s;--so:.25;--sy:-14px;--sx:-2px"></div>
+  <div class="spark" style="left:450px;top:55px;background:rgba(145,70,255,.35);animation-duration:3.3s;animation-delay:1.5s;--so:.28;--sy:-17px;--sx:3px"></div>
+  <div class="spark" style="left:850px;top:40px;background:rgba(201,169,97,.3);animation-duration:4.8s;animation-delay:2.5s;--so:.22;--sy:-19px;--sx:-5px"></div>
+  <div class="spark" style="left:1250px;top:20px;background:rgba(145,70,255,.3);animation-duration:3.6s;animation-delay:.3s;--so:.25;--sy:-15px;--sx:4px"></div>
+  <div class="spark" style="left:1650px;top:35px;background:rgba(200,35,45,.25);animation-duration:4.4s;animation-delay:1.8s;--so:.2;--sy:-16px;--sx:-3px"></div>
 
   <!-- ====== SVG ORNAMENTS ====== -->
   <svg width="1920" height="80" style="position:absolute;top:0;left:0;z-index:8;pointer-events:none">
@@ -433,6 +565,9 @@ body{width:1920px;height:1080px;background:transparent;overflow:visible;font-fam
     <!-- ======== STEPPED PYRAMIDS ======== -->
     <g transform="translate(280,58)" opacity=".25"><rect x="8" y="0" width="10" height="2" fill="rgba(201,169,97,.35)"/><rect x="4" y="3" width="18" height="2" fill="rgba(201,169,97,.25)"/><rect x="0" y="6" width="26" height="2" fill="rgba(201,169,97,.15)"/></g>
     <g transform="translate(1610,58)" opacity=".25"><rect x="8" y="0" width="10" height="2" fill="rgba(201,169,97,.35)"/><rect x="4" y="3" width="18" height="2" fill="rgba(201,169,97,.25)"/><rect x="0" y="6" width="26" height="2" fill="rgba(201,169,97,.15)"/></g>
+    <!-- Extra stepped pyramids (middle zones) -->
+    <g transform="translate(750,58)" opacity=".2"><rect x="6" y="0" width="8" height="2" fill="rgba(145,70,255,.3)"/><rect x="3" y="3" width="14" height="2" fill="rgba(145,70,255,.2)"/><rect x="0" y="6" width="20" height="2" fill="rgba(145,70,255,.12)"/></g>
+    <g transform="translate(1140,58)" opacity=".2"><rect x="6" y="0" width="8" height="2" fill="rgba(145,70,255,.3)"/><rect x="3" y="3" width="14" height="2" fill="rgba(145,70,255,.2)"/><rect x="0" y="6" width="20" height="2" fill="rgba(145,70,255,.12)"/></g>
 
     <!-- ======== CAMERA LENS ======== -->
     <g transform="translate(530,28)" opacity=".3"><rect x="0" y="2" width="22" height="16" rx="1.5" fill="none" stroke="rgba(201,169,97,.5)" stroke-width=".8"/><circle cx="11" cy="10" r="5" fill="none" stroke="rgba(201,169,97,.4)" stroke-width=".7"/><circle cx="11" cy="10" r="2" fill="none" stroke="rgba(201,169,97,.3)" stroke-width=".5"/><circle cx="11" cy="10" r=".8" fill="rgba(201,169,97,.2)"/><rect x="16" y="0" width="6" height="4" rx=".5" fill="none" stroke="rgba(201,169,97,.35)" stroke-width=".6"/></g>
@@ -452,6 +587,71 @@ body{width:1920px;height:1080px;background:transparent;overflow:visible;font-fam
     <g transform="translate(950,14)" opacity=".1"><polygon points="5,0 6.2,3.5 10,3.5 7,5.5 8,9 5,7 2,9 3,5.5 0,3.5 3.8,3.5" fill="rgba(201,169,97,.45)"/></g>
     <g transform="translate(965,14)" opacity=".08"><polygon points="5,0 6.2,3.5 10,3.5 7,5.5 8,9 5,7 2,9 3,5.5 0,3.5 3.8,3.5" fill="rgba(201,169,97,.45)"/></g>
     <g transform="translate(980,14)" opacity=".05"><polygon points="5,0 6.2,3.5 10,3.5 7,5.5 8,9 5,7 2,9 3,5.5 0,3.5 3.8,3.5" fill="rgba(201,169,97,.45)"/></g>
+
+    <!-- ======== ADDITIONAL ORNAMENTS ======== -->
+
+    <!-- ======== WROUGHT IRON ARCHES (left inner / right inner) ======== -->
+    <g transform="translate(200,8)" opacity=".22"><path d="M0,60 L0,20 Q0,0 20,0 L50,0 Q70,0 70,20 L70,60" fill="none" stroke="rgba(201,169,97,.4)" stroke-width=".8"/><path d="M8,60 L8,22 Q8,8 22,8 L48,8 Q62,8 62,22 L62,60" fill="none" stroke="rgba(201,169,97,.25)" stroke-width=".5"/><circle cx="35" cy="18" r="3" fill="none" stroke="rgba(201,169,97,.3)" stroke-width=".5"/><line x1="35" y1="22" x2="35" y2="55" stroke="rgba(201,169,97,.15)" stroke-width=".4"/></g>
+    <g transform="translate(1650,8)" opacity=".22"><path d="M0,60 L0,20 Q0,0 20,0 L50,0 Q70,0 70,20 L70,60" fill="none" stroke="rgba(201,169,97,.4)" stroke-width=".8"/><path d="M8,60 L8,22 Q8,8 22,8 L48,8 Q62,8 62,22 L62,60" fill="none" stroke="rgba(201,169,97,.25)" stroke-width=".5"/><circle cx="35" cy="18" r="3" fill="none" stroke="rgba(201,169,97,.3)" stroke-width=".5"/><line x1="35" y1="22" x2="35" y2="55" stroke="rgba(201,169,97,.15)" stroke-width=".4"/></g>
+
+    <!-- ======== TWITCH GLITCH ICONS (small, subtle) ======== -->
+    <g transform="translate(380,12)" opacity=".2"><path d="M3,0 L0,3 L0,15 L4,15 L4,18 L7,15 L12,15 L15,12 L15,0 Z M4,4 L6,4 L6,9 L4,9 Z M8,4 L10,4 L10,9 L8,9 Z" fill="none" stroke="rgba(145,70,255,.5)" stroke-width=".6"/></g>
+    <g transform="translate(1530,12)" opacity=".2"><path d="M3,0 L0,3 L0,15 L4,15 L4,18 L7,15 L12,15 L15,12 L15,0 Z M4,4 L6,4 L6,9 L4,9 Z M8,4 L10,4 L10,9 L8,9 Z" fill="none" stroke="rgba(145,70,255,.5)" stroke-width=".6"/></g>
+
+    <!-- ======== CROWN / VIKING HELM (center-ish) ======== -->
+    <g transform="translate(850,6)" opacity=".25"><path d="M0,22 L4,8 L8,16 L12,4 L16,16 L20,8 L24,22 Z" fill="none" stroke="rgba(201,169,97,.55)" stroke-width=".8"/><line x1="0" y1="22" x2="24" y2="22" stroke="rgba(201,169,97,.45)" stroke-width=".7"/><circle cx="12" cy="4" r="1.2" fill="rgba(201,169,97,.3)"/><circle cx="4" cy="8" r=".8" fill="rgba(200,35,45,.25)"/><circle cx="20" cy="8" r=".8" fill="rgba(200,35,45,.25)"/></g>
+    <g transform="translate(1050,6)" opacity=".25"><path d="M0,22 L4,8 L8,16 L12,4 L16,16 L20,8 L24,22 Z" fill="none" stroke="rgba(201,169,97,.55)" stroke-width=".8"/><line x1="0" y1="22" x2="24" y2="22" stroke="rgba(201,169,97,.45)" stroke-width=".7"/><circle cx="12" cy="4" r="1.2" fill="rgba(201,169,97,.3)"/><circle cx="4" cy="8" r=".8" fill="rgba(200,35,45,.25)"/><circle cx="20" cy="8" r=".8" fill="rgba(200,35,45,.25)"/></g>
+
+    <!-- ======== CLAPPERBOARD ======== -->
+    <g transform="translate(300,20)" opacity=".25"><rect x="0" y="6" width="22" height="15" rx="1" fill="none" stroke="rgba(201,169,97,.45)" stroke-width=".7"/><path d="M0,6 L22,6 L22,0 L0,0 Z" fill="none" stroke="rgba(201,169,97,.4)" stroke-width=".6"/><line x1="4" y1="0" x2="7" y2="6" stroke="rgba(201,169,97,.3)" stroke-width=".5"/><line x1="9" y1="0" x2="12" y2="6" stroke="rgba(201,169,97,.3)" stroke-width=".5"/><line x1="14" y1="0" x2="17" y2="6" stroke="rgba(201,169,97,.3)" stroke-width=".5"/></g>
+    <g transform="translate(1595,20)" opacity=".25"><rect x="0" y="6" width="22" height="15" rx="1" fill="none" stroke="rgba(201,169,97,.45)" stroke-width=".7"/><path d="M0,6 L22,6 L22,0 L0,0 Z" fill="none" stroke="rgba(201,169,97,.4)" stroke-width=".6"/><line x1="4" y1="0" x2="7" y2="6" stroke="rgba(201,169,97,.3)" stroke-width=".5"/><line x1="9" y1="0" x2="12" y2="6" stroke="rgba(201,169,97,.3)" stroke-width=".5"/><line x1="14" y1="0" x2="17" y2="6" stroke="rgba(201,169,97,.3)" stroke-width=".5"/></g>
+
+    <!-- ======== MICROPHONE ======== -->
+    <g transform="translate(470,18)" opacity=".2"><ellipse cx="8" cy="8" rx="5" ry="7" fill="none" stroke="rgba(145,70,255,.45)" stroke-width=".7"/><line x1="8" y1="15" x2="8" y2="22" stroke="rgba(145,70,255,.35)" stroke-width=".6"/><line x1="4" y1="22" x2="12" y2="22" stroke="rgba(145,70,255,.3)" stroke-width=".5"/><path d="M2,10 Q2,18 8,18 Q14,18 14,10" fill="none" stroke="rgba(145,70,255,.25)" stroke-width=".5"/></g>
+    <g transform="translate(1440,18)" opacity=".2"><ellipse cx="8" cy="8" rx="5" ry="7" fill="none" stroke="rgba(145,70,255,.45)" stroke-width=".7"/><line x1="8" y1="15" x2="8" y2="22" stroke="rgba(145,70,255,.35)" stroke-width=".6"/><line x1="4" y1="22" x2="12" y2="22" stroke="rgba(145,70,255,.3)" stroke-width=".5"/><path d="M2,10 Q2,18 8,18 Q14,18 14,10" fill="none" stroke="rgba(145,70,255,.25)" stroke-width=".5"/></g>
+
+    <!-- ======== HEADSET ======== -->
+    <g transform="translate(810,20)" opacity=".2"><path d="M4,18 L4,10 Q4,2 12,2 Q20,2 20,10 L20,18" fill="none" stroke="rgba(201,169,97,.45)" stroke-width=".7"/><rect x="0" y="14" width="5" height="8" rx="1" fill="none" stroke="rgba(201,169,97,.35)" stroke-width=".6"/><rect x="19" y="14" width="5" height="8" rx="1" fill="none" stroke="rgba(201,169,97,.35)" stroke-width=".6"/></g>
+    <g transform="translate(1090,20)" opacity=".2"><path d="M4,18 L4,10 Q4,2 12,2 Q20,2 20,10 L20,18" fill="none" stroke="rgba(201,169,97,.45)" stroke-width=".7"/><rect x="0" y="14" width="5" height="8" rx="1" fill="none" stroke="rgba(201,169,97,.35)" stroke-width=".6"/><rect x="19" y="14" width="5" height="8" rx="1" fill="none" stroke="rgba(201,169,97,.35)" stroke-width=".6"/></g>
+
+    <!-- ======== AXES (Viking / Beardflix) ======== -->
+    <g transform="translate(155,48)" opacity=".25"><line x1="0" y1="0" x2="16" y2="16" stroke="rgba(201,169,97,.5)" stroke-width=".7"/><path d="M12,4 Q18,2 16,10 L12,8 Z" fill="rgba(201,169,97,.2)" stroke="rgba(201,169,97,.4)" stroke-width=".5"/></g>
+    <g transform="translate(1748,48)" opacity=".25" transform-origin="8 8"><line x1="16" y1="0" x2="0" y2="16" stroke="rgba(201,169,97,.5)" stroke-width=".7"/><path d="M4,4 Q-2,2 0,10 L4,8 Z" fill="rgba(201,169,97,.2)" stroke="rgba(201,169,97,.4)" stroke-width=".5"/></g>
+
+    <!-- ======== SWORD / DAGGER ======== -->
+    <g transform="translate(960,54)" opacity=".2"><line x1="10" y1="0" x2="10" y2="18" stroke="rgba(201,169,97,.5)" stroke-width=".6"/><line x1="6" y1="14" x2="14" y2="14" stroke="rgba(201,169,97,.4)" stroke-width=".5"/><polygon points="10,0 8,3 12,3" fill="rgba(201,169,97,.25)"/><circle cx="10" cy="18" r="1" fill="rgba(200,35,45,.2)"/></g>
+
+    <!-- ======== ORNAMENTAL BRACKETS (Art Deco) ======== -->
+    <g transform="translate(780,4)" opacity=".3"><path d="M0,15 Q5,15 5,10 Q5,5 10,5" fill="none" stroke="rgba(201,169,97,.4)" stroke-width=".7"/><path d="M10,5 Q15,5 15,10 Q15,15 20,15" fill="none" stroke="rgba(201,169,97,.4)" stroke-width=".7"/><circle cx="10" cy="5" r="1" fill="rgba(201,169,97,.25)"/></g>
+    <g transform="translate(1115,4)" opacity=".3"><path d="M0,15 Q5,15 5,10 Q5,5 10,5" fill="none" stroke="rgba(201,169,97,.4)" stroke-width=".7"/><path d="M10,5 Q15,5 15,10 Q15,15 20,15" fill="none" stroke="rgba(201,169,97,.4)" stroke-width=".7"/><circle cx="10" cy="5" r="1" fill="rgba(201,169,97,.25)"/></g>
+
+    <!-- ======== SUNBURST MOTIF (center) ======== -->
+    <g transform="translate(942,56)" opacity=".18"><line x1="10" y1="5" x2="10" y2="0" stroke="rgba(201,169,97,.4)" stroke-width=".4"/><line x1="5" y1="5" x2="3" y2="0" stroke="rgba(201,169,97,.3)" stroke-width=".4"/><line x1="15" y1="5" x2="17" y2="0" stroke="rgba(201,169,97,.3)" stroke-width=".4"/><line x1="1" y1="7" x2="0" y2="3" stroke="rgba(201,169,97,.2)" stroke-width=".3"/><line x1="19" y1="7" x2="20" y2="3" stroke="rgba(201,169,97,.2)" stroke-width=".3"/><circle cx="10" cy="7" r="2" fill="none" stroke="rgba(201,169,97,.35)" stroke-width=".5"/></g>
+
+    <!-- ======== DOUBLE DIAMOND MOTIFS ======== -->
+    <g transform="translate(400,65)" opacity=".3"><polygon points="5,0 10,5 5,10 0,5" fill="none" stroke="rgba(145,70,255,.35)" stroke-width=".5"/><polygon points="5,2 8,5 5,8 2,5" fill="none" stroke="rgba(145,70,255,.2)" stroke-width=".4"/></g>
+    <g transform="translate(600,65)" opacity=".25"><polygon points="5,0 10,5 5,10 0,5" fill="none" stroke="rgba(201,169,97,.35)" stroke-width=".5"/><polygon points="5,2 8,5 5,8 2,5" fill="none" stroke="rgba(201,169,97,.2)" stroke-width=".4"/></g>
+    <g transform="translate(1310,65)" opacity=".25"><polygon points="5,0 10,5 5,10 0,5" fill="none" stroke="rgba(201,169,97,.35)" stroke-width=".5"/><polygon points="5,2 8,5 5,8 2,5" fill="none" stroke="rgba(201,169,97,.2)" stroke-width=".4"/></g>
+    <g transform="translate(1510,65)" opacity=".3"><polygon points="5,0 10,5 5,10 0,5" fill="none" stroke="rgba(145,70,255,.35)" stroke-width=".5"/><polygon points="5,2 8,5 5,8 2,5" fill="none" stroke="rgba(145,70,255,.2)" stroke-width=".4"/></g>
+
+    <!-- ======== SMALL GEARS (additional, inner area) ======== -->
+    <g transform="translate(760,58)" opacity=".2"><g class="gear-spin" style="transform-origin:6px 6px;animation-duration:14s"><circle cx="6" cy="6" r="5" fill="none" stroke="rgba(145,70,255,.4)" stroke-width=".6"/><circle cx="6" cy="6" r="2" fill="none" stroke="rgba(145,70,255,.25)" stroke-width=".5"/><rect x="5" y="0" width="2" height="1.5" rx=".2" fill="rgba(145,70,255,.2)"/><rect x="5" y="10.5" width="2" height="1.5" rx=".2" fill="rgba(145,70,255,.2)"/><rect x="0" y="5" width="1.5" height="2" rx=".2" fill="rgba(145,70,255,.2)"/><rect x="10.5" y="5" width="1.5" height="2" rx=".2" fill="rgba(145,70,255,.2)"/></g></g>
+    <g transform="translate(1150,58)" opacity=".2"><g class="gear-spin-rev" style="transform-origin:6px 6px;animation-duration:16s"><circle cx="6" cy="6" r="5" fill="none" stroke="rgba(145,70,255,.4)" stroke-width=".6"/><circle cx="6" cy="6" r="2" fill="none" stroke="rgba(145,70,255,.25)" stroke-width=".5"/><rect x="5" y="0" width="2" height="1.5" rx=".2" fill="rgba(145,70,255,.2)"/><rect x="5" y="10.5" width="2" height="1.5" rx=".2" fill="rgba(145,70,255,.2)"/><rect x="0" y="5" width="1.5" height="2" rx=".2" fill="rgba(145,70,255,.2)"/><rect x="10.5" y="5" width="1.5" height="2" rx=".2" fill="rgba(145,70,255,.2)"/></g></g>
+
+    <!-- ======== HEX PATTERNS ======== -->
+    <g transform="translate(180,55)" opacity=".15"><polygon points="5,0 10,3 10,9 5,12 0,9 0,3" fill="none" stroke="rgba(145,70,255,.35)" stroke-width=".5"/></g>
+    <g transform="translate(1730,55)" opacity=".15"><polygon points="5,0 10,3 10,9 5,12 0,9 0,3" fill="none" stroke="rgba(145,70,255,.35)" stroke-width=".5"/></g>
+    <g transform="translate(450,56)" opacity=".12"><polygon points="4,0 8,2.5 8,7.5 4,10 0,7.5 0,2.5" fill="none" stroke="rgba(201,169,97,.3)" stroke-width=".4"/></g>
+    <g transform="translate(1460,56)" opacity=".12"><polygon points="4,0 8,2.5 8,7.5 4,10 0,7.5 0,2.5" fill="none" stroke="rgba(201,169,97,.3)" stroke-width=".4"/></g>
+
+    <!-- ======== CELTIC KNOTS ======== -->
+    <g transform="translate(620,10)" opacity=".18"><path d="M0,8 Q4,0 8,8 Q12,16 16,8 Q20,0 24,8" fill="none" stroke="rgba(201,169,97,.4)" stroke-width=".6"/><path d="M0,12 Q4,4 8,12 Q12,20 16,12 Q20,4 24,12" fill="none" stroke="rgba(201,169,97,.25)" stroke-width=".5"/></g>
+    <g transform="translate(1280,10)" opacity=".18"><path d="M0,8 Q4,0 8,8 Q12,16 16,8 Q20,0 24,8" fill="none" stroke="rgba(201,169,97,.4)" stroke-width=".6"/><path d="M0,12 Q4,4 8,12 Q12,20 16,12 Q20,4 24,12" fill="none" stroke="rgba(201,169,97,.25)" stroke-width=".5"/></g>
+
+    <!-- ======== RUNNING DOT LINES (animated) ======== -->
+    <g opacity=".2"><circle r="1" fill="rgba(145,70,255,.5)"><animateMotion dur="12s" repeatCount="indefinite" path="M30,76 L1890,76"/></circle></g>
+    <g opacity=".15"><circle r=".8" fill="rgba(201,169,97,.5)"><animateMotion dur="15s" repeatCount="indefinite" path="M1890,4 L30,4"/></circle></g>
+    <g opacity=".12"><circle r=".6" fill="rgba(200,35,45,.4)"><animateMotion dur="18s" repeatCount="indefinite" path="M30,40 L1890,40"/></circle></g>
 
   </svg>
 
