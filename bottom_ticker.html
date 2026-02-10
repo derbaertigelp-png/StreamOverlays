@@ -162,10 +162,10 @@ body{width:1920px;height:1080px;background:transparent;overflow:hidden;font-fami
 @keyframes gearSpin{to{transform:rotate(360deg)}}
 /* ============================================================
    PORTRAIT MODE (1080x1920 vertical for Streamlabs Dual Output)
-   Bottom Ticker: 1080px breit, ueber dem Footer (y=1760)
+   Bottom Ticker: 1080px breit, ueber dem Footer (y=1800)
    ============================================================ */
 .portrait body{width:1080px;height:1920px}
-.portrait .ticker-bar{width:1080px;top:1760px}
+.portrait .ticker-bar{width:1080px;top:1800px}
 /* SVG-Ornamente ausblenden (passen nicht in 1080px) */
 .portrait .ticker-bar svg[width="1920"]{display:none}
 .portrait .gear{display:none}
@@ -183,7 +183,7 @@ body{width:1920px;height:1080px;background:transparent;overflow:hidden;font-fami
     document.documentElement.classList.toggle('portrait',p);
     if(p){
       var tb=document.querySelector('.ticker-bar');
-      if(tb){tb.style.width='1080px';tb.style.top='1760px';}
+      if(tb){tb.style.width='1080px';tb.style.top='1800px';}
     }
   }
   apply();
