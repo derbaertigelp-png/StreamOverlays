@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>BEARDFLIX — Footer Bar</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1920px;height:1080px;background:transparent;overflow:visible;font-family:'Cinzel',serif}
+
+/* ============ FOOTER BASE ============ */
+.footer{
+  position:absolute;bottom:0;left:0;width:1920px;height:80px;
+  background:linear-gradient(180deg,
+    rgb(18,10,35) 0%,rgb(25,14,45) 40%,rgb(30,16,55) 70%,rgb(22,12,40) 100%);
+}
+
+/* ============ LIGHT BEAM AROUND FOOTER ============ */
+@property --beam-angle{syntax:'<angle>';initial-value:0deg;inherits:false}
+@property --beam-angle2{syntax:'<angle>';initial-value:180deg;inherits:false}
+@property --beam-angle3{syntax:'<angle>';initial-value:90deg;inherits:false}
+
+.beam-border{
+  position:absolute;inset:0;z-index:20;pointer-events:none;
+}
+.beam-border::before{
+  content:'';position:absolute;inset:-3px;
+  background:conic-gradient(
+    from var(--beam-angle),
+    transparent 0%,rgba(50,20,90,.05) 2%,rgba(80,35,140,.15) 5%,
+    rgba(110,50,180,.3) 9%,rgba(130,60,220,.45) 14%,rgba(145,70,255,.55) 19%,
+    rgba(145,70,255,.7) 24%,rgba(145,70,255,.8) 28%,rgba(145,70,255,.7) 32%,
+    rgba(130,60,220,.55) 36%,rgba(110,50,180,.4) 40%,rgba(80,35,140,.25) 43%,
+    rgba(50,20,90,.12) 46%,transparent 50%,transparent 100%
+  );
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  mask-composite:exclude;padding:4px;animation:beamSpin 7s linear infinite;
+}
+.beam-border::after{
+  content:'';position:absolute;inset:-3px;
+  background:conic-gradient(
+    from var(--beam-angle2),
+    transparent 0%,rgba(40,8,15,.05) 3%,rgba(80,15,25,.12) 8%,
+    rgba(140,25,35,.25) 15%,rgba(185,30,40,.38) 22%,rgba(200,35,45,.45) 28%,
+    rgba(185,30,40,.38) 34%,rgba(140,25,35,.25) 39%,rgba(80,15,25,.12) 44%,
+    transparent 50%,transparent 100%
+  );
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  mask-composite:exclude;padding:4px;animation:beamSpin2 10s linear infinite;
+}
+@keyframes beamSpin{to{--beam-angle:360deg}}
+@keyframes beamSpin2{to{--beam-angle2:540deg}}
+
+/* Wide beam layer */
+.beam-wide{position:absolute;inset:-2px;z-index:18;pointer-events:none}
+.beam-wide::before{
+  content:'';position:absolute;inset:0;
+  background:conic-gradient(
+    from var(--beam-angle3),
+    transparent 0%,rgba(60,25,100,.03) 4%,rgba(100,45,170,.1) 10%,
+    rgba(130,60,220,.2) 18%,rgba(145,70,255,.3) 26%,rgba(145,70,255,.38) 32%,
+    rgba(130,60,220,.3) 38%,rgba(100,45,170,.18) 44%,transparent 52%,transparent 100%
+  );
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  mask-composite:exclude;padding:5px;animation:beamSpin3 12s linear infinite;filter:blur(3px);
+}
+.beam-wide::after{
+  content:'';position:absolute;inset:-4px;
+  background:conic-gradient(
+    from var(--beam-angle3),
+    transparent 0%,rgba(18,12,30,.02) 5%,rgba(28,18,48,.06) 15%,
+    rgba(38,26,65,.12) 25%,rgba(50,34,85,.18) 33%,rgba(38,26,65,.12) 41%,
+    rgba(28,18,48,.06) 48%,transparent 55%,transparent 100%
+  );
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  mask-composite:exclude;padding:20px;animation:beamSpin3 12s linear infinite;filter:blur(14px);
+}
+@keyframes beamSpin3{to{--beam-angle3:450deg}}
+
+/* Outer glow */
+.beam-glow{position:absolute;inset:-8px;z-index:19;pointer-events:none}
+.beam-glow::before{
+  content:'';position:absolute;inset:0;
+  background:conic-gradient(
+    from var(--beam-angle),
+    transparent 0%,rgba(45,30,75,.08) 10%,rgba(65,44,110,.18) 20%,
+    rgba(80,55,140,.25) 28%,rgba(65,44,110,.18) 36%,rgba(45,30,75,.08) 44%,
+    transparent 50%,transparent 100%
+  );
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  mask-composite:exclude;padding:12px;animation:beamSpin 7s linear infinite;filter:blur(8px);
+}
+
+/* ============ TOP BORDER ============ */
+.border-top{position:absolute;top:0;left:0;right:0;height:16px;overflow:hidden;z-index:5}
+.bt-line{position:absolute;left:0;right:0;height:1px}
+.bt-1{top:2px;background:linear-gradient(90deg,transparent 5%,rgba(145,70,255,.06) 15%,rgba(190,155,85,.2) 30%,rgba(210,175,105,.35) 50%,rgba(190,155,85,.2) 70%,rgba(145,70,255,.06) 85%,transparent 95%)}
+.bt-2{top:5px;background:linear-gradient(90deg,transparent 3%,rgba(200,35,45,.08) 10%,rgba(160,130,70,.2) 20%,rgba(201,169,97,.4) 35%,rgba(145,70,255,.15) 50%,rgba(201,169,97,.4) 65%,rgba(160,130,70,.2) 80%,rgba(200,35,45,.08) 90%,transparent 97%)}
+.bt-3{top:8px;background:linear-gradient(90deg,transparent 5%,rgba(145,70,255,.08) 15%,rgba(190,155,85,.2) 30%,rgba(210,175,105,.3) 50%,rgba(190,155,85,.2) 70%,rgba(145,70,255,.08) 85%,transparent 95%)}
+/* Top shadow (connects to body overlay) */
+.bt-shadow{position:absolute;top:-12px;left:0;right:0;height:12px;
+  background:linear-gradient(0deg,rgba(8,5,14,.5),transparent);pointer-events:none}
+
+/* ============ BOTTOM BORDER ============ */
+.border-bottom{position:absolute;bottom:0;left:0;right:0;height:10px;z-index:5}
+.bb-line{position:absolute;left:0;right:0;height:1px}
+.bb-1{bottom:3px;background:linear-gradient(90deg,transparent 5%,rgba(190,155,85,.12) 20%,rgba(210,175,105,.25) 50%,rgba(190,155,85,.12) 80%,transparent 95%)}
+.bb-2{bottom:6px;background:linear-gradient(90deg,transparent 3%,rgba(145,70,255,.06) 15%,rgba(201,169,97,.2) 40%,rgba(145,70,255,.08) 50%,rgba(201,169,97,.2) 60%,transparent 97%)}
+
+/* ============ CENTER INFO AREA ============ */
+.info-area{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  z-index:10;display:flex;align-items:center;gap:40px;
+  white-space:nowrap;
+}
+.info-text{
+  font-family:'Cinzel',serif;font-weight:600;font-size:11px;
+  letter-spacing:3px;text-transform:uppercase;
+  color:rgba(201,169,97,.55);
+  text-shadow:0 0 8px rgba(145,70,255,.15);
+}
+.info-separator{
+  width:4px;height:4px;transform:rotate(45deg);
+  border:1px solid rgba(201,169,97,.35);
+  background:rgba(15,10,25,.9);
+}
+/* Platform icons */
+.platform-icon{display:inline-block;vertical-align:middle;margin-right:5px;width:14px;height:14px;position:relative;top:-1px}
+.platform-icon svg{width:14px;height:14px}
+
+/* TikTok: cyan <-> magenta */
+.platform-tiktok{animation:tiktokShift 3s ease-in-out infinite alternate}
+@keyframes tiktokShift{0%{color:#25f4ee;text-shadow:0 0 6px rgba(37,244,238,.3)}100%{color:#fe2c55;text-shadow:0 0 6px rgba(254,44,85,.3)}}
+
+/* YouTube: red <-> white */
+.platform-youtube{animation:youtubeShift 3s ease-in-out infinite alternate}
+@keyframes youtubeShift{0%{color:#ff0000;text-shadow:0 0 6px rgba(255,0,0,.3)}100%{color:#ffffff;text-shadow:0 0 6px rgba(255,255,255,.2)}}
+
+/* Instagram: purple <-> orange/pink */
+.platform-instagram{animation:instaShift 4s ease-in-out infinite alternate}
+@keyframes instaShift{0%{color:#833ab4;text-shadow:0 0 6px rgba(131,58,180,.3)}50%{color:#fd1d1d;text-shadow:0 0 6px rgba(253,29,29,.3)}100%{color:#fcb045;text-shadow:0 0 6px rgba(252,176,69,.3)}}
+
+/* ============ DECORATIVE RULES (left & right of center) ============ */
+.deco-rule{position:absolute;top:50%;height:0;z-index:5;display:flex;align-items:center}
+.deco-rule-left{right:calc(50% + 340px);left:60px;transform:translateY(-50%)}
+.deco-rule-right{left:calc(50% + 340px);right:60px;transform:translateY(-50%)}
+.rule-body{flex:1;position:relative;height:20px}
+.rule-main{position:absolute;top:50%;left:0;right:0;height:1px;transform:translateY(-50%);
+  background:linear-gradient(90deg,transparent,rgba(201,169,97,.45))}
+.deco-rule-right .rule-main{background:linear-gradient(90deg,rgba(201,169,97,.45),transparent)}
+.rule-inner{position:absolute;top:50%;left:0;right:0;height:1px;transform:translateY(-50%) translateY(-3px);
+  background:linear-gradient(90deg,transparent,rgba(201,169,97,.2))}
+.deco-rule-right .rule-inner{background:linear-gradient(90deg,rgba(201,169,97,.2),transparent)}
+.rule-outer{position:absolute;top:50%;left:0;right:0;height:1px;transform:translateY(-50%) translateY(3px);
+  background:linear-gradient(90deg,transparent,rgba(145,70,255,.08))}
+.deco-rule-right .rule-outer{background:linear-gradient(90deg,rgba(145,70,255,.08),transparent)}
+
+/* ============ RUNE PLAQUES ============ */
+.rune-plaque{
+  position:absolute;z-index:12;
+  width:16px;height:22px;
+  background:linear-gradient(180deg,rgba(20,14,32,.95),rgba(12,8,20,.98));
+  border:1px solid rgba(201,169,97,.2);border-radius:2px;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 1px 3px rgba(0,0,0,.5),inset 0 0 4px rgba(0,0,0,.3);
+}
+.rune-plaque span{font-size:10px;color:rgba(201,169,97,.35);animation:runeGlow 6s ease-in-out infinite;line-height:1}
+@keyframes runeGlow{
+  0%,100%{color:rgba(201,169,97,.25);text-shadow:none}
+  33%{color:rgba(145,70,255,.5);text-shadow:0 0 8px rgba(145,70,255,.3)}
+  66%{color:rgba(200,100,60,.45);text-shadow:0 0 6px rgba(200,35,45,.15)}
+}
+
+/* ============ DIAMONDS ============ */
+.deco-diamond{
+  position:absolute;z-index:12;pointer-events:none;
+  transform:rotate(45deg);
+  border:1px solid rgba(201,169,97,.3);background:rgba(15,10,25,.9);
+}
+.deco-diamond::after{content:'';position:absolute;inset:2px;border:1px solid rgba(201,169,97,.15)}
+.dd-sm{width:5px;height:5px}.dd-sm::after{inset:1px}
+.dd-md{width:7px;height:7px}
+.dd-purple{border-color:rgba(145,70,255,.3);background:rgba(20,10,35,.9)}
+.dd-purple::after{border-color:rgba(145,70,255,.15)}
+.dd-red{border-color:rgba(200,35,45,.25);background:rgba(25,8,10,.9)}
+.dd-red::after{border-color:rgba(200,35,45,.12)}
+
+/* ============ GEAR ANIMATIONS ============ */
+.gear-spin{animation:gearRotate 20s linear infinite;transform-origin:center}
+.gear-spin-rev{animation:gearRotateRev 15s linear infinite;transform-origin:center}
+@keyframes gearRotate{to{transform:rotate(360deg)}}
+@keyframes gearRotateRev{to{transform:rotate(-360deg)}}
+
+/* ============ ENERGY LINES ============ */
+.energy-h{position:absolute;height:1px;z-index:4;pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(145,70,255,.06),rgba(200,35,45,.03),rgba(145,70,255,.06),transparent)}
+.energy-h .pulse{position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(145,70,255,.25),transparent);
+  background-size:100px 1px;animation:ePulseH 5s linear infinite}
+@keyframes ePulseH{0%{background-position:-100px 0}100%{background-position:2000px 0}}
+
+/* ============ GLITTER ============ */
+.glitter{
+  position:absolute;width:2px;height:2px;border-radius:50%;z-index:12;pointer-events:none;
+  background:radial-gradient(circle,var(--gc,rgba(201,169,97,.8)),transparent 70%);
+  animation:glitterPulse var(--gd,3s) ease-in-out infinite;opacity:0;
+}
+@keyframes glitterPulse{
+  0%,100%{opacity:0;transform:scale(.3)}
+  15%{opacity:var(--go,.5);transform:scale(1.1)}
+  30%{opacity:.05;transform:scale(.5)}
+  50%{opacity:var(--go,.5);transform:scale(.9)}
+  70%{opacity:.05;transform:scale(.4)}
+  85%{opacity:calc(var(--go,.5) * .4);transform:scale(.7)}
+}
+
+/* ============ SPARK PARTICLES ============ */
+.spark{
+  position:absolute;width:2px;height:2px;border-radius:50%;z-index:12;pointer-events:none;
+  animation:sparkFloat ease-in-out infinite;
+}
+@keyframes sparkFloat{
+  0%,100%{transform:translateY(0) scale(.5);opacity:0}
+  20%{opacity:var(--so,.3)}
+  80%{opacity:calc(var(--so,.3) * .3)}
+  100%{transform:translateY(var(--sy,-15px)) translateX(var(--sx,3px)) scale(0);opacity:0}
+}
+
+/* ============ VINTAGE TEXTURE ============ */
+.vintage-overlay{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.02) 2px,rgba(0,0,0,.02) 4px);
+  mix-blend-mode:multiply;
+}
+
+/* ============ FILM GRAIN ============ */
+.film-grain{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  opacity:.015;animation:grainShift .1s steps(2) infinite;
+}
+@keyframes grainShift{
+  0%{background-position:0 0}50%{background-position:3px -2px}100%{background-position:-1px 3px}
+}
+
+/* ============ SHIMMER LINES ============ */
+.shimmer-line{
+  position:absolute;height:1px;z-index:5;pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(201,169,97,.01),transparent);
+  overflow:hidden;
+}
+.shimmer-line::after{
+  content:'';position:absolute;top:0;left:-100%;width:50px;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,169,97,.35),rgba(145,70,255,.12),transparent);
+  animation:shimmerSlide var(--sd,8s) linear infinite;
+  animation-delay:var(--sdelay,0s);
+}
+@keyframes shimmerSlide{0%{left:-50px}100%{left:calc(100% + 50px)}}
+
+</style>
+</head>
+<body>
+<div class="footer">
+
+  <!-- ====== TEXTURES ====== -->
+  <div class="vintage-overlay"></div>
+  <div class="film-grain"></div>
+
+  <!-- ====== AMBIENT COLOR WASHES ====== -->
+  <div style="position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:linear-gradient(90deg,
+      rgba(145,70,255,.04) 0%,transparent 15%,rgba(200,35,45,.02) 35%,transparent 50%,
+      rgba(145,70,255,.03) 65%,transparent 85%,rgba(200,35,45,.02) 100%
+    );"></div>
+
+  <!-- ====== LIGHT BEAMS ====== -->
+  <div class="beam-border"></div>
+  <div class="beam-wide"></div>
+  <div class="beam-glow"></div>
+
+  <!-- ====== TOP BORDER ====== -->
+  <div class="border-top">
+    <div class="bt-shadow"></div>
+    <div class="bt-line bt-1"></div>
+    <div class="bt-line bt-2"></div>
+    <div class="bt-line bt-3"></div>
+  </div>
+
+  <!-- ====== BOTTOM BORDER ====== -->
+  <div class="border-bottom">
+    <div class="bb-line bb-1"></div>
+    <div class="bb-line bb-2"></div>
+  </div>
+
+  <!-- ====== DECORATIVE RULES ====== -->
+  <div class="deco-rule deco-rule-left">
+    <div class="rule-body">
+      <div class="rule-main"></div>
+      <div class="rule-inner"></div>
+      <div class="rule-outer"></div>
+    </div>
+  </div>
+  <div class="deco-rule deco-rule-right">
+    <div class="rule-body">
+      <div class="rule-main"></div>
+      <div class="rule-inner"></div>
+      <div class="rule-outer"></div>
+    </div>
+  </div>
+
+  <!-- ====== CENTER INFO AREA ====== -->
+  <div class="info-area">
+    <span class="info-text"><span class="platform-icon"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V8.71a8.35 8.35 0 004.88 1.56V6.82a4.84 4.84 0 01-1.12-.13z" fill="#25f4ee"/><path d="M16.37 2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.04-.85 2.89 2.89 0 004.04-2.64V2h3.45a4.8 4.8 0 00-.12 1v1.44a4.83 4.83 0 003.22 1.81V2z" fill="#fe2c55" opacity=".6"/></svg></span><span class="platform-tiktok">@beardflix</span></span>
+    <div class="info-separator"></div>
+    <span class="info-text"><span class="platform-icon"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z" fill="#FF0000"/><path d="M9.545 15.568V8.432L15.818 12z" fill="#fff"/></svg></span><span class="platform-youtube">Beardflix</span></span>
+    <div class="info-separator"></div>
+    <span class="info-text"><span class="platform-icon"><svg viewBox="0 0 24 24"><defs><radialGradient id="ig" cx="30%" cy="107%" r="150%"><stop offset="0%" stop-color="#fdf497"/><stop offset="5%" stop-color="#fdf497"/><stop offset="45%" stop-color="#fd5949"/><stop offset="60%" stop-color="#d6249f"/><stop offset="90%" stop-color="#285AEB"/></radialGradient></defs><rect x="2" y="2" width="20" height="20" rx="5" fill="url(#ig)"/><circle cx="12" cy="12" r="5" fill="none" stroke="#fff" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1.2" fill="#fff"/></svg></span><span class="platform-instagram">Beardflixinsta</span></span>
+  </div>
+
+  <!-- ====== ENERGY LINES ====== -->
+  <div class="energy-h" style="left:0;right:0;top:14px"><div class="pulse"></div></div>
+  <div class="energy-h" style="left:0;right:0;bottom:8px"><div class="pulse" style="animation-direction:reverse;animation-duration:7s"></div></div>
+
+  <!-- ====== RUNE PLAQUES ====== -->
+  <div class="rune-plaque" style="left:30px;top:50%;transform:translateY(-50%)"><span>&#5765;</span></div>
+  <div class="rune-plaque" style="left:1876px;top:50%;transform:translateY(-50%)"><span>&#5768;</span></div>
+  <div class="rune-plaque" style="left:200px;top:50%;transform:translateY(-50%)"><span>&#5792;</span></div>
+  <div class="rune-plaque" style="left:1706px;top:50%;transform:translateY(-50%)"><span>&#5810;</span></div>
+
+  <!-- ====== DIAMONDS ====== -->
+  <div class="deco-diamond dd-sm" style="left:70px;top:20px"></div>
+  <div class="deco-diamond dd-sm dd-purple" style="right:70px;top:20px"></div>
+  <div class="deco-diamond dd-sm dd-red" style="left:70px;bottom:18px"></div>
+  <div class="deco-diamond dd-sm" style="right:70px;bottom:18px"></div>
+  <div class="deco-diamond dd-md" style="left:960px;top:8px"></div>
+  <div class="deco-diamond dd-sm dd-purple" style="left:960px;bottom:8px"></div>
+
+  <!-- ====== SHIMMER LINES ====== -->
+  <div class="shimmer-line" style="left:0;right:0;top:20px;--sd:10s;--sdelay:0s"></div>
+  <div class="shimmer-line" style="left:0;right:0;top:45px;--sd:12s;--sdelay:3s"></div>
+  <div class="shimmer-line" style="left:0;right:0;top:65px;--sd:8s;--sdelay:6s"></div>
+
+  <!-- ====== GLITTER ====== -->
+  <div class="glitter" style="left:100px;top:15px;--gc:rgba(201,169,97,.7);--gd:3s;--go:.45;animation-delay:0s"></div>
+  <div class="glitter" style="left:300px;top:50px;--gc:rgba(145,70,255,.6);--gd:3.5s;--go:.4;animation-delay:.8s"></div>
+  <div class="glitter" style="left:500px;top:25px;--gc:rgba(201,169,97,.65);--gd:4s;--go:.45;animation-delay:1.5s"></div>
+  <div class="glitter" style="left:700px;top:55px;--gc:rgba(200,35,45,.4);--gd:2.8s;--go:.35;animation-delay:.3s"></div>
+  <div class="glitter" style="left:900px;top:18px;--gc:rgba(145,70,255,.65);--gd:3.2s;--go:.45;animation-delay:2s"></div>
+  <div class="glitter" style="left:1100px;top:48px;--gc:rgba(201,169,97,.7);--gd:3.8s;--go:.4;animation-delay:1s"></div>
+  <div class="glitter" style="left:1300px;top:22px;--gc:rgba(145,70,255,.6);--gd:4.2s;--go:.45;animation-delay:.5s"></div>
+  <div class="glitter" style="left:1500px;top:58px;--gc:rgba(201,169,97,.65);--gd:2.9s;--go:.4;animation-delay:1.8s"></div>
+  <div class="glitter" style="left:1700px;top:30px;--gc:rgba(200,35,45,.4);--gd:3.6s;--go:.35;animation-delay:2.5s"></div>
+  <div class="glitter" style="left:1850px;top:45px;--gc:rgba(145,70,255,.55);--gd:4s;--go:.4;animation-delay:.2s"></div>
+  <div class="glitter" style="left:150px;top:40px;--gc:rgba(255,255,255,.35);--gd:5s;--go:.25;animation-delay:3s"></div>
+  <div class="glitter" style="left:1780px;top:20px;--gc:rgba(255,255,255,.35);--gd:4.5s;--go:.25;animation-delay:1.2s"></div>
+
+  <!-- ====== SPARK PARTICLES ====== -->
+  <div class="spark" style="left:250px;top:35px;background:rgba(145,70,255,.4);animation-duration:4s;--so:.3;--sy:-18px;--sx:4px"></div>
+  <div class="spark" style="left:650px;top:45px;background:rgba(201,169,97,.4);animation-duration:3.5s;animation-delay:1s;--so:.25;--sy:-15px;--sx:-3px"></div>
+  <div class="spark" style="left:1050px;top:30px;background:rgba(145,70,255,.35);animation-duration:4.5s;animation-delay:2s;--so:.28;--sy:-20px;--sx:5px"></div>
+  <div class="spark" style="left:1450px;top:50px;background:rgba(200,35,45,.3);animation-duration:3.8s;animation-delay:.5s;--so:.22;--sy:-16px;--sx:-4px"></div>
+  <div class="spark" style="left:1800px;top:25px;background:rgba(145,70,255,.4);animation-duration:5s;animation-delay:3s;--so:.3;--sy:-22px;--sx:3px"></div>
+
+  <!-- ====== SVG ORNAMENTS ====== -->
+  <svg width="1920" height="80" style="position:absolute;top:0;left:0;z-index:8;pointer-events:none">
+
+    <!-- ======== CORNER PIECES ======== -->
+    <!-- Top-left -->
+    <g transform="translate(2,2)" opacity=".5"><path d="M2,2 L25,2 L25,4 L4,4 L4,18 L2,18 Z" fill="none" stroke="rgba(201,169,97,.35)" stroke-width=".8"/><rect x="2" y="2" width="2" height="2" fill="rgba(201,169,97,.2)"/></g>
+    <!-- Top-right -->
+    <g transform="translate(1893,2)" opacity=".5"><path d="M25,2 L2,2 L2,4 L23,4 L23,18 L25,18 Z" fill="none" stroke="rgba(201,169,97,.35)" stroke-width=".8"/><rect x="23" y="2" width="2" height="2" fill="rgba(201,169,97,.2)"/></g>
+    <!-- Bottom-left -->
+    <g transform="translate(2,58)" opacity=".5"><path d="M2,20 L25,20 L25,18 L4,18 L4,4 L2,4 Z" fill="none" stroke="rgba(201,169,97,.35)" stroke-width=".8"/><rect x="2" y="18" width="2" height="2" fill="rgba(201,169,97,.2)"/></g>
+    <!-- Bottom-right -->
+    <g transform="translate(1893,58)" opacity=".5"><path d="M25,20 L2,20 L2,18 L23,18 L23,4 L25,4 Z" fill="none" stroke="rgba(201,169,97,.35)" stroke-width=".8"/><rect x="23" y="18" width="2" height="2" fill="rgba(201,169,97,.2)"/></g>
+
+    <!-- ======== ROTATING GEARS — LEFT ======== -->
+    <g transform="translate(90,25)" opacity=".3"><g class="gear-spin" style="transform-origin:12px 12px"><circle cx="12" cy="12" r="10" fill="none" stroke="rgba(201,169,97,.6)" stroke-width=".8"/><circle cx="12" cy="12" r="3.5" fill="none" stroke="rgba(201,169,97,.4)" stroke-width=".8"/><rect x="10" y="0" width="4" height="3" rx=".5" fill="rgba(201,169,97,.35)"/><rect x="10" y="21" width="4" height="3" rx=".5" fill="rgba(201,169,97,.35)"/><rect x="0" y="10" width="3" height="4" rx=".5" fill="rgba(201,169,97,.35)"/><rect x="21" y="10" width="3" height="4" rx=".5" fill="rgba(201,169,97,.35)"/></g></g>
+    <g transform="translate(115,30)" opacity=".25"><g class="gear-spin-rev" style="transform-origin:7px 7px"><circle cx="7" cy="7" r="5.5" fill="none" stroke="rgba(201,169,97,.5)" stroke-width=".8"/><circle cx="7" cy="7" r="2" fill="none" stroke="rgba(201,169,97,.35)" stroke-width=".6"/><rect x="5.5" y="0" width="3" height="2" rx=".3" fill="rgba(201,169,97,.3)"/><rect x="5.5" y="12" width="3" height="2" rx=".3" fill="rgba(201,169,97,.3)"/><rect x="0" y="5.5" width="2" height="3" rx=".3" fill="rgba(201,169,97,.3)"/><rect x="12" y="5.5" width="2" height="3" rx=".3" fill="rgba(201,169,97,.3)"/></g></g>
+
+    <!-- ======== ROTATING GEARS — RIGHT ======== -->
+    <g transform="translate(1790,25)" opacity=".3"><g class="gear-spin" style="transform-origin:12px 12px"><circle cx="12" cy="12" r="10" fill="none" stroke="rgba(201,169,97,.6)" stroke-width=".8"/><circle cx="12" cy="12" r="3.5" fill="none" stroke="rgba(201,169,97,.4)" stroke-width=".8"/><rect x="10" y="0" width="4" height="3" rx=".5" fill="rgba(201,169,97,.35)"/><rect x="10" y="21" width="4" height="3" rx=".5" fill="rgba(201,169,97,.35)"/><rect x="0" y="10" width="3" height="4" rx=".5" fill="rgba(201,169,97,.35)"/><rect x="21" y="10" width="3" height="4" rx=".5" fill="rgba(201,169,97,.35)"/></g></g>
+    <g transform="translate(1775,30)" opacity=".25"><g class="gear-spin-rev" style="transform-origin:7px 7px"><circle cx="7" cy="7" r="5.5" fill="none" stroke="rgba(201,169,97,.5)" stroke-width=".8"/><circle cx="7" cy="7" r="2" fill="none" stroke="rgba(201,169,97,.35)" stroke-width=".6"/><rect x="5.5" y="0" width="3" height="2" rx=".3" fill="rgba(201,169,97,.3)"/><rect x="5.5" y="12" width="3" height="2" rx=".3" fill="rgba(201,169,97,.3)"/><rect x="0" y="5.5" width="2" height="3" rx=".3" fill="rgba(201,169,97,.3)"/><rect x="12" y="5.5" width="2" height="3" rx=".3" fill="rgba(201,169,97,.3)"/></g></g>
+
+    <!-- ======== FAN ORNAMENTS ======== -->
+    <g transform="translate(140,40)" opacity=".45"><path d="M20,0 L0,0" stroke="rgba(201,169,97,.4)" stroke-width=".7"/><path d="M20,0 L3,7" stroke="rgba(201,169,97,.3)" stroke-width=".6"/><path d="M20,0 L3,-7" stroke="rgba(201,169,97,.3)" stroke-width=".6"/><path d="M20,0 L7,12" stroke="rgba(201,169,97,.2)" stroke-width=".5"/><path d="M20,0 L7,-12" stroke="rgba(201,169,97,.2)" stroke-width=".5"/><circle cx="20" cy="0" r="1.5" fill="rgba(201,169,97,.15)" stroke="rgba(201,169,97,.3)" stroke-width=".6"/></g>
+    <g transform="translate(1780,40) scale(-1,1)" opacity=".45"><path d="M0,0 L-20,0" stroke="rgba(201,169,97,.4)" stroke-width=".7"/><path d="M0,0 L-17,7" stroke="rgba(201,169,97,.3)" stroke-width=".6"/><path d="M0,0 L-17,-7" stroke="rgba(201,169,97,.3)" stroke-width=".6"/><path d="M0,0 L-13,12" stroke="rgba(201,169,97,.2)" stroke-width=".5"/><path d="M0,0 L-13,-12" stroke="rgba(201,169,97,.2)" stroke-width=".5"/><circle cx="0" cy="0" r="1.5" fill="rgba(201,169,97,.15)" stroke="rgba(201,169,97,.3)" stroke-width=".6"/></g>
+
+    <!-- ======== FILM STRIPS ======== -->
+    <g transform="translate(2,18)" opacity=".2"><rect x="0" y="0" width="10" height="44" rx=".5" fill="none" stroke="rgba(201,169,97,.35)" stroke-width=".6"/><rect x="1.5" y="3" width="3" height="2" rx=".3" fill="rgba(201,169,97,.2)"/><rect x="1.5" y="8" width="3" height="2" rx=".3" fill="rgba(201,169,97,.2)"/><rect x="5.5" y="3" width="3" height="2" rx=".3" fill="rgba(201,169,97,.2)"/><rect x="5.5" y="8" width="3" height="2" rx=".3" fill="rgba(201,169,97,.2)"/><rect x="1.5" y="34" width="3" height="2" rx=".3" fill="rgba(201,169,97,.2)"/><rect x="1.5" y="39" width="3" height="2" rx=".3" fill="rgba(201,169,97,.2)"/><rect x="5.5" y="34" width="3" height="2" rx=".3" fill="rgba(201,169,97,.2)"/><rect x="5.5" y="39" width="3" height="2" rx=".3" fill="rgba(201,169,97,.2)"/></g>
+    <g transform="translate(1908,18)" opacity=".2"><rect x="0" y="0" width="10" height="44" rx=".5" fill="none" stroke="rgba(201,169,97,.35)" stroke-width=".6"/><rect x="1.5" y="3" width="3" height="2" rx=".3" fill="rgba(201,169,97,.2)"/><rect x="1.5" y="8" width="3" height="2" rx=".3" fill="rgba(201,169,97,.2)"/><rect x="5.5" y="3" width="3" height="2" rx=".3" fill="rgba(201,169,97,.2)"/><rect x="5.5" y="8" width="3" height="2" rx=".3" fill="rgba(201,169,97,.2)"/><rect x="1.5" y="34" width="3" height="2" rx=".3" fill="rgba(201,169,97,.2)"/><rect x="1.5" y="39" width="3" height="2" rx=".3" fill="rgba(201,169,97,.2)"/><rect x="5.5" y="34" width="3" height="2" rx=".3" fill="rgba(201,169,97,.2)"/><rect x="5.5" y="39" width="3" height="2" rx=".3" fill="rgba(201,169,97,.2)"/></g>
+
+    <!-- ======== PLAY BUTTONS ======== -->
+    <g transform="translate(240,30)" opacity=".4"><circle cx="10" cy="10" r="9" fill="none" stroke="rgba(200,35,45,.5)" stroke-width="1"/><polygon points="8,5 16,10 8,15" fill="rgba(200,35,45,.4)"/></g>
+    <g transform="translate(1660,30)" opacity=".4"><circle cx="10" cy="10" r="9" fill="none" stroke="rgba(200,35,45,.5)" stroke-width="1"/><polygon points="8,5 16,10 8,15" fill="rgba(200,35,45,.4)"/></g>
+
+    <!-- ======== CONTROLLERS ======== -->
+    <g transform="translate(340,28)" opacity=".3"><path d="M6,8 Q6,3 10,3 L20,3 Q24,3 24,8 L24,15 Q24,20 20,22 L17,22 Q16,22 14,19 L13,17 L12,19 Q10,22 9,22 L7,22 Q3,20 3,15 L3,9 Q3,8 6,8 Z" fill="none" stroke="rgba(145,70,255,.45)" stroke-width=".8"/><rect x="6" y="9" width="2" height="5" fill="rgba(145,70,255,.3)"/><rect x="5" y="11" width="4" height="1.5" fill="rgba(145,70,255,.3)"/><circle cx="20" cy="9" r="1.2" fill="rgba(200,35,45,.35)"/><circle cx="21.5" cy="11.5" r="1.2" fill="rgba(145,70,255,.35)"/><circle cx="18.5" cy="11.5" r="1.2" fill="rgba(100,200,80,.25)"/><circle cx="20" cy="14" r="1.2" fill="rgba(201,169,97,.3)"/></g>
+    <g transform="translate(1560,28)" opacity=".3"><path d="M6,8 Q6,3 10,3 L20,3 Q24,3 24,8 L24,15 Q24,20 20,22 L17,22 Q16,22 14,19 L13,17 L12,19 Q10,22 9,22 L7,22 Q3,20 3,15 L3,9 Q3,8 6,8 Z" fill="none" stroke="rgba(145,70,255,.45)" stroke-width=".8"/><rect x="6" y="9" width="2" height="5" fill="rgba(145,70,255,.3)"/><rect x="5" y="11" width="4" height="1.5" fill="rgba(145,70,255,.3)"/><circle cx="20" cy="9" r="1.2" fill="rgba(200,35,45,.35)"/><circle cx="21.5" cy="11.5" r="1.2" fill="rgba(145,70,255,.35)"/></g>
+
+    <!-- ======== SOUND BARS ======== -->
+    <g transform="translate(430,30)" opacity=".3"><rect x="0" y="8" width="2" height="6" fill="rgba(145,70,255,.4)"><animate attributeName="height" values="6;10;4;8;6" dur="2s" repeatCount="indefinite"/><animate attributeName="y" values="8;4;10;6;8" dur="2s" repeatCount="indefinite"/></rect><rect x="4" y="5" width="2" height="10" fill="rgba(145,70,255,.35)"><animate attributeName="height" values="10;5;14;8;10" dur="2.2s" repeatCount="indefinite"/><animate attributeName="y" values="5;10;0;6;5" dur="2.2s" repeatCount="indefinite"/></rect><rect x="8" y="3" width="2" height="14" fill="rgba(200,35,45,.3)"><animate attributeName="height" values="14;6;18;8;14" dur="1.8s" repeatCount="indefinite"/><animate attributeName="y" values="3;8;0;6;3" dur="1.8s" repeatCount="indefinite"/></rect><rect x="12" y="6" width="2" height="8" fill="rgba(145,70,255,.35)"><animate attributeName="height" values="8;12;4;10;8" dur="2.4s" repeatCount="indefinite"/><animate attributeName="y" values="6;2;10;4;6" dur="2.4s" repeatCount="indefinite"/></rect></g>
+    <g transform="translate(1480,30)" opacity=".3"><rect x="0" y="8" width="2" height="6" fill="rgba(145,70,255,.4)"><animate attributeName="height" values="6;10;4;8;6" dur="2.1s" repeatCount="indefinite"/><animate attributeName="y" values="8;4;10;6;8" dur="2.1s" repeatCount="indefinite"/></rect><rect x="4" y="5" width="2" height="10" fill="rgba(200,35,45,.3)"><animate attributeName="height" values="10;5;14;8;10" dur="1.7s" repeatCount="indefinite"/><animate attributeName="y" values="5;10;0;6;5" dur="1.7s" repeatCount="indefinite"/></rect><rect x="8" y="3" width="2" height="14" fill="rgba(145,70,255,.35)"><animate attributeName="height" values="14;6;18;8;14" dur="2.3s" repeatCount="indefinite"/><animate attributeName="y" values="3;8;0;6;3" dur="2.3s" repeatCount="indefinite"/></rect><rect x="12" y="6" width="2" height="8" fill="rgba(145,70,255,.3)"><animate attributeName="height" values="8;12;4;10;8" dur="2s" repeatCount="indefinite"/><animate attributeName="y" values="6;2;10;4;6" dur="2s" repeatCount="indefinite"/></rect></g>
+
+    <!-- ======== LIVE INDICATORS ======== -->
+    <g transform="translate(490,32)" opacity=".45"><rect x="0" y="2" width="20" height="12" rx="6" fill="none" stroke="rgba(200,35,45,.5)" stroke-width=".8"/><circle cx="6" cy="8" r="2.5" fill="rgba(200,35,45,.45)" stroke="rgba(200,35,45,.25)" stroke-width=".5"><animate attributeName="opacity" values=".3;.9;.3" dur="1.5s" repeatCount="indefinite"/></circle><rect x="11" y="6.5" width="6" height="1" fill="rgba(201,169,97,.25)"/><rect x="11" y="9" width="4.5" height="1" fill="rgba(201,169,97,.18)"/></g>
+    <g transform="translate(1420,32)" opacity=".45"><rect x="0" y="2" width="20" height="12" rx="6" fill="none" stroke="rgba(200,35,45,.5)" stroke-width=".8"/><circle cx="6" cy="8" r="2.5" fill="rgba(200,35,45,.45)" stroke="rgba(200,35,45,.25)" stroke-width=".5"><animate attributeName="opacity" values=".3;.9;.3" dur="1.8s" repeatCount="indefinite"/></circle><rect x="11" y="6.5" width="6" height="1" fill="rgba(201,169,97,.25)"/><rect x="11" y="9" width="4.5" height="1" fill="rgba(201,169,97,.18)"/></g>
+
+    <!-- ======== ART DECO SHIELDS ======== -->
+    <g transform="translate(170,22)" opacity=".35"><path d="M10,0 L20,5 L20,16 Q20,22 10,26 Q0,22 0,16 L0,5 Z" fill="none" stroke="rgba(201,169,97,.6)" stroke-width="1"/><path d="M10,3 L17,7 L17,14 Q17,19 10,22 Q3,19 3,14 L3,7 Z" fill="none" stroke="rgba(201,169,97,.3)" stroke-width=".6"/><line x1="10" y1="6" x2="10" y2="20" stroke="rgba(201,169,97,.25)" stroke-width=".5"/><line x1="5" y1="12" x2="15" y2="12" stroke="rgba(201,169,97,.25)" stroke-width=".5"/></g>
+    <g transform="translate(1735,22)" opacity=".35"><path d="M10,0 L20,5 L20,16 Q20,22 10,26 Q0,22 0,16 L0,5 Z" fill="none" stroke="rgba(201,169,97,.6)" stroke-width="1"/><path d="M10,3 L17,7 L17,14 Q17,19 10,22 Q3,19 3,14 L3,7 Z" fill="none" stroke="rgba(201,169,97,.3)" stroke-width=".6"/><line x1="10" y1="6" x2="10" y2="20" stroke="rgba(201,169,97,.25)" stroke-width=".5"/><line x1="5" y1="12" x2="15" y2="12" stroke="rgba(201,169,97,.25)" stroke-width=".5"/></g>
+
+    <!-- ======== SUSPENSION CHAINS ======== -->
+    <g transform="translate(50,15)" opacity=".2"><ellipse cx="3" cy="3" rx="2.5" ry="4" fill="none" stroke="rgba(201,169,97,.5)" stroke-width=".7"/><ellipse cx="3" cy="10" rx="2.5" ry="4" fill="none" stroke="rgba(201,169,97,.45)" stroke-width=".6"/><ellipse cx="3" cy="17" rx="2.5" ry="4" fill="none" stroke="rgba(201,169,97,.4)" stroke-width=".6"/></g>
+    <g transform="translate(1868,15)" opacity=".2"><ellipse cx="3" cy="3" rx="2.5" ry="4" fill="none" stroke="rgba(201,169,97,.5)" stroke-width=".7"/><ellipse cx="3" cy="10" rx="2.5" ry="4" fill="none" stroke="rgba(201,169,97,.45)" stroke-width=".6"/><ellipse cx="3" cy="17" rx="2.5" ry="4" fill="none" stroke="rgba(201,169,97,.4)" stroke-width=".6"/></g>
+
+    <!-- ======== DOT LINES ======== -->
+    <g opacity=".25"><circle cx="20" cy="40" r=".6" fill="rgba(201,169,97,.5)"/><circle cx="20" cy="46" r=".6" fill="rgba(201,169,97,.5)"/><circle cx="20" cy="52" r=".6" fill="rgba(201,169,97,.5)"/><circle cx="20" cy="58" r=".6" fill="rgba(201,169,97,.5)"/><circle cx="1900" cy="40" r=".6" fill="rgba(201,169,97,.5)"/><circle cx="1900" cy="46" r=".6" fill="rgba(201,169,97,.5)"/><circle cx="1900" cy="52" r=".6" fill="rgba(201,169,97,.5)"/><circle cx="1900" cy="58" r=".6" fill="rgba(201,169,97,.5)"/></g>
+
+    <!-- ======== ORNAMENTAL CROSSES ======== -->
+    <g opacity=".3"><g transform="translate(55,60)"><line x1="0" y1="3" x2="6" y2="3" stroke="rgba(201,169,97,.4)" stroke-width=".5"/><line x1="3" y1="0" x2="3" y2="6" stroke="rgba(201,169,97,.4)" stroke-width=".5"/></g><g transform="translate(1860,60)"><line x1="0" y1="3" x2="6" y2="3" stroke="rgba(201,169,97,.4)" stroke-width=".5"/><line x1="3" y1="0" x2="3" y2="6" stroke="rgba(201,169,97,.4)" stroke-width=".5"/></g></g>
+
+    <!-- ======== SEPARATOR DOTS ======== -->
+    <g opacity=".4"><circle cx="400" cy="72" r=".8" fill="rgba(201,169,97,.45)"/><circle cx="600" cy="72" r=".8" fill="rgba(201,169,97,.45)"/><circle cx="800" cy="72" r=".8" fill="rgba(201,169,97,.45)"/><circle cx="1000" cy="72" r=".8" fill="rgba(201,169,97,.45)"/><circle cx="1120" cy="72" r=".8" fill="rgba(201,169,97,.45)"/><circle cx="1320" cy="72" r=".8" fill="rgba(201,169,97,.45)"/><circle cx="1520" cy="72" r=".8" fill="rgba(201,169,97,.45)"/></g>
+
+    <!-- ======== CHEVRON BOTTOM ======== -->
+    <g transform="translate(60,74)" opacity=".25"><line x1="0" y1="0" x2="1800" y2="0" stroke="rgba(201,169,97,.2)" stroke-width="1"/></g>
+
+    <!-- ======== STEPPED PYRAMIDS ======== -->
+    <g transform="translate(280,58)" opacity=".25"><rect x="8" y="0" width="10" height="2" fill="rgba(201,169,97,.35)"/><rect x="4" y="3" width="18" height="2" fill="rgba(201,169,97,.25)"/><rect x="0" y="6" width="26" height="2" fill="rgba(201,169,97,.15)"/></g>
+    <g transform="translate(1610,58)" opacity=".25"><rect x="8" y="0" width="10" height="2" fill="rgba(201,169,97,.35)"/><rect x="4" y="3" width="18" height="2" fill="rgba(201,169,97,.25)"/><rect x="0" y="6" width="26" height="2" fill="rgba(201,169,97,.15)"/></g>
+
+    <!-- ======== CAMERA LENS ======== -->
+    <g transform="translate(530,28)" opacity=".3"><rect x="0" y="2" width="22" height="16" rx="1.5" fill="none" stroke="rgba(201,169,97,.5)" stroke-width=".8"/><circle cx="11" cy="10" r="5" fill="none" stroke="rgba(201,169,97,.4)" stroke-width=".7"/><circle cx="11" cy="10" r="2" fill="none" stroke="rgba(201,169,97,.3)" stroke-width=".5"/><circle cx="11" cy="10" r=".8" fill="rgba(201,169,97,.2)"/><rect x="16" y="0" width="6" height="4" rx=".5" fill="none" stroke="rgba(201,169,97,.35)" stroke-width=".6"/></g>
+    <g transform="translate(1365,28)" opacity=".3"><rect x="0" y="2" width="22" height="16" rx="1.5" fill="none" stroke="rgba(201,169,97,.5)" stroke-width=".8"/><circle cx="11" cy="10" r="5" fill="none" stroke="rgba(201,169,97,.4)" stroke-width=".7"/><circle cx="11" cy="10" r="2" fill="none" stroke="rgba(201,169,97,.3)" stroke-width=".5"/><circle cx="11" cy="10" r=".8" fill="rgba(201,169,97,.2)"/><rect x="16" y="0" width="6" height="4" rx=".5" fill="none" stroke="rgba(201,169,97,.35)" stroke-width=".6"/></g>
+
+    <!-- ======== FILM REELS ======== -->
+    <g transform="translate(580,28)" opacity=".25"><circle cx="10" cy="10" r="9" fill="none" stroke="rgba(201,169,97,.55)" stroke-width=".8"/><circle cx="10" cy="10" r="3" fill="none" stroke="rgba(201,169,97,.35)" stroke-width=".6"/><circle cx="10" cy="10" r="6" fill="none" stroke="rgba(201,169,97,.18)" stroke-width=".4" stroke-dasharray="2 2"/><line x1="10" y1="1" x2="10" y2="4" stroke="rgba(201,169,97,.3)" stroke-width=".5"/><line x1="10" y1="16" x2="10" y2="19" stroke="rgba(201,169,97,.3)" stroke-width=".5"/><line x1="1" y1="10" x2="4" y2="10" stroke="rgba(201,169,97,.3)" stroke-width=".5"/><line x1="16" y1="10" x2="19" y2="10" stroke="rgba(201,169,97,.3)" stroke-width=".5"/></g>
+    <g transform="translate(1328,28)" opacity=".25"><circle cx="10" cy="10" r="9" fill="none" stroke="rgba(201,169,97,.55)" stroke-width=".8"/><circle cx="10" cy="10" r="3" fill="none" stroke="rgba(201,169,97,.35)" stroke-width=".6"/><circle cx="10" cy="10" r="6" fill="none" stroke="rgba(201,169,97,.18)" stroke-width=".4" stroke-dasharray="2 2"/><line x1="10" y1="1" x2="10" y2="4" stroke="rgba(201,169,97,.3)" stroke-width=".5"/><line x1="10" y1="16" x2="10" y2="19" stroke="rgba(201,169,97,.3)" stroke-width=".5"/></g>
+
+    <!-- ======== IRON FENCE SECTION ======== -->
+    <g transform="translate(640,16)" opacity=".2"><line x1="0" y1="0" x2="100" y2="0" stroke="rgba(201,169,97,.5)" stroke-width=".8"/><line x1="0" y1="48" x2="100" y2="48" stroke="rgba(201,169,97,.5)" stroke-width=".8"/><line x1="10" y1="-3" x2="10" y2="48" stroke="rgba(201,169,97,.35)" stroke-width=".6"/><polygon points="9,-3 10,-6 11,-3" fill="rgba(201,169,97,.25)"/><line x1="30" y1="-3" x2="30" y2="48" stroke="rgba(201,169,97,.35)" stroke-width=".6"/><polygon points="29,-3 30,-6 31,-3" fill="rgba(201,169,97,.25)"/><line x1="50" y1="-5" x2="50" y2="48" stroke="rgba(201,169,97,.4)" stroke-width=".7"/><polygon points="49,-5 50,-9 51,-5" fill="rgba(201,169,97,.3)"/><line x1="70" y1="-3" x2="70" y2="48" stroke="rgba(201,169,97,.35)" stroke-width=".6"/><polygon points="69,-3 70,-6 71,-3" fill="rgba(201,169,97,.25)"/><line x1="90" y1="-3" x2="90" y2="48" stroke="rgba(201,169,97,.35)" stroke-width=".6"/><polygon points="89,-3 90,-6 91,-3" fill="rgba(201,169,97,.25)"/><path d="M10,20 Q20,14 30,20" fill="none" stroke="rgba(201,169,97,.2)" stroke-width=".4"/><path d="M30,20 Q40,14 50,20" fill="none" stroke="rgba(201,169,97,.2)" stroke-width=".4"/><path d="M50,20 Q60,14 70,20" fill="none" stroke="rgba(201,169,97,.2)" stroke-width=".4"/><path d="M70,20 Q80,14 90,20" fill="none" stroke="rgba(201,169,97,.2)" stroke-width=".4"/></g>
+    <g transform="translate(1180,16)" opacity=".2"><line x1="0" y1="0" x2="100" y2="0" stroke="rgba(201,169,97,.5)" stroke-width=".8"/><line x1="0" y1="48" x2="100" y2="48" stroke="rgba(201,169,97,.5)" stroke-width=".8"/><line x1="10" y1="-3" x2="10" y2="48" stroke="rgba(201,169,97,.35)" stroke-width=".6"/><polygon points="9,-3 10,-6 11,-3" fill="rgba(201,169,97,.25)"/><line x1="30" y1="-3" x2="30" y2="48" stroke="rgba(201,169,97,.35)" stroke-width=".6"/><polygon points="29,-3 30,-6 31,-3" fill="rgba(201,169,97,.25)"/><line x1="50" y1="-5" x2="50" y2="48" stroke="rgba(201,169,97,.4)" stroke-width=".7"/><polygon points="49,-5 50,-9 51,-5" fill="rgba(201,169,97,.3)"/><line x1="70" y1="-3" x2="70" y2="48" stroke="rgba(201,169,97,.35)" stroke-width=".6"/><polygon points="69,-3 70,-6 71,-3" fill="rgba(201,169,97,.25)"/><line x1="90" y1="-3" x2="90" y2="48" stroke="rgba(201,169,97,.35)" stroke-width=".6"/><polygon points="89,-3 90,-6 91,-3" fill="rgba(201,169,97,.25)"/><path d="M10,20 Q20,14 30,20" fill="none" stroke="rgba(201,169,97,.2)" stroke-width=".4"/><path d="M30,20 Q40,14 50,20" fill="none" stroke="rgba(201,169,97,.2)" stroke-width=".4"/><path d="M50,20 Q60,14 70,20" fill="none" stroke="rgba(201,169,97,.2)" stroke-width=".4"/><path d="M70,20 Q80,14 90,20" fill="none" stroke="rgba(201,169,97,.2)" stroke-width=".4"/></g>
+
+    <!-- ======== STARS / RATING ======== -->
+    <g transform="translate(920,14)" opacity=".2"><polygon points="5,0 6.2,3.5 10,3.5 7,5.5 8,9 5,7 2,9 3,5.5 0,3.5 3.8,3.5" fill="rgba(201,169,97,.45)"/></g>
+    <g transform="translate(935,14)" opacity=".15"><polygon points="5,0 6.2,3.5 10,3.5 7,5.5 8,9 5,7 2,9 3,5.5 0,3.5 3.8,3.5" fill="rgba(201,169,97,.45)"/></g>
+    <g transform="translate(950,14)" opacity=".1"><polygon points="5,0 6.2,3.5 10,3.5 7,5.5 8,9 5,7 2,9 3,5.5 0,3.5 3.8,3.5" fill="rgba(201,169,97,.45)"/></g>
+    <g transform="translate(965,14)" opacity=".08"><polygon points="5,0 6.2,3.5 10,3.5 7,5.5 8,9 5,7 2,9 3,5.5 0,3.5 3.8,3.5" fill="rgba(201,169,97,.45)"/></g>
+    <g transform="translate(980,14)" opacity=".05"><polygon points="5,0 6.2,3.5 10,3.5 7,5.5 8,9 5,7 2,9 3,5.5 0,3.5 3.8,3.5" fill="rgba(201,169,97,.45)"/></g>
+
+  </svg>
+
+</div>
+</body>
+</html>

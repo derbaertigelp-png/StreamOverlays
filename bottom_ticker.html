@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>BEARDFLIX — Bottom Ticker</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1920px;height:1080px;background:transparent;overflow:hidden;font-family:'Cinzel',serif}
+
+/* ============ TICKER BAR ============ */
+.ticker-bar{
+  position:absolute;left:0;top:960px;width:1920px;height:40px;
+  background:linear-gradient(180deg,
+    rgb(16,9,30) 0%,rgb(22,13,42) 25%,rgb(26,15,48) 50%,rgb(20,12,38) 75%,rgb(14,8,28) 100%);
+  overflow:hidden;
+}
+
+/* ============ LIGHT BEAM ============ */
+@property --beam-angle{syntax:'<angle>';initial-value:0deg;inherits:false}
+@property --beam-angle2{syntax:'<angle>';initial-value:180deg;inherits:false}
+
+.beam-border{position:absolute;inset:0;z-index:20;pointer-events:none}
+.beam-border::before{
+  content:'';position:absolute;inset:-3px;
+  background:conic-gradient(
+    from var(--beam-angle),
+    transparent 0%,rgba(50,20,90,.05) 2%,rgba(80,35,140,.15) 5%,
+    rgba(110,50,180,.3) 9%,rgba(130,60,220,.45) 14%,rgba(145,70,255,.55) 19%,
+    rgba(145,70,255,.7) 24%,rgba(145,70,255,.55) 28%,rgba(130,60,220,.45) 32%,
+    rgba(110,50,180,.3) 36%,rgba(80,35,140,.15) 40%,rgba(50,20,90,.05) 44%,
+    transparent 48%,transparent 100%
+  );
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  mask-composite:exclude;padding:4px;animation:beamSpin 8s linear infinite;
+}
+.beam-border::after{
+  content:'';position:absolute;inset:-3px;
+  background:conic-gradient(
+    from var(--beam-angle2),
+    transparent 0%,rgba(40,8,15,.04) 3%,rgba(80,15,25,.1) 8%,
+    rgba(140,25,35,.2) 15%,rgba(185,30,40,.3) 22%,rgba(200,35,45,.35) 28%,
+    rgba(185,30,40,.3) 34%,rgba(140,25,35,.2) 39%,rgba(80,15,25,.1) 44%,
+    transparent 48%,transparent 100%
+  );
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  mask-composite:exclude;padding:4px;animation:beamSpin2 11s linear infinite;
+}
+@keyframes beamSpin{to{--beam-angle:360deg}}
+@keyframes beamSpin2{to{--beam-angle2:540deg}}
+
+/* ============ GLOW / ATMOSPHERE ============ */
+.glow-layer{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:
+    radial-gradient(ellipse 400px 60px at 30% 50%,rgba(200,35,45,.05),transparent),
+    radial-gradient(ellipse 300px 50px at 70% 50%,rgba(145,70,255,.06),transparent),
+    radial-gradient(ellipse 500px 80px at 50% 50%,rgba(201,169,97,.02),transparent);
+}
+
+/* ============ BORDER LINES ============ */
+.border-top{position:absolute;top:0;left:0;right:0;height:2px;z-index:25;
+  background:linear-gradient(90deg,transparent 2%,rgba(145,70,255,.3) 15%,rgba(201,169,97,.5) 30%,rgba(145,70,255,.6) 50%,rgba(201,169,97,.5) 70%,rgba(145,70,255,.3) 85%,transparent 98%);
+  box-shadow:0 -2px 12px rgba(145,70,255,.15),0 -1px 4px rgba(145,70,255,.1);
+}
+.border-bottom{position:absolute;bottom:0;left:0;right:0;height:2px;z-index:25;
+  background:linear-gradient(90deg,transparent 2%,rgba(145,70,255,.3) 15%,rgba(201,169,97,.5) 30%,rgba(145,70,255,.6) 50%,rgba(201,169,97,.5) 70%,rgba(145,70,255,.3) 85%,transparent 98%);
+}
+
+/* ============ VINTAGE OVERLAY ============ */
+.vintage{position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.03) 2px,rgba(0,0,0,.03) 4px);
+  mix-blend-mode:multiply;opacity:.4;
+}
+
+/* ============ FILM GRAIN ============ */
+.grain{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:.04;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size:128px 128px;animation:grainShift 0.5s steps(4) infinite;
+}
+@keyframes grainShift{0%{transform:translate(0,0)}25%{transform:translate(-2px,1px)}50%{transform:translate(1px,-1px)}75%{transform:translate(-1px,2px)}100%{transform:translate(0,0)}}
+
+/* ============ SCROLLING TEXT (reverse direction) ============ */
+.ticker-track{
+  position:absolute;top:0;left:0;width:100%;height:100%;z-index:15;
+  display:flex;align-items:center;overflow:hidden;pointer-events:none;
+}
+.ticker-content{
+  display:flex;align-items:center;gap:0;
+  white-space:nowrap;
+  animation:tickerScrollRev 40s linear infinite;
+}
+.ticker-content span{
+  font-family:'Cinzel',serif;font-weight:600;font-size:10px;
+  letter-spacing:2.5px;text-transform:uppercase;
+  color:rgba(201,169,97,.7);
+  text-shadow:0 0 6px rgba(145,70,255,.2),0 0 2px rgba(201,169,97,.15);
+}
+.ticker-content .sep{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:40px;height:100%;
+  color:rgba(145,70,255,.5);font-size:8px;
+}
+.ticker-content .sep svg{width:10px;height:10px;opacity:.5}
+
+@keyframes tickerScrollRev{
+  0%{transform:translateX(-50%)}
+  100%{transform:translateX(0)}
+}
+
+/* ============ ORNAMENT SVGs ============ */
+.orn{position:absolute;z-index:10;pointer-events:none;opacity:.25}
+
+/* ============ DECORATIVE RULES ============ */
+.deco-rule{position:absolute;z-index:12;pointer-events:none}
+
+/* ============ CORNER PIECES ============ */
+.corner{position:absolute;z-index:14;pointer-events:none;opacity:.35}
+.corner svg{width:16px;height:16px}
+.corner-tl{top:3px;left:6px}
+.corner-tr{top:3px;right:6px;transform:scaleX(-1)}
+.corner-bl{bottom:3px;left:6px;transform:scaleY(-1)}
+.corner-br{bottom:3px;right:6px;transform:scale(-1,-1)}
+
+/* ============ GLITTER ============ */
+.glitter{position:absolute;border-radius:50;z-index:11;pointer-events:none;
+  background:var(--gc,rgba(201,169,97,.5));
+  width:2px;height:2px;opacity:0;
+  animation:glitterPulse var(--gd,4s) ease-in-out infinite;
+  animation-delay:var(--gdelay,0s);
+}
+@keyframes glitterPulse{0%,100%{opacity:0;transform:scale(.5)}50%{opacity:var(--go,.4);transform:scale(1.2)}}
+
+/* ============ SHIMMER LINES ============ */
+.shimmer{position:absolute;height:1px;z-index:13;pointer-events:none;overflow:hidden;opacity:.2}
+.shimmer::after{
+  content:'';position:absolute;top:0;left:-100%;width:50%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(201,169,97,.6),rgba(145,70,255,.4),transparent);
+  animation:shimmerSlide var(--sd,6s) ease-in-out infinite;animation-delay:var(--sdelay,0s);
+}
+@keyframes shimmerSlide{0%{left:-100%}100%{left:200%}}
+
+/* ============ RUNE ACCENTS ============ */
+.rune{position:absolute;z-index:14;pointer-events:none;
+  font-size:10px;color:rgba(201,169,97,.2);
+  text-shadow:0 0 6px rgba(145,70,255,.1);
+  animation:runeGlow 6s ease-in-out infinite;
+}
+@keyframes runeGlow{0%,100%{opacity:.15;text-shadow:0 0 4px rgba(145,70,255,.05)}50%{opacity:.35;text-shadow:0 0 10px rgba(145,70,255,.15)}}
+
+/* ============ ENERGY LINES ============ */
+.energy-line{position:absolute;height:1px;z-index:11;pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(145,70,255,.15),rgba(201,169,97,.1),transparent);
+  opacity:0;animation:energyPulse 8s ease-in-out infinite;
+}
+@keyframes energyPulse{0%,100%{opacity:0}30%{opacity:1}70%{opacity:1}}
+
+/* ============ GEAR ORNAMENT ============ */
+.gear{position:absolute;z-index:10;pointer-events:none;opacity:.15;animation:gearSpin 30s linear infinite}
+@keyframes gearSpin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="ticker-bar">
+
+  <!-- Background atmosphere -->
+  <div class="glow-layer"></div>
+  <div class="vintage"></div>
+  <div class="grain"></div>
+
+  <!-- Beam border -->
+  <div class="beam-border"></div>
+
+  <!-- Border lines -->
+  <div class="border-top"></div>
+  <div class="border-bottom"></div>
+
+  <!-- Corner ornaments -->
+  <div class="corner corner-tl"><svg viewBox="0 0 40 40"><path d="M2,2 L2,16 Q2,2 16,2" fill="none" stroke="rgba(201,169,97,.6)" stroke-width="1.5"/><circle cx="2" cy="2" r="1.5" fill="rgba(145,70,255,.5)"/></svg></div>
+  <div class="corner corner-tr"><svg viewBox="0 0 40 40"><path d="M2,2 L2,16 Q2,2 16,2" fill="none" stroke="rgba(201,169,97,.6)" stroke-width="1.5"/><circle cx="2" cy="2" r="1.5" fill="rgba(145,70,255,.5)"/></svg></div>
+  <div class="corner corner-bl"><svg viewBox="0 0 40 40"><path d="M2,2 L2,16 Q2,2 16,2" fill="none" stroke="rgba(201,169,97,.6)" stroke-width="1.5"/><circle cx="2" cy="2" r="1.5" fill="rgba(145,70,255,.5)"/></svg></div>
+  <div class="corner corner-br"><svg viewBox="0 0 40 40"><path d="M2,2 L2,16 Q2,2 16,2" fill="none" stroke="rgba(201,169,97,.6)" stroke-width="1.5"/><circle cx="2" cy="2" r="1.5" fill="rgba(145,70,255,.5)"/></svg></div>
+
+  <!-- Decorative rules -->
+  <div class="deco-rule" style="top:5px;left:40px;right:40px;height:1px;background:linear-gradient(90deg,transparent,rgba(201,169,97,.15),rgba(145,70,255,.1),rgba(201,169,97,.15),transparent);opacity:.4"></div>
+  <div class="deco-rule" style="bottom:5px;left:40px;right:40px;height:1px;background:linear-gradient(90deg,transparent,rgba(145,70,255,.1),rgba(201,169,97,.15),rgba(145,70,255,.1),transparent);opacity:.4"></div>
+
+  <!-- Side ornaments (small diamonds) -->
+  <div class="orn" style="left:14px;top:50%;transform:translateY(-50%)">
+    <svg width="16" height="26" viewBox="0 0 16 26"><path d="M8,2 L14,8 L14,18 L8,24 L2,18 L2,8Z" fill="none" stroke="rgba(201,169,97,.5)" stroke-width=".8"/><circle cx="8" cy="13" r="2" fill="none" stroke="rgba(201,169,97,.3)" stroke-width=".4"/></svg>
+  </div>
+  <div class="orn" style="right:14px;top:50%;transform:translateY(-50%) scaleX(-1)">
+    <svg width="16" height="26" viewBox="0 0 16 26"><path d="M8,2 L14,8 L14,18 L8,24 L2,18 L2,8Z" fill="none" stroke="rgba(201,169,97,.5)" stroke-width=".8"/><circle cx="8" cy="13" r="2" fill="none" stroke="rgba(201,169,97,.3)" stroke-width=".4"/></svg>
+  </div>
+
+  <!-- Small gear ornaments -->
+  <div class="gear" style="left:60px;top:9px">
+    <svg width="14" height="14" viewBox="0 0 22 22"><circle cx="11" cy="11" r="5" fill="none" stroke="rgba(201,169,97,.4)" stroke-width=".6"/><circle cx="11" cy="11" r="2" fill="none" stroke="rgba(145,70,255,.3)" stroke-width=".4"/><line x1="11" y1="2" x2="11" y2="6" stroke="rgba(201,169,97,.3)" stroke-width=".5"/><line x1="11" y1="16" x2="11" y2="20" stroke="rgba(201,169,97,.3)" stroke-width=".5"/><line x1="2" y1="11" x2="6" y2="11" stroke="rgba(201,169,97,.3)" stroke-width=".5"/><line x1="16" y1="11" x2="20" y2="11" stroke="rgba(201,169,97,.3)" stroke-width=".5"/></svg>
+  </div>
+  <div class="gear" style="right:60px;bottom:9px;animation-direction:reverse">
+    <svg width="14" height="14" viewBox="0 0 22 22"><circle cx="11" cy="11" r="5" fill="none" stroke="rgba(201,169,97,.4)" stroke-width=".6"/><circle cx="11" cy="11" r="2" fill="none" stroke="rgba(145,70,255,.3)" stroke-width=".4"/><line x1="11" y1="2" x2="11" y2="6" stroke="rgba(201,169,97,.3)" stroke-width=".5"/><line x1="11" y1="16" x2="11" y2="20" stroke="rgba(201,169,97,.3)" stroke-width=".5"/><line x1="2" y1="11" x2="6" y2="11" stroke="rgba(201,169,97,.3)" stroke-width=".5"/><line x1="16" y1="11" x2="20" y2="11" stroke="rgba(201,169,97,.3)" stroke-width=".5"/></svg>
+  </div>
+
+  <!-- Rune accents -->
+  <div class="rune" style="left:120px;top:14px">&#5808;</div>
+  <div class="rune" style="right:120px;top:14px">&#5798;</div>
+
+  <!-- Glitter particles -->
+  <div class="glitter" style="left:250px;top:8px;--gc:rgba(201,169,97,.5);--gd:4s;--go:.3"></div>
+  <div class="glitter" style="left:500px;top:28px;--gc:rgba(145,70,255,.4);--gd:5s;--go:.25;--gdelay:1.2s"></div>
+  <div class="glitter" style="left:780px;top:12px;--gc:rgba(201,169,97,.4);--gd:6s;--go:.3;--gdelay:2.3s"></div>
+  <div class="glitter" style="left:1050px;top:30px;--gc:rgba(145,70,255,.5);--gd:4.5s;--go:.25;--gdelay:0.7s"></div>
+  <div class="glitter" style="left:1300px;top:10px;--gc:rgba(201,169,97,.5);--gd:5.5s;--go:.3;--gdelay:1.8s"></div>
+  <div class="glitter" style="left:1550px;top:25px;--gc:rgba(145,70,255,.4);--gd:4s;--go:.2;--gdelay:3.2s"></div>
+  <div class="glitter" style="left:1750px;top:15px;--gc:rgba(201,169,97,.4);--gd:5s;--go:.35;--gdelay:2.1s"></div>
+
+  <!-- Shimmer lines -->
+  <div class="shimmer" style="top:12px;left:200px;width:350px;--sd:8s;--sdelay:1s"></div>
+  <div class="shimmer" style="top:28px;left:800px;width:280px;--sd:6s;--sdelay:3s"></div>
+  <div class="shimmer" style="top:18px;left:1300px;width:300px;--sd:7s;--sdelay:0s"></div>
+
+  <!-- Energy lines -->
+  <div class="energy-line" style="top:10px;left:100px;width:450px;animation-delay:1s"></div>
+  <div class="energy-line" style="top:30px;left:600px;width:380px;animation-delay:4s"></div>
+  <div class="energy-line" style="top:20px;left:1100px;width:500px;animation-delay:2s"></div>
+
+  <!-- ====== SCROLLING TEXT (reverse direction) ====== -->
+  <div class="ticker-track">
+    <div class="ticker-content">
+      <span>JA GUT · HÄTTE ICH MAL GELESEN</span>
+      <span class="sep"><svg viewBox="0 0 16 16"><path d="M8,1 L15,8 L8,15 L1,8Z" fill="none" stroke="rgba(201,169,97,.6)" stroke-width="1"/></svg></span>
+      <span>NEIN ICH GOOGLE DAS NICHT · WIR MACHEN DAS BLIND</span>
+      <span class="sep"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="3" fill="none" stroke="rgba(145,70,255,.5)" stroke-width="1"/></svg></span>
+      <span>OH · DER NPC IST JA DOCH WICHTIG GEWESEN</span>
+      <span class="sep"><svg viewBox="0 0 16 16"><path d="M4,3 L12,8 L4,13Z" fill="none" stroke="rgba(201,169,97,.5)" stroke-width="1"/></svg></span>
+      <span>ICH HAB HUNGER · IHR AUCH?</span>
+      <span class="sep"><svg viewBox="0 0 16 16"><path d="M8,1 L15,8 L8,15 L1,8Z" fill="none" stroke="rgba(201,169,97,.6)" stroke-width="1"/></svg></span>
+      <span>JEDEN DIENSTAG RAPPELZ GAMBIT SOLANGE DER VORRAT NOCH REICHT!</span>
+      <span class="sep"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="3" fill="none" stroke="rgba(145,70,255,.5)" stroke-width="1"/></svg></span>
+      <span>WER BRAUCHT SCHON SCHLAF WENN MAN STREAMEN KANN</span>
+      <span class="sep"><svg viewBox="0 0 16 16"><path d="M4,3 L12,8 L4,13Z" fill="none" stroke="rgba(201,169,97,.5)" stroke-width="1"/></svg></span>
+      <span>ICH BIN NICHT SCHLECHT · DER CONTROLLER LAGGT</span>
+      <span class="sep"><svg viewBox="0 0 16 16"><path d="M8,1 L15,8 L8,15 L1,8Z" fill="none" stroke="rgba(201,169,97,.6)" stroke-width="1"/></svg></span>
+      <span>MITTWOCHS DEV TAG?</span>
+      <span class="sep"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="3" fill="none" stroke="rgba(145,70,255,.5)" stroke-width="1"/></svg></span>
+      <span>LOOT FIRST · FRAGEN LATER</span>
+      <span class="sep"><svg viewBox="0 0 16 16"><path d="M4,3 L12,8 L4,13Z" fill="none" stroke="rgba(201,169,97,.5)" stroke-width="1"/></svg></span>
+      <span>MEINE MEINUNG ÄNDER ICH NACH DEM ESSEN</span>
+      <span class="sep"><svg viewBox="0 0 16 16"><path d="M8,1 L15,8 L8,15 L1,8Z" fill="none" stroke="rgba(201,169,97,.6)" stroke-width="1"/></svg></span>
+      <span>DAS TUTORIAL HAB ICH ÜBERSPRUNGEN · WIE IMMER</span>
+      <span class="sep"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="3" fill="none" stroke="rgba(145,70,255,.5)" stroke-width="1"/></svg></span>
+      <span>CRAFTING IST MEIN CARDIO</span>
+      <span class="sep"><svg viewBox="0 0 16 16"><path d="M4,3 L12,8 L4,13Z" fill="none" stroke="rgba(201,169,97,.5)" stroke-width="1"/></svg></span>
+      <!-- duplicate for seamless loop -->
+      <span>JA GUT · HÄTTE ICH MAL GELESEN</span>
+      <span class="sep"><svg viewBox="0 0 16 16"><path d="M8,1 L15,8 L8,15 L1,8Z" fill="none" stroke="rgba(201,169,97,.6)" stroke-width="1"/></svg></span>
+      <span>NEIN ICH GOOGLE DAS NICHT · WIR MACHEN DAS BLIND</span>
+      <span class="sep"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="3" fill="none" stroke="rgba(145,70,255,.5)" stroke-width="1"/></svg></span>
+      <span>OH · DER NPC IST JA DOCH WICHTIG GEWESEN</span>
+      <span class="sep"><svg viewBox="0 0 16 16"><path d="M4,3 L12,8 L4,13Z" fill="none" stroke="rgba(201,169,97,.5)" stroke-width="1"/></svg></span>
+      <span>ICH HAB HUNGER · IHR AUCH?</span>
+      <span class="sep"><svg viewBox="0 0 16 16"><path d="M8,1 L15,8 L8,15 L1,8Z" fill="none" stroke="rgba(201,169,97,.6)" stroke-width="1"/></svg></span>
+      <span>JEDEN DIENSTAG RAPPELZ GAMBIT SOLANGE DER VORRAT NOCH REICHT!</span>
+      <span class="sep"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="3" fill="none" stroke="rgba(145,70,255,.5)" stroke-width="1"/></svg></span>
+      <span>WER BRAUCHT SCHON SCHLAF WENN MAN STREAMEN KANN</span>
+      <span class="sep"><svg viewBox="0 0 16 16"><path d="M4,3 L12,8 L4,13Z" fill="none" stroke="rgba(201,169,97,.5)" stroke-width="1"/></svg></span>
+      <span>STREAM ON</span>
+      <span class="sep"><svg viewBox="0 0 16 16"><path d="M8,1 L15,8 L8,15 L1,8Z" fill="none" stroke="rgba(201,169,97,.6)" stroke-width="1"/></svg></span>
+      <span>BALD GEHT'S LOS MIT LET'S PLAY'S!</span>
+      <span class="sep"><svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="3" fill="none" stroke="rgba(145,70,255,.5)" stroke-width="1"/></svg></span>
+      <span>VIEL SPASS IM CHAT</span>
+      <span class="sep"><svg viewBox="0 0 16 16"><path d="M4,3 L12,8 L4,13Z" fill="none" stroke="rgba(201,169,97,.5)" stroke-width="1"/></svg></span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
