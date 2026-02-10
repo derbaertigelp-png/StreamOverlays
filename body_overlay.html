@@ -590,7 +590,84 @@ body{width:1920px;height:1080px;background:transparent;overflow:hidden;font-fami
   50%{opacity:.75;filter:drop-shadow(0 0 14px rgba(145,70,255,.45)) drop-shadow(0 0 30px rgba(145,70,255,.15))}
 }
 
+/* ============================================================
+   PORTRAIT MODE (1080x1920 vertical for Streamlabs Dual Output)
+   Only Cam cutout, no Chat. Detected via JS class on <html>.
+   ============================================================ */
+.portrait body{width:1080px;height:1920px}
+.portrait .body-wrap{width:1080px;height:1920px}
+
+/* New cutout mask: cam only, centered, header 160px, footer 80px */
+.portrait .cutout-mask{
+  -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1080' height='1920'%3E%3Cpath fill-rule='evenodd' fill='white' d='M0,0H1080V1920H0Z M0,0H1080V200H0Z M70,220H1010V1100H70Z M0,1720H1080V1920H0Z'/%3E%3C/svg%3E");
+  -webkit-mask-size:1080px 1920px;
+  mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1080' height='1920'%3E%3Cpath fill-rule='evenodd' fill='white' d='M0,0H1080V1920H0Z M0,0H1080V200H0Z M70,220H1010V1100H70Z M0,1720H1080V1920H0Z'/%3E%3C/svg%3E");
+  mask-size:1080px 1920px;
+}
+
+/* Hide chat-related elements */
+.portrait .cut-beam-chat,
+.portrait .cut-glow-chat,
+.portrait .fl-chat,
+.portrait .corner-wrap-chat,
+.portrait .divider-strip{display:none}
+
+/* Reposition cam frame elements */
+.portrait .cut-beam-cam{left:70px;top:220px;width:940px;height:880px}
+.portrait .cut-glow-cam{left:70px;top:220px;width:940px;height:880px}
+.portrait .fl-cam{left:70px;top:220px;width:940px;height:880px}
+.portrait .corner-wrap-cam{left:70px;top:220px;width:940px;height:880px}
+
+/* Bottom bar repositioned for taller canvas */
+.portrait .bottom-bar{height:220px}
+
+/* SVG overlays: scale to 1080 width */
+.portrait svg[width="1920"]{transform:scale(.5625) translate(-360px,0);transform-origin:top left}
+
+/* Reposition lightning bolts that were on the right/far side */
+.portrait .lightning-bolt[style*="right:"],
+.portrait .lightning-ambient[style*="right:"]{right:auto}
+
+/* Glitter, sparks, embers beyond 1080px: pull inward */
+.portrait .glitter[style*="left:1"],
+.portrait .glitter[style*="left:1200"],
+.portrait .glitter[style*="left:1300"],
+.portrait .glitter[style*="left:1400"],
+.portrait .glitter[style*="left:1500"],
+.portrait .glitter[style*="left:1600"],
+.portrait .glitter[style*="left:1700"],
+.portrait .glitter[style*="left:1800"]{display:none}
+
+/* Aurora waves: narrower */
+.portrait .aurora-1{width:400px}
+.portrait .aurora-2{width:350px;right:auto;left:500px}
+.portrait .aurora-3{left:700px;top:400px}
+
+/* Scanner sweep narrower */
+.portrait .scanner{animation-name:scannerSweepPortrait}
+@keyframes scannerSweepPortrait{0%{left:-10px}100%{left:1090px}}
+
+/* Shimmer lines: full width is now 1080 */
+.portrait .shimmer-line[style*="width:260px"]{width:1080px;left:0}
+
+/* Energy lines */
+.portrait .energy-h{left:0;right:0}
+.portrait .energy-v[style*="right:30px"]{right:10px}
+
+/* Rune plaques far right: hide */
+.portrait .rune-plaque[style*="right:8px"]{right:auto;left:1050px}
+.portrait .rune-plaque[style*="right:10px"]{right:auto;left:1050px}
+
 </style>
+<script>
+(function(){
+  var p=window.innerHeight>window.innerWidth;
+  if(p)document.documentElement.classList.add('portrait');
+  window.addEventListener('resize',function(){
+    document.documentElement.classList.toggle('portrait',window.innerHeight>window.innerWidth);
+  });
+})();
+</script>
 </head>
 <body>
 <div class="body-wrap" style="position:relative;width:1920px;height:1080px">
