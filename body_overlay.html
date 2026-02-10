@@ -661,11 +661,19 @@ body{width:1920px;height:1080px;background:transparent;overflow:hidden;font-fami
 </style>
 <script>
 (function(){
-  var p=window.innerHeight>window.innerWidth;
-  if(p)document.documentElement.classList.add('portrait');
-  window.addEventListener('resize',function(){
-    document.documentElement.classList.toggle('portrait',window.innerHeight>window.innerWidth);
-  });
+  /* Portrait-Erkennung fuer Streamlabs Desktop Dual Output:
+     1) URL-Param ?portrait  => erzwingt Portrait (fuer geteilte Sources)
+     2) URL-Param ?landscape => erzwingt Landscape
+     3) Fenster-Dimensionen  => automatisch wenn Source 1080x1920 ist
+     Nutze dieselbe URL + ?portrait in der vertikalen Szene */
+  var url=new URLSearchParams(window.location.search);
+  var force=url.has('portrait')?'p':url.has('landscape')?'l':null;
+  function check(){
+    var p=force==='p'||(force===null&&window.innerHeight>window.innerWidth);
+    document.documentElement.classList.toggle('portrait',p);
+  }
+  check();
+  window.addEventListener('resize',check);
 })();
 </script>
 </head>
