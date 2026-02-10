@@ -156,7 +156,37 @@ body{width:1920px;height:1080px;background:transparent;overflow:hidden;font-fami
   opacity:0;animation:energyPulse 8s ease-in-out infinite;
 }
 @keyframes energyPulse{0%,100%{opacity:0}30%{opacity:1}70%{opacity:1}}
+/* ============================================================
+   PORTRAIT MODE (1080x1920 vertical for Streamlabs Dual Output)
+   Ticker: 1080px breit, gleiche Hoehe, Position unter Header
+   ============================================================ */
+.portrait body{width:1080px;height:1920px}
+.portrait .ticker-bar{width:1080px;top:160px}
+/* SVG-Ornamente im Ticker auf 1080px skalieren */
+.portrait .ticker-bar svg[width="1920"]{display:none}
+/* Gear-Ornamente nach innen */
+.portrait .gear{display:none}
+/* Scrollgeschwindigkeit anpassen (schmalere Bahn) */
+.portrait .ticker-content{animation-duration:25s}
+
 </style>
+<script>
+(function(){
+  var url=new URLSearchParams(window.location.search);
+  var force=url.has('portrait')?'p':url.has('landscape')?'l':null;
+  function isP(){return force==='p'||(force===null&&window.innerHeight>window.innerWidth)}
+  function apply(){
+    var p=isP();
+    document.documentElement.classList.toggle('portrait',p);
+    if(p){
+      var tb=document.querySelector('.ticker-bar');
+      if(tb)tb.style.width='1080px';
+    }
+  }
+  apply();
+  window.addEventListener('resize',apply);
+})();
+</script>
 </head>
 <body>
 <div class="ticker-bar">
