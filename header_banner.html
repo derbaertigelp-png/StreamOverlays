@@ -633,7 +633,9 @@ body{width:1920px;height:1080px;background:transparent;overflow:visible;font-fam
        Tor 2 (rechts innen):  x=780
        Tor 3 (rechts aussen): ausblenden
     */
-    var vaultPositions=[null, 300, 680, null];
+    /* Beide Tore W=90px. Logo-Mitte=540px. Abstand Tor-Mitte zu Logo-Mitte: 200px.
+       Links:  540 - 200 - 45 = 295   Rechts: 540 + 200 - 45 = 695 */
+    var vaultPositions=[null, 295, 695, null];
     document.querySelectorAll('.vault').forEach(function(v, idx){
       if(idx < vaultPositions.length){
         if(vaultPositions[idx]===null){
