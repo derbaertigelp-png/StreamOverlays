@@ -576,7 +576,105 @@ body{width:1920px;height:1080px;background:transparent;overflow:visible;font-fam
 @keyframes grainShift{
   0%{background-position:0 0}50%{background-position:3px -2px}100%{background-position:-1px 3px}
 }
+/* ============================================================
+   PORTRAIT MODE (1080x1920 vertical for Streamlabs Dual Output)
+   Banner bleibt 160px hoch, aber nur 1080px breit.
+   ============================================================ */
+.portrait body{width:1080px;height:1920px;overflow:hidden}
+.portrait .banner{width:1080px;overflow:hidden}
+
+/* Logo zentriert halten (nutzt bereits left:50%;transform:translate(-50%,-50%)) */
+.portrait .logo-area{left:50% !important;transform:translate(-50%,-50%) !important}
+
+/* Lichtstrahl aussen funktioniert (inset:0) */
+/* Beam-Elemente bleiben — sie nutzen inset:0 */
+
+/* Ornamente innerhalb des Banners: overflow hidden clippt sie */
+
 </style>
+<script>
+(function(){
+  var url=new URLSearchParams(window.location.search);
+  var force=url.has('portrait')?'p':url.has('landscape')?'l':null;
+  function isP(){return force==='p'||(force===null&&window.innerHeight>window.innerWidth)}
+  var applied=false;
+
+  function apply(){
+    var p=isP();
+    document.documentElement.classList.toggle('portrait',p);
+    if(p&&!applied){
+      applied=true;
+      /* Warten bis DOM + Vault-JS fertig sind */
+      if(document.readyState==='complete'){
+        setTimeout(adaptPortrait,100);
+      } else {
+        window.addEventListener('load',function(){setTimeout(adaptPortrait,100);});
+      }
+    }
+  }
+
+  function adaptPortrait(){
+    var RATIO=1080/1920;
+
+    /* Banner auf 1080px clippen */
+    var banner=document.querySelector('.banner');
+    if(banner)banner.style.width='1080px';
+
+    /* Alle SVGs mit width=1920 im Banner: viewBox + 1080 */
+    document.querySelectorAll('.banner svg[width="1920"]').forEach(function(svg){
+      svg.setAttribute('viewBox','0 0 1920 '+(svg.getAttribute('height')||160));
+      svg.setAttribute('width','1080');
+    });
+
+    /* ---- Vaults: nur die 2 inneren, symmetrisch links + rechts vom Logo ----
+       Logo zentriert bei x=540, ca. 280px breit (400-680).
+       Tor 0 (links aussen):  ausblenden
+       Tor 1 (links innen):   x=200
+       Tor 2 (rechts innen):  x=780
+       Tor 3 (rechts aussen): ausblenden
+    */
+    var vaultPositions=[null, 300, 680, null];
+    document.querySelectorAll('.vault').forEach(function(v, idx){
+      if(idx < vaultPositions.length){
+        if(vaultPositions[idx]===null){
+          v.style.display='none';
+        } else {
+          v.style.left = vaultPositions[idx] + 'px';
+        }
+      }
+    });
+
+    /* Gebaeude: auf 1080px Breite umverteilen */
+    document.querySelectorAll('[class*="building"],.building').forEach(function(b){
+      var s=b.style;
+      if(s.left){
+        var lv=parseInt(s.left);
+        /* Rechte Gebaeude (>900px im Original) nach rechts in 1080 */
+        if(lv>900) s.left=Math.round(lv*RATIO)+'px';
+      }
+      if(s.right){
+        var rv=parseInt(s.right);
+        s.right=Math.max(2,Math.round(rv*RATIO))+'px';
+      }
+    });
+
+    /* Glitter/Sparks > 1080px: proportional nach innen */
+    document.querySelectorAll('.spark,.glitter').forEach(function(el){
+      if(el.style.left){
+        var l=parseInt(el.style.left);
+        if(l>1050) el.style.left=Math.round(20+Math.random()*1040)+'px';
+      }
+      if(el.style.right){
+        var r=parseInt(el.style.right);
+        el.style.right=Math.max(2,Math.round(r*RATIO))+'px';
+      }
+    });
+  }
+
+  apply();
+  window.addEventListener('resize',apply);
+})();
+</script>
 </head>
 <body>
 <div class="banner">
