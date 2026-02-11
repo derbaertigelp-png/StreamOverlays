@@ -580,7 +580,144 @@ body{width:1920px;height:1080px;background:transparent;overflow:hidden;font-fami
   background:linear-gradient(90deg,transparent,rgba(145,70,255,.03),transparent);
 }
 @keyframes scannerSweep{0%{left:-10px}100%{left:1930px}}
+
+/* ============================================================
+   PORTRAIT MODE (1080x1920 vertical for Streamlabs Dual Output)
+   Pause Screen:
+     Canvas: 1080 x 1920
+     Video Frame: x=60 y=550 w=960 h=540
+     Titel oben, Pause-Text unten
+   ============================================================ */
+.portrait body{width:1080px;height:1920px}
+
+/* Cutout: Video-Frame zentriert */
+.portrait .cutout-mask{
+  -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1080' height='1920'%3E%3Cpath fill-rule='evenodd' fill='white' d='M0,0H1080V1920H0Z M60,550H1020V1090H60Z'/%3E%3C/svg%3E");
+  -webkit-mask-size:1080px 1920px;
+  mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1080' height='1920'%3E%3Cpath fill-rule='evenodd' fill='white' d='M0,0H1080V1920H0Z M60,550H1020V1090H60Z'/%3E%3C/svg%3E");
+  mask-size:1080px 1920px;
+}
+
+/* Hintergrund + Overlays an 1080x1920 anpassen */
+.portrait .bg,.portrait .vintage-overlay,.portrait .film-grain{width:1080px;height:1920px}
+.portrait .glow-wash{width:1080px;height:1920px}
+
+/* Outer beam / body glow */
+.portrait .body-beam,.portrait .body-beam-wide,.portrait .body-glow{width:1080px;height:1920px}
+
+/* Top/Bottom strip an 1080px */
+.portrait .top-strip{width:1080px}
+.portrait .bottom-bar{width:1080px}
+
+/* Energy lines */
+.portrait .energy-h{width:1080px}
+
+/* Video-Frame Beam/Glow + Frame Lines */
+.portrait .cut-beam-pause{left:60px;top:550px;width:960px;height:540px}
+.portrait .cut-glow-pause{left:60px;top:550px;width:960px;height:540px}
+.portrait .fl-pause{left:60px;top:550px;width:960px;height:540px}
+.portrait .frame-glow{left:60px !important;top:550px !important;width:960px !important;height:540px !important}
+.portrait .corner-wrap{left:60px !important;top:550px !important;width:960px !important;height:540px !important}
+
+/* Titel: hoeher positioniert, volle Breite */
+.portrait .title-wrap{width:1080px;top:280px;left:0}
+.portrait .title-main{font-size:30px;letter-spacing:8px}
+
+/* Pause-Text: unter dem Video */
+.portrait .pause-text{width:1080px;bottom:400px;left:0}
+.portrait .pause-main{font-size:22px;letter-spacing:8px}
+.portrait .pause-sub{font-size:10px;letter-spacing:3px}
+
+/* Pause-Icon hinter Video */
+.portrait .pause-icon{left:50%;transform:translateX(-50%);top:750px}
+
+/* Scanner fuer 1080px */
+.portrait .scanner{animation-name:scannerSweepP}
+@keyframes scannerSweepP{0%{left:-10px}100%{left:1090px}}
+
+/* Aurora fuer den unteren Bereich */
+.portrait .aurora-1{top:1400px;width:500px;left:0}
+.portrait .aurora-2{top:1550px;width:400px;right:0;left:auto}
+.portrait .aurora-3{top:1300px;left:50%;transform:translateX(-50%)}
+
+/* Overflow verhindern */
+.portrait .cover{overflow:hidden}
+
 </style>
+<script>
+(function(){
+  var url=new URLSearchParams(window.location.search);
+  var force=url.has('portrait')?'p':url.has('landscape')?'l':null;
+  function isP(){return force==='p'||(force===null&&window.innerHeight>window.innerWidth)}
+  var applied=false;
+
+  function apply(){
+    var p=isP();
+    document.documentElement.classList.toggle('portrait',p);
+    if(p&&!applied){
+      applied=true;
+      if(document.readyState==='loading'){
+        document.addEventListener('DOMContentLoaded',adaptPortrait);
+      } else {
+        adaptPortrait();
+      }
+    }
+  }
+
+  function adaptPortrait(){
+    var R=1080/1920;
+
+    /* SVGs: viewBox beibehalten, nur width auf 1080 skalieren (CSS scaled) */
+    document.querySelectorAll('svg[width="1920"]').forEach(function(svg,idx){
+      var vb=svg.getAttribute('viewBox');
+      if(!vb)svg.setAttribute('viewBox','0 0 1920 1080');
+      svg.style.width='1080px';
+      svg.style.height='auto';
+      svg.setAttribute('width','1080');
+      /* Erste SVG-Ebene im oberen Bereich, weitere verteilt */
+      if(idx===0)svg.style.top='200px';
+      if(idx===1)svg.style.top='1100px';
+      if(idx===2)svg.style.top='600px';
+    });
+
+    /* Alle absolut positionierten Elemente proportional skalieren */
+    var selectors='.lightning-bolt,.glitter,.ember,.energy-orb,.pulse-ring,.rune-plaque,.deco-diamond,.spark,.shimmer-line';
+    document.querySelectorAll(selectors).forEach(function(el){
+      var s=el.style;
+      if(s.left){
+        var l=parseFloat(s.left);
+        if(!isNaN(l))s.left=Math.round(l*R)+'px';
+      }
+      if(s.right){
+        var r=parseFloat(s.right);
+        if(!isNaN(r))s.right=Math.round(r*R)+'px';
+      }
+    });
+
+    /* Partikel im unteren Bereich verteilen (jedes 3.) */
+    ['glitter','ember','energy-orb','pulse-ring'].forEach(function(cls){
+      document.querySelectorAll('.'+cls).forEach(function(el,i){
+        if(i%3===0){
+          el.style.top=Math.round(1100+Math.random()*700)+'px';
+          el.style.left=Math.round(30+Math.random()*1020)+'px';
+        }
+      });
+    });
+
+    /* Zusaetzliche Glitter fuer den unteren Bereich */
+    var cols=['rgba(201,169,97,.7)','rgba(145,70,255,.6)','rgba(200,35,45,.4)'];
+    var parent=document.body;
+    for(var g=0;g<15;g++){
+      var d=document.createElement('div');d.className='glitter';
+      d.style.cssText='left:'+Math.round(30+Math.random()*1020)+'px;top:'+Math.round(1150+Math.random()*650)+'px;--gc:'+cols[g%3]+';--gd:'+(2.5+Math.random()*2).toFixed(1)+'s;--go:'+(0.3+Math.random()*0.25).toFixed(2)+';animation-delay:'+(Math.random()*3).toFixed(1)+'s';
+      parent.appendChild(d);
+    }
+  }
+
+  apply();
+  window.addEventListener('resize',apply);
+})();
+</script>
 </head>
 <body>
 
