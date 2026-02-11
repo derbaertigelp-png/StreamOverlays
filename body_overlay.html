@@ -218,6 +218,63 @@ body{width:1920px;height:1080px;background:transparent;overflow:hidden;font-fami
 .label-cam{left:590px;top:205px}
 .label-chat{left:1620px;top:205px}
 
+/* ============ CHAT BACKGROUND (behind cutout, visible through mask) ============ */
+.chat-bg{
+  position:absolute;left:1400px;top:220px;width:440px;height:720px;
+  z-index:0;overflow:hidden;border-radius:2px;
+  background:linear-gradient(170deg,
+    rgb(12,8,22) 0%,rgb(16,10,28) 20%,rgb(14,9,25) 45%,
+    rgb(18,12,32) 70%,rgb(12,8,22) 100%);
+}
+/* Subtle inner vignette */
+.chat-bg::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 30%,transparent 30%,rgba(0,0,0,.35) 100%);
+  pointer-events:none;
+}
+/* Faint vertical line pattern (like old wallpaper / Peaky Blinders) */
+.chat-bg::after{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(90deg,
+    transparent 0px,transparent 18px,rgba(201,169,97,.03) 18px,rgba(201,169,97,.03) 19px);
+  pointer-events:none;
+}
+/* Inner ornamental frame lines */
+.chat-bg-frame{
+  position:absolute;inset:8px;
+  border:1px solid rgba(201,169,97,.08);border-radius:1px;
+  pointer-events:none;
+}
+.chat-bg-frame::before{
+  content:'';position:absolute;inset:4px;
+  border:1px solid rgba(145,70,255,.04);border-radius:1px;
+}
+/* Subtle top accent glow */
+.chat-bg-glow{
+  position:absolute;top:0;left:0;right:0;height:80px;
+  background:linear-gradient(180deg,rgba(145,70,255,.06),transparent);
+  pointer-events:none;
+}
+/* Bottom accent glow */
+.chat-bg-glow-bottom{
+  position:absolute;bottom:0;left:0;right:0;height:60px;
+  background:linear-gradient(0deg,rgba(200,35,45,.04),transparent);
+  pointer-events:none;
+}
+/* Film grain inside chat bg */
+.chat-bg-grain{
+  position:absolute;inset:0;opacity:.02;pointer-events:none;
+  animation:grainShift .1s steps(2) infinite;
+}
+/* Vintage scan lines */
+.chat-bg-scanlines{
+  position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.04) 2px,rgba(0,0,0,.04) 4px);
+  mix-blend-mode:multiply;
+}
+/* Portrait: chat-bg ausblenden (kein Chat im Portrait) */
+.portrait .chat-bg{display:none}
+
 /* ============ RUNE PLAQUES ============ */
 .rune-plaque{
   position:absolute;z-index:15;
@@ -1013,6 +1070,48 @@ body{width:1920px;height:1080px;background:transparent;overflow:hidden;font-fami
 </script>
 </head>
 <body>
+
+<!-- ====== CHAT BACKGROUND (sits behind body-wrap, visible through cutout) ====== -->
+<div class="chat-bg">
+  <div class="chat-bg-glow"></div>
+  <div class="chat-bg-glow-bottom"></div>
+  <div class="chat-bg-scanlines"></div>
+  <div class="chat-bg-grain"></div>
+  <div class="chat-bg-frame"></div>
+  <!-- Decorative corner accents -->
+  <svg width="440" height="720" style="position:absolute;top:0;left:0;pointer-events:none;z-index:1">
+    <!-- Top-left corner -->
+    <g opacity=".25"><path d="M12,2 L2,2 L2,12" fill="none" stroke="rgba(201,169,97,.5)" stroke-width=".8"/><circle cx="2" cy="2" r="1.2" fill="rgba(145,70,255,.3)"/></g>
+    <!-- Top-right corner -->
+    <g opacity=".25"><path d="M428,2 L438,2 L438,12" fill="none" stroke="rgba(201,169,97,.5)" stroke-width=".8"/><circle cx="438" cy="2" r="1.2" fill="rgba(145,70,255,.3)"/></g>
+    <!-- Bottom-left corner -->
+    <g opacity=".25"><path d="M12,718 L2,718 L2,708" fill="none" stroke="rgba(201,169,97,.5)" stroke-width=".8"/><circle cx="2" cy="718" r="1.2" fill="rgba(145,70,255,.3)"/></g>
+    <!-- Bottom-right corner -->
+    <g opacity=".25"><path d="M428,718 L438,718 L438,708" fill="none" stroke="rgba(201,169,97,.5)" stroke-width=".8"/><circle cx="438" cy="718" r="1.2" fill="rgba(145,70,255,.3)"/></g>
+    <!-- Center top ornament -->
+    <g transform="translate(195,6)" opacity=".2"><path d="M0,8 L25,0 L50,8" fill="none" stroke="rgba(201,169,97,.45)" stroke-width=".7"/><circle cx="25" cy="0" r="1.5" fill="rgba(201,169,97,.2)"/><line x1="25" y1="2" x2="25" y2="8" stroke="rgba(201,169,97,.2)" stroke-width=".4"/></g>
+    <!-- Center bottom ornament -->
+    <g transform="translate(195,706)" opacity=".2"><path d="M0,0 L25,8 L50,0" fill="none" stroke="rgba(201,169,97,.45)" stroke-width=".7"/><circle cx="25" cy="8" r="1.5" fill="rgba(201,169,97,.2)"/><line x1="25" y1="0" x2="25" y2="6" stroke="rgba(201,169,97,.2)" stroke-width=".4"/></g>
+    <!-- Vertical side lines -->
+    <line x1="15" y1="20" x2="15" y2="700" stroke="rgba(201,169,97,.04)" stroke-width=".5"/>
+    <line x1="425" y1="20" x2="425" y2="700" stroke="rgba(201,169,97,.04)" stroke-width=".5"/>
+    <!-- Subtle diamond at center -->
+    <g transform="translate(215,355)" opacity=".08"><polygon points="5,0 10,5 5,10 0,5" fill="none" stroke="rgba(201,169,97,.5)" stroke-width=".6"/></g>
+    <!-- Art Deco fan at top-center -->
+    <g transform="translate(220,20)" opacity=".1"><path d="M0,12 Q0,0 12,0 Q24,0 24,12" fill="none" stroke="rgba(201,169,97,.4)" stroke-width=".5"/><path d="M4,12 Q4,4 12,4 Q20,4 20,12" fill="none" stroke="rgba(201,169,97,.3)" stroke-width=".4"/><line x1="12" y1="0" x2="12" y2="12" stroke="rgba(201,169,97,.2)" stroke-width=".3"/></g>
+    <!-- Rune marks -->
+    <text x="20" y="360" fill="rgba(201,169,97,.08)" font-size="10" font-family="serif">&#5765;</text>
+    <text x="415" y="360" fill="rgba(201,169,97,.08)" font-size="10" font-family="serif" text-anchor="end">&#5768;</text>
+  </svg>
+  <!-- Glitter particles inside chat bg -->
+  <div class="glitter" style="left:50px;top:80px;--gc:rgba(145,70,255,.4);--gd:5s;--go:.2;animation-delay:0s;z-index:2"></div>
+  <div class="glitter" style="left:200px;top:300px;--gc:rgba(201,169,97,.35);--gd:6s;--go:.18;animation-delay:1.5s;z-index:2"></div>
+  <div class="glitter" style="left:350px;top:150px;--gc:rgba(145,70,255,.35);--gd:4.5s;--go:.2;animation-delay:3s;z-index:2"></div>
+  <div class="glitter" style="left:100px;top:500px;--gc:rgba(201,169,97,.3);--gd:5.5s;--go:.15;animation-delay:2s;z-index:2"></div>
+  <div class="glitter" style="left:300px;top:600px;--gc:rgba(145,70,255,.3);--gd:4s;--go:.18;animation-delay:.8s;z-index:2"></div>
+  <div class="glitter" style="left:180px;top:450px;--gc:rgba(201,169,97,.25);--gd:7s;--go:.15;animation-delay:4s;z-index:2"></div>
+</div>
+
 <div class="body-wrap" style="position:relative;width:1920px;height:1080px">
 
   <!-- Header & Footer zones are transparent via cutout-mask -->
