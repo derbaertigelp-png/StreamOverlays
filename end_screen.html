@@ -570,7 +570,157 @@ body{width:1920px;height:1080px;background:transparent;overflow:hidden;font-fami
   width:6px;height:6px;border-radius:50%;
   border:1px solid rgba(201,169,97,.2);background:rgba(15,10,25,.9);
 }
+
+/* ============================================================
+   PORTRAIT MODE (1080x1920 vertical for Streamlabs Dual Output)
+   End Screen:
+     Canvas: 1080 x 1920
+     Titel oben, Serien-Elemente verteilt, Social gestapelt
+   ============================================================ */
+.portrait body{width:1080px;height:1920px}
+
+/* Hintergrund + Overlays an 1080x1920 */
+.portrait .bg,.portrait .vintage-overlay,.portrait .film-grain{width:1080px;height:1920px}
+.portrait .vignette{width:1080px;height:1920px}
+
+/* Alle 1920px-Elemente auf 1080px setzen */
+.portrait .title-wrap{width:1080px;left:0}
+.portrait .thanks-wrap{width:1080px;left:0}
+.portrait .social-bar{width:1080px;left:0}
+.portrait .production-credit{width:1080px;left:0}
+.portrait .copyright{width:1080px;left:0}
+
+/* Titel */
+.portrait .danke-title{font-size:28px;letter-spacing:6px}
+.portrait .danke-sub{font-size:10px;letter-spacing:3px}
+
+/* Letterbox */
+.portrait .letterbox-top{height:35px;width:1080px}
+.portrait .letterbox-bottom{height:45px;width:1080px}
+
+/* Sprocket Strips */
+.portrait .sprocket-strip-left{left:2px;height:1700px}
+.portrait .sprocket-strip-right{right:2px;height:1700px}
+
+/* Episode Tag - zentriert */
+.portrait .episode-tag{font-size:9px;top:55px;width:1080px;left:0;text-align:center;padding-left:40px}
+
+/* Countdown Mark - angepasst */
+.portrait .countdown-mark{width:auto;right:40px;left:auto}
+
+/* Film Rules */
+.portrait .film-rule{width:180px}
+
+/* ENDE Marker: mittig im unteren Bereich */
+.portrait .ende-mark{bottom:700px;width:1080px;left:50%;transform:translateX(-50%)}
+.portrait .ende-text{font-size:24px;letter-spacing:18px}
+.portrait .ende-line{width:60px}
+
+/* Social Bar: vertikal gestapelt, zentriert */
+.portrait .social-bar{
+  width:1080px;flex-direction:column;gap:18px;
+  bottom:250px;left:0;
+  align-items:center;
+}
+.portrait .social-item{justify-content:center}
+.portrait .social-icon{width:20px;height:20px}
+.portrait .social-text{font-size:11px;letter-spacing:2px}
+
+/* Naechste Folge - zentriert */
+.portrait .next-ep{bottom:100px;width:1080px;right:auto;left:0;text-align:center}
+.portrait .next-ep-label{font-size:8px}
+.portrait .next-ep-title{font-size:12px}
+.portrait .next-ep-bar{width:180px;margin:6px auto 0}
+
+/* Production / Copyright */
+.portrait .production-credit{bottom:50px;font-size:8px;width:1080px;left:0}
+.portrait .copyright{bottom:25px;font-size:7px;width:1080px;left:0}
+
+/* Energy lines an 1080px anpassen */
+.portrait .energy-h{width:1080px}
+.portrait .energy-v[style*="left:960px"]{left:540px !important}
+.portrait .energy-v[style*="left:30px"]{left:15px !important}
+.portrait .energy-v[style*="right:30px"]{right:15px !important}
+
+/* Scanner fuer 1080px */
+.portrait .scanner{animation-name:scannerSweepP}
+@keyframes scannerSweepP{0%{left:-10px}100%{left:1090px}}
+
+/* Overflow verhindern */
+.portrait{overflow:hidden}
+
 </style>
+<script>
+(function(){
+  var url=new URLSearchParams(window.location.search);
+  var force=url.has('portrait')?'p':url.has('landscape')?'l':null;
+  function isP(){return force==='p'||(force===null&&window.innerHeight>window.innerWidth)}
+  var applied=false;
+
+  function apply(){
+    var p=isP();
+    document.documentElement.classList.toggle('portrait',p);
+    if(p&&!applied){
+      applied=true;
+      if(document.readyState==='loading'){
+        document.addEventListener('DOMContentLoaded',adaptPortrait);
+      } else {
+        adaptPortrait();
+      }
+    }
+  }
+
+  function adaptPortrait(){
+    var R=1080/1920;
+
+    /* SVGs: viewBox beibehalten, nur width auf 1080 skalieren */
+    document.querySelectorAll('svg[width="1920"]').forEach(function(svg,idx){
+      var vb=svg.getAttribute('viewBox');
+      if(!vb)svg.setAttribute('viewBox','0 0 1920 1080');
+      svg.style.width='1080px';
+      svg.style.height='auto';
+      svg.setAttribute('width','1080');
+      if(idx===0)svg.style.top='200px';
+      if(idx===1)svg.style.top='1050px';
+    });
+
+    /* Alle absolut positionierten Elemente proportional skalieren */
+    var selectors='.lightning-bolt,.glitter,.ember,.energy-orb,.pulse-ring,.rune-plaque,.deco-diamond,.spark,.shimmer-line';
+    document.querySelectorAll(selectors).forEach(function(el){
+      var s=el.style;
+      if(s.left){
+        var l=parseFloat(s.left);
+        if(!isNaN(l))s.left=Math.round(l*R)+'px';
+      }
+      if(s.right){
+        var r=parseFloat(s.right);
+        if(!isNaN(r))s.right=Math.round(r*R)+'px';
+      }
+    });
+
+    /* Partikel im unteren Bereich verteilen */
+    ['glitter','ember','energy-orb','pulse-ring'].forEach(function(cls){
+      document.querySelectorAll('.'+cls).forEach(function(el,i){
+        if(i%3===0){
+          el.style.top=Math.round(1000+Math.random()*700)+'px';
+          el.style.left=Math.round(30+Math.random()*1020)+'px';
+        }
+      });
+    });
+
+    /* Zusaetzliche Glitter */
+    var cols=['rgba(201,169,97,.7)','rgba(145,70,255,.6)','rgba(200,35,45,.4)'];
+    for(var g=0;g<15;g++){
+      var d=document.createElement('div');d.className='glitter';
+      d.style.cssText='left:'+Math.round(30+Math.random()*1020)+'px;top:'+Math.round(1100+Math.random()*700)+'px;--gc:'+cols[g%3]+';--gd:'+(2.5+Math.random()*2).toFixed(1)+'s;--go:'+(0.3+Math.random()*0.25).toFixed(2)+';animation-delay:'+(Math.random()*3).toFixed(1)+'s';
+      document.body.appendChild(d);
+    }
+  }
+
+  apply();
+  window.addEventListener('resize',apply);
+})();
+</script>
 </head>
 <body>
 
