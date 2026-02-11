@@ -132,7 +132,7 @@ body{width:1920px;height:1080px;background:transparent;overflow:hidden;font-fami
   -webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
   mask-composite:exclude;padding:7px;animation:beamSpin2 10s linear infinite;
 }
-.cut-beam-pause{left:460px;top:200px;width:1000px;height:580px}
+.cut-beam-pause{left:460px;top:230px;width:1000px;height:530px}
 .cut-glow{position:absolute;z-index:24;pointer-events:none;border-radius:8px;}
 .cut-glow::before{
   content:'';position:absolute;inset:-8px;border-radius:12px;
@@ -157,7 +157,7 @@ body{width:1920px;height:1080px;background:transparent;overflow:hidden;font-fami
   -webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
   mask-composite:exclude;padding:24px;animation:beamSpin 8s linear infinite;filter:blur(14px);
 }
-.cut-glow-pause{left:460px;top:200px;width:1000px;height:580px}
+.cut-glow-pause{left:460px;top:230px;width:1000px;height:530px}
 
 /* ============ FRAME LINES (around video cutout) ============ */
 .frame-lines{position:absolute;z-index:15;pointer-events:none;border-radius:3px;}
@@ -177,7 +177,7 @@ body{width:1920px;height:1080px;background:transparent;overflow:hidden;font-fami
 .fl-r1{right:-8px;background:linear-gradient(180deg,transparent 5%,rgba(190,155,85,.12) 20%,rgba(210,175,105,.3) 50%,rgba(190,155,85,.12) 80%,transparent 95%)}
 .fl-r2{right:-5px;background:linear-gradient(180deg,transparent 3%,rgba(160,130,70,.1) 15%,rgba(201,169,97,.25) 40%,rgba(145,70,255,.08) 50%,rgba(201,169,97,.25) 60%,transparent 97%)}
 .fl-r3{right:-2px;background:linear-gradient(180deg,transparent 5%,rgba(145,70,255,.05) 20%,rgba(190,155,85,.08) 40%,rgba(210,175,105,.15) 50%,rgba(190,155,85,.08) 60%,transparent 95%)}
-.fl-pause{left:460px;top:200px;width:1000px;height:580px}
+.fl-pause{left:460px;top:230px;width:1000px;height:530px}
 
 .frame-corner{position:absolute;z-index:26;pointer-events:none}
 .fc-tl{top:-8px;left:-8px}
@@ -186,7 +186,7 @@ body{width:1920px;height:1080px;background:transparent;overflow:hidden;font-fami
 .fc-br{bottom:-8px;right:-8px;transform:scale(-1)}
 
 /* ============ VIDEO FRAME GLOW ============ */
-.frame-glow{position:absolute;left:460px;top:200px;width:1000px;height:580px;z-index:18;pointer-events:none;
+.frame-glow{position:absolute;left:460px;top:230px;width:1000px;height:530px;z-index:18;pointer-events:none;
   box-shadow:inset 0 0 40px rgba(145,70,255,.08),0 0 60px rgba(145,70,255,.06),0 0 120px rgba(145,70,255,.03);
   border:1px solid rgba(145,70,255,.15);border-radius:2px;
 }
@@ -194,7 +194,7 @@ body{width:1920px;height:1080px;background:transparent;overflow:hidden;font-fami
   border:1px solid rgba(201,169,97,.1);border-radius:3px;}
 
 /* ============ FRAME CORNER PIECES ============ */
-.corner-wrap{position:absolute;left:460px;top:200px;width:1000px;height:580px;z-index:26;pointer-events:none}
+.corner-wrap{position:absolute;left:460px;top:230px;width:1000px;height:530px;z-index:26;pointer-events:none}
 .corner{position:absolute}
 .corner svg{width:36px;height:36px}
 .corner-tl{top:-4px;left:-4px}
@@ -204,7 +204,7 @@ body{width:1920px;height:1080px;background:transparent;overflow:hidden;font-fami
 
 /* ============ TITLE: BeardflixTV ============ */
 .title-wrap{
-  position:absolute;top:120px;left:0;width:1920px;z-index:30;
+  position:absolute;top:100px;left:0;width:1920px;z-index:30;
   display:flex;justify-content:center;align-items:center;pointer-events:none;
 }
 .title{
@@ -228,15 +228,76 @@ body{width:1920px;height:1080px;background:transparent;overflow:hidden;font-fami
 @keyframes titleShine{0%,100%{left:-100%;opacity:0}40%{opacity:1}80%{left:200%;opacity:0}}
 
 .title-glow{
-  position:absolute;top:110px;left:50%;transform:translateX(-50%);width:600px;height:60px;z-index:29;pointer-events:none;
+  position:absolute;top:90px;left:50%;transform:translateX(-50%);width:600px;height:60px;z-index:29;pointer-events:none;
   background:radial-gradient(ellipse,rgba(145,70,255,.08),transparent 70%);
   animation:titleGlowPulse 3s ease-in-out infinite;
 }
 @keyframes titleGlowPulse{0%,100%{opacity:.6}50%{opacity:1}}
 
+/* ============ BEARDFLIX ORIGINAL SEAL ============ */
+.bftv-seal{
+  position:absolute;top:155px;left:50%;transform:translateX(-50%);z-index:31;pointer-events:none;
+  text-align:center;
+  animation:sealFadeIn 4s 2s ease-out both;
+}
+@keyframes sealFadeIn{0%{opacity:0;transform:scale(.85)}100%{opacity:1;transform:scale(1)}}
+.seal-ring{position:relative;display:inline-block;width:65px;height:65px}
+.seal-ring svg{width:100%;height:100%}
+.seal-ring .seal-rotate{animation:sealSpin 40s linear infinite;transform-origin:70px 70px}
+@keyframes sealSpin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+.seal-text{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-family:'Cinzel',serif;font-weight:900;font-size:9px;
+  letter-spacing:2px;text-transform:uppercase;
+  color:rgba(201,169,97,.6);text-shadow:0 0 10px rgba(201,169,97,.15);line-height:1.4;
+}
+.seal-text span{display:block;font-size:6px;font-weight:400;letter-spacing:4px;color:rgba(201,169,97,.4);margin-top:2px}
+.seal-glow{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:160px;height:160px;border-radius:50%;
+  background:radial-gradient(circle,rgba(201,169,97,.04),transparent 60%);
+  animation:sealGlow 5s ease-in-out infinite alternate;
+}
+@keyframes sealGlow{0%{opacity:.4}100%{opacity:.9}}
+
+/* ============ LETS PLAY PANEL ============ */
+.lp-panel{
+  position:absolute;top:780px;left:50%;transform:translateX(-50%);z-index:31;pointer-events:none;
+  text-align:center;width:560px;
+  animation:lpFadeIn 3s 2.5s ease-out both;
+}
+@keyframes lpFadeIn{0%{opacity:0;transform:translateX(-50%) translateY(10px)}100%{opacity:1;transform:translateX(-50%) translateY(0)}}
+.lp-card{
+  position:relative;padding:28px 40px 22px;
+  border:1px solid rgba(201,169,97,.14);
+  background:linear-gradient(180deg,rgba(15,8,30,.4),rgba(10,5,20,.6));
+  box-shadow:0 0 50px rgba(145,70,255,.06),inset 0 0 30px rgba(0,0,0,.3);
+}
+.lp-card::before,.lp-card::after{
+  content:'';position:absolute;width:22px;height:22px;border-color:rgba(201,169,97,.4);border-style:solid;
+}
+.lp-card::before{top:-1px;left:-1px;border-width:1.5px 0 0 1.5px}
+.lp-card::after{bottom:-1px;right:-1px;border-width:0 1.5px 1.5px 0}
+.lp-icon{display:block;margin:0 auto 14px;width:34px;height:34px;opacity:.6}
+.lp-label{
+  font-family:'Cinzel',serif;font-weight:700;font-size:14px;
+  letter-spacing:8px;text-transform:uppercase;
+  color:rgba(201,169,97,.65);margin-bottom:10px;
+}
+.lp-value{
+  font-family:'Cinzel',serif;font-weight:600;font-size:22px;
+  letter-spacing:5px;text-transform:uppercase;
+  color:rgba(145,70,255,.7);text-shadow:0 0 18px rgba(145,70,255,.18);
+}
+.lp-sub{
+  margin-top:10px;font-family:'Cinzel',serif;font-weight:400;font-size:11px;
+  letter-spacing:3px;color:rgba(201,169,97,.4);
+}
+.lp-bar{width:140px;height:1px;margin:12px auto 0;background:linear-gradient(90deg,transparent,rgba(201,169,97,.3),transparent)}
+
 /* ============ PAUSE TEXT ============ */
 .pause-text{
-  position:absolute;bottom:200px;left:0;width:1920px;z-index:30;
+  position:absolute;bottom:140px;left:0;width:1920px;z-index:30;
   display:flex;justify-content:center;align-items:center;flex-direction:column;gap:8px;pointer-events:none;
 }
 .pause-main{
@@ -623,6 +684,15 @@ body{width:1920px;height:1080px;background:transparent;overflow:hidden;font-fami
 .portrait .title-wrap{width:1080px;top:280px;left:0}
 .portrait .title-main{font-size:30px;letter-spacing:8px}
 
+/* Seal + LP Panel Portrait */
+.portrait .bftv-seal{top:160px;left:60px}
+.portrait .seal-ring{width:80px;height:80px}
+.portrait .seal-text{font-size:7px}
+.portrait .seal-text span{font-size:5px}
+.portrait .lp-panel{top:1120px;left:50%;transform:translateX(-50%);width:500px}
+.portrait .lp-label{font-size:12px;letter-spacing:6px}
+.portrait .lp-value{font-size:18px}
+
 /* Pause-Text: unter dem Video */
 .portrait .pause-text{width:1080px;bottom:400px;left:0}
 .portrait .pause-main{font-size:22px;letter-spacing:8px}
@@ -678,6 +748,8 @@ body{width:1920px;height:1080px;background:transparent;overflow:hidden;font-fami
       if(idx===0)svg.style.top='200px';
       if(idx===1)svg.style.top='1100px';
       if(idx===2)svg.style.top='600px';
+      if(idx===3)svg.style.top='1400px';  /* Industrial+Gaming */
+      if(idx===4)svg.style.top='900px';   /* Extended Gaming */
     });
 
     /* Alle absolut positionierten Elemente proportional skalieren */
@@ -791,7 +863,7 @@ body{width:1920px;height:1080px;background:transparent;overflow:hidden;font-fami
   </div>
   <!-- Video frame glow + corners -->
   <div class="frame-glow"></div>
-  <div class="corner-wrap" style="left:460px;top:200px;width:1000px;height:580px">
+  <div class="corner-wrap" style="left:460px;top:230px;width:1000px;height:530px">
     <div class="frame-corner fc-tl"><svg width="48" height="48" viewBox="0 0 48 48"><path d="M2,46 L2,14 Q2,2 14,2 L46,2" fill="none" stroke="rgba(201,169,97,.55)" stroke-width="1.3"/><path d="M6,42 L6,16 Q6,6 16,6 L42,6" fill="none" stroke="rgba(201,169,97,.25)" stroke-width=".8"/><circle cx="9" cy="9" r="3" fill="none" stroke="rgba(201,169,97,.4)" stroke-width=".9"/><circle cx="9" cy="9" r="1.2" fill="rgba(145,70,255,.3)"/><line x1="2" y1="20" x2="12" y2="20" stroke="rgba(201,169,97,.15)" stroke-width=".5"/><line x1="20" y1="2" x2="20" y2="12" stroke="rgba(201,169,97,.15)" stroke-width=".5"/></svg></div>
     <div class="frame-corner fc-tr"><svg width="48" height="48" viewBox="0 0 48 48"><path d="M2,46 L2,14 Q2,2 14,2 L46,2" fill="none" stroke="rgba(201,169,97,.55)" stroke-width="1.3"/><path d="M6,42 L6,16 Q6,6 16,6 L42,6" fill="none" stroke="rgba(201,169,97,.25)" stroke-width=".8"/><circle cx="9" cy="9" r="3" fill="none" stroke="rgba(201,169,97,.4)" stroke-width=".9"/><circle cx="9" cy="9" r="1.2" fill="rgba(145,70,255,.3)"/></svg></div>
     <div class="frame-corner fc-bl"><svg width="48" height="48" viewBox="0 0 48 48"><path d="M2,46 L2,14 Q2,2 14,2 L46,2" fill="none" stroke="rgba(201,169,97,.55)" stroke-width="1.3"/><path d="M6,42 L6,16 Q6,6 16,6 L42,6" fill="none" stroke="rgba(201,169,97,.25)" stroke-width=".8"/><circle cx="9" cy="9" r="3" fill="none" stroke="rgba(201,169,97,.4)" stroke-width=".9"/><circle cx="9" cy="9" r="1.2" fill="rgba(200,35,45,.25)"/></svg></div>
@@ -809,6 +881,42 @@ body{width:1920px;height:1080px;background:transparent;overflow:hidden;font-fami
     <div class="title" style="overflow:hidden;position:relative">
       Beardflix<span class="tv">TV</span>
       <div class="title-shine"></div>
+    </div>
+  </div>
+
+  <!-- ====== BEARDFLIX ORIGINAL SEAL ====== -->
+  <div class="bftv-seal">
+    <div class="seal-glow"></div>
+    <div class="seal-ring">
+      <svg viewBox="0 0 140 140">
+        <circle cx="70" cy="70" r="65" fill="none" stroke="rgba(201,169,97,.25)" stroke-width=".8"/>
+        <circle cx="70" cy="70" r="60" fill="none" stroke="rgba(201,169,97,.15)" stroke-width=".5"/>
+        <circle cx="70" cy="70" r="42" fill="none" stroke="rgba(201,169,97,.2)" stroke-width=".6"/>
+        <g class="seal-rotate">
+          <circle cx="70" cy="70" r="53" fill="none" stroke="rgba(201,169,97,.08)" stroke-width=".4" stroke-dasharray="3 5"/>
+          <circle cx="70" cy="17" r="1.5" fill="rgba(201,169,97,.35)"/>
+          <circle cx="123" cy="70" r="1.5" fill="rgba(201,169,97,.35)"/>
+          <circle cx="70" cy="123" r="1.5" fill="rgba(201,169,97,.35)"/>
+          <circle cx="17" cy="70" r="1.5" fill="rgba(201,169,97,.35)"/>
+          <line x1="70" y1="12" x2="70" y2="16" stroke="rgba(201,169,97,.25)" stroke-width=".5"/>
+          <line x1="128" y1="70" x2="124" y2="70" stroke="rgba(201,169,97,.25)" stroke-width=".5"/>
+          <line x1="70" y1="128" x2="70" y2="124" stroke="rgba(201,169,97,.25)" stroke-width=".5"/>
+          <line x1="12" y1="70" x2="16" y2="70" stroke="rgba(201,169,97,.25)" stroke-width=".5"/>
+        </g>
+        <polygon points="70,8 73,18 83,12 78,22 88,20 81,28 90,30 82,35 89,42 80,42 84,52 75,48 76,58 70,50 64,58 65,48 56,52 60,42 51,42 58,35 50,30 59,28 52,20 62,22 57,12 67,18" fill="none" stroke="rgba(201,169,97,.12)" stroke-width=".5"/>
+      </svg>
+      <div class="seal-text">Original<span>Beardflix</span></div>
+    </div>
+  </div>
+
+  <!-- ====== LETS PLAY PANEL ====== -->
+  <div class="lp-panel">
+    <div class="lp-card">
+      <svg class="lp-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="rgba(145,70,255,.5)" stroke-width="1"/><polygon points="10,7 18,12 10,17" fill="rgba(145,70,255,.35)"/></svg>
+      <div class="lp-label">Erste Let's Play Folge</div>
+      <div class="lp-value">Demnächst</div>
+      <div class="lp-sub">auf YouTube</div>
+      <div class="lp-bar"></div>
     </div>
   </div>
 
@@ -1169,6 +1277,124 @@ body{width:1920px;height:1080px;background:transparent;overflow:hidden;font-fami
   <div class="energy-orb" style="left:20px;top:780px;width:40px;height:40px;--eoc:rgba(201,169,97,.08);--eod:8s;--eodelay:2s"></div>
   <div class="energy-orb" style="right:25px;top:790px;width:45px;height:45px;--eoc:rgba(145,70,255,.08);--eod:12s;--eodelay:4s"></div>
   <div class="energy-orb" style="left:1100px;top:600px;width:35px;height:35px;--eoc:rgba(200,35,45,.06);--eod:9s;--eodelay:1s"></div>
+
+  <!-- ====== ADDITIONAL ORNAMENTS (Industrial + Gaming) ====== -->
+  <svg width="1920" height="1080" viewBox="0 0 1920 1080" style="position:absolute;top:0;left:0;z-index:10;pointer-events:none;opacity:.35">
+    <!-- Iron Trusses -->
+    <g transform="translate(40,800)" opacity=".4"><line x1="0" y1="0" x2="180" y2="0" stroke="rgba(201,169,97,.6)" stroke-width="1"/><line x1="0" y1="40" x2="180" y2="40" stroke="rgba(201,169,97,.6)" stroke-width="1"/><line x1="0" y1="0" x2="0" y2="40" stroke="rgba(201,169,97,.5)" stroke-width="1"/><line x1="36" y1="0" x2="36" y2="40" stroke="rgba(201,169,97,.4)" stroke-width=".7"/><line x1="72" y1="0" x2="72" y2="40" stroke="rgba(201,169,97,.4)" stroke-width=".7"/><line x1="108" y1="0" x2="108" y2="40" stroke="rgba(201,169,97,.4)" stroke-width=".7"/><line x1="144" y1="0" x2="144" y2="40" stroke="rgba(201,169,97,.4)" stroke-width=".7"/><line x1="180" y1="0" x2="180" y2="40" stroke="rgba(201,169,97,.5)" stroke-width="1"/><line x1="0" y1="0" x2="36" y2="40" stroke="rgba(201,169,97,.25)" stroke-width=".6"/><line x1="36" y1="0" x2="0" y2="40" stroke="rgba(201,169,97,.25)" stroke-width=".6"/><line x1="36" y1="0" x2="72" y2="40" stroke="rgba(201,169,97,.25)" stroke-width=".6"/><line x1="72" y1="0" x2="36" y2="40" stroke="rgba(201,169,97,.25)" stroke-width=".6"/><line x1="72" y1="0" x2="108" y2="40" stroke="rgba(201,169,97,.25)" stroke-width=".6"/><line x1="108" y1="0" x2="72" y2="40" stroke="rgba(201,169,97,.25)" stroke-width=".6"/><line x1="108" y1="0" x2="144" y2="40" stroke="rgba(201,169,97,.25)" stroke-width=".6"/><line x1="144" y1="0" x2="108" y2="40" stroke="rgba(201,169,97,.25)" stroke-width=".6"/><line x1="144" y1="0" x2="180" y2="40" stroke="rgba(201,169,97,.25)" stroke-width=".6"/><line x1="180" y1="0" x2="144" y2="40" stroke="rgba(201,169,97,.25)" stroke-width=".6"/></g>
+    <g transform="translate(1700,800)" opacity=".4"><line x1="0" y1="0" x2="180" y2="0" stroke="rgba(201,169,97,.6)" stroke-width="1"/><line x1="0" y1="40" x2="180" y2="40" stroke="rgba(201,169,97,.6)" stroke-width="1"/><line x1="0" y1="0" x2="0" y2="40" stroke="rgba(201,169,97,.5)" stroke-width="1"/><line x1="36" y1="0" x2="36" y2="40" stroke="rgba(201,169,97,.4)" stroke-width=".7"/><line x1="72" y1="0" x2="72" y2="40" stroke="rgba(201,169,97,.4)" stroke-width=".7"/><line x1="108" y1="0" x2="108" y2="40" stroke="rgba(201,169,97,.4)" stroke-width=".7"/><line x1="144" y1="0" x2="144" y2="40" stroke="rgba(201,169,97,.4)" stroke-width=".7"/><line x1="180" y1="0" x2="180" y2="40" stroke="rgba(201,169,97,.5)" stroke-width="1"/><line x1="0" y1="0" x2="36" y2="40" stroke="rgba(201,169,97,.25)" stroke-width=".6"/><line x1="36" y1="0" x2="0" y2="40" stroke="rgba(201,169,97,.25)" stroke-width=".6"/><line x1="36" y1="0" x2="72" y2="40" stroke="rgba(201,169,97,.25)" stroke-width=".6"/><line x1="72" y1="0" x2="36" y2="40" stroke="rgba(201,169,97,.25)" stroke-width=".6"/><line x1="72" y1="0" x2="108" y2="40" stroke="rgba(201,169,97,.25)" stroke-width=".6"/><line x1="108" y1="0" x2="72" y2="40" stroke="rgba(201,169,97,.25)" stroke-width=".6"/><line x1="108" y1="0" x2="144" y2="40" stroke="rgba(201,169,97,.25)" stroke-width=".6"/><line x1="144" y1="0" x2="108" y2="40" stroke="rgba(201,169,97,.25)" stroke-width=".6"/><line x1="144" y1="0" x2="180" y2="40" stroke="rgba(201,169,97,.25)" stroke-width=".6"/><line x1="180" y1="0" x2="144" y2="40" stroke="rgba(201,169,97,.25)" stroke-width=".6"/></g>
+    <!-- Iron Fences -->
+    <g transform="translate(260,860)" opacity=".25"><line x1="0" y1="0" x2="120" y2="0" stroke="rgba(201,169,97,.5)" stroke-width=".8"/><line x1="0" y1="45" x2="120" y2="45" stroke="rgba(201,169,97,.5)" stroke-width=".8"/><line x1="15" y1="-5" x2="15" y2="45" stroke="rgba(201,169,97,.4)" stroke-width=".6"/><polygon points="13,-5 15,-9 17,-5" fill="rgba(201,169,97,.3)"/><line x1="40" y1="-5" x2="40" y2="45" stroke="rgba(201,169,97,.4)" stroke-width=".6"/><polygon points="38,-5 40,-9 42,-5" fill="rgba(201,169,97,.3)"/><line x1="65" y1="-7" x2="65" y2="45" stroke="rgba(201,169,97,.5)" stroke-width=".7"/><polygon points="63,-7 65,-12 67,-7" fill="rgba(201,169,97,.35)"/><line x1="90" y1="-5" x2="90" y2="45" stroke="rgba(201,169,97,.4)" stroke-width=".6"/><polygon points="88,-5 90,-9 92,-5" fill="rgba(201,169,97,.3)"/><line x1="105" y1="-5" x2="105" y2="45" stroke="rgba(201,169,97,.4)" stroke-width=".6"/><polygon points="103,-5 105,-9 107,-5" fill="rgba(201,169,97,.3)"/><path d="M15,20 Q27,12 40,20" fill="none" stroke="rgba(201,169,97,.2)" stroke-width=".4"/><path d="M40,20 Q52,12 65,20" fill="none" stroke="rgba(201,169,97,.2)" stroke-width=".4"/><path d="M65,20 Q77,12 90,20" fill="none" stroke="rgba(201,169,97,.2)" stroke-width=".4"/></g>
+    <g transform="translate(1540,860)" opacity=".25"><line x1="0" y1="0" x2="120" y2="0" stroke="rgba(201,169,97,.5)" stroke-width=".8"/><line x1="0" y1="45" x2="120" y2="45" stroke="rgba(201,169,97,.5)" stroke-width=".8"/><line x1="15" y1="-5" x2="15" y2="45" stroke="rgba(201,169,97,.4)" stroke-width=".6"/><polygon points="13,-5 15,-9 17,-5" fill="rgba(201,169,97,.3)"/><line x1="40" y1="-5" x2="40" y2="45" stroke="rgba(201,169,97,.4)" stroke-width=".6"/><polygon points="38,-5 40,-9 42,-5" fill="rgba(201,169,97,.3)"/><line x1="65" y1="-7" x2="65" y2="45" stroke="rgba(201,169,97,.5)" stroke-width=".7"/><polygon points="63,-7 65,-12 67,-7" fill="rgba(201,169,97,.35)"/><line x1="90" y1="-5" x2="90" y2="45" stroke="rgba(201,169,97,.4)" stroke-width=".6"/><polygon points="88,-5 90,-9 92,-5" fill="rgba(201,169,97,.3)"/><line x1="105" y1="-5" x2="105" y2="45" stroke="rgba(201,169,97,.4)" stroke-width=".6"/><polygon points="103,-5 105,-9 107,-5" fill="rgba(201,169,97,.3)"/><path d="M15,20 Q27,12 40,20" fill="none" stroke="rgba(201,169,97,.2)" stroke-width=".4"/><path d="M40,20 Q52,12 65,20" fill="none" stroke="rgba(201,169,97,.2)" stroke-width=".4"/><path d="M65,20 Q77,12 90,20" fill="none" stroke="rgba(201,169,97,.2)" stroke-width=".4"/></g>
+    <!-- Wrought Iron Arches -->
+    <g transform="translate(10,400)" opacity=".22"><path d="M0,200 L0,50 Q0,0 50,0 L70,0 Q120,0 120,50 L120,200" fill="none" stroke="rgba(201,169,97,.45)" stroke-width=".9"/><path d="M12,195 L12,55 Q12,15 52,15 L68,15 Q108,15 108,55 L108,195" fill="none" stroke="rgba(201,169,97,.2)" stroke-width=".5"/><circle cx="60" cy="30" r="5" fill="none" stroke="rgba(201,169,97,.25)" stroke-width=".5"/></g>
+    <g transform="translate(1790,400)" opacity=".22"><path d="M0,200 L0,50 Q0,0 50,0 L70,0 Q120,0 120,50 L120,200" fill="none" stroke="rgba(201,169,97,.45)" stroke-width=".9"/><path d="M12,195 L12,55 Q12,15 52,15 L68,15 Q108,15 108,55 L108,195" fill="none" stroke="rgba(201,169,97,.2)" stroke-width=".5"/><circle cx="60" cy="30" r="5" fill="none" stroke="rgba(201,169,97,.25)" stroke-width=".5"/></g>
+    <!-- Suspension Chains -->
+    <g transform="translate(18,300)" opacity=".2"><ellipse cx="4" cy="5" rx="3" ry="5" fill="none" stroke="rgba(201,169,97,.55)" stroke-width=".8"/><ellipse cx="4" cy="15" rx="3" ry="5" fill="none" stroke="rgba(201,169,97,.5)" stroke-width=".7"/><ellipse cx="4" cy="25" rx="3" ry="5" fill="none" stroke="rgba(201,169,97,.45)" stroke-width=".6"/><ellipse cx="4" cy="35" rx="3" ry="5" fill="none" stroke="rgba(201,169,97,.4)" stroke-width=".5"/></g>
+    <g transform="translate(1898,300)" opacity=".2"><ellipse cx="4" cy="5" rx="3" ry="5" fill="none" stroke="rgba(201,169,97,.55)" stroke-width=".8"/><ellipse cx="4" cy="15" rx="3" ry="5" fill="none" stroke="rgba(201,169,97,.5)" stroke-width=".7"/><ellipse cx="4" cy="25" rx="3" ry="5" fill="none" stroke="rgba(201,169,97,.45)" stroke-width=".6"/><ellipse cx="4" cy="35" rx="3" ry="5" fill="none" stroke="rgba(201,169,97,.4)" stroke-width=".5"/></g>
+    <!-- Factory Smokestacks -->
+    <g transform="translate(5,20)" opacity=".25"><rect x="0" y="0" width="8" height="900" fill="none" stroke="rgba(201,169,97,.45)" stroke-width=".8"/><rect x="-1" y="-2" width="10" height="3" rx="1" fill="none" stroke="rgba(201,169,97,.35)" stroke-width=".7"/><rect x="0" y="120" width="8" height="1.5" fill="rgba(201,169,97,.15)"/><rect x="0" y="300" width="8" height="1.5" fill="rgba(201,169,97,.15)"/><rect x="0" y="500" width="8" height="1.5" fill="rgba(201,169,97,.15)"/><rect x="0" y="700" width="8" height="1.5" fill="rgba(201,169,97,.15)"/></g>
+    <g transform="translate(1907,20)" opacity=".25"><rect x="0" y="0" width="8" height="900" fill="none" stroke="rgba(201,169,97,.45)" stroke-width=".8"/><rect x="-1" y="-2" width="10" height="3" rx="1" fill="none" stroke="rgba(201,169,97,.35)" stroke-width=".7"/><rect x="0" y="120" width="8" height="1.5" fill="rgba(201,169,97,.15)"/><rect x="0" y="300" width="8" height="1.5" fill="rgba(201,169,97,.15)"/><rect x="0" y="500" width="8" height="1.5" fill="rgba(201,169,97,.15)"/><rect x="0" y="700" width="8" height="1.5" fill="rgba(201,169,97,.15)"/></g>
+    <!-- Gaming: Crossed Swords -->
+    <g transform="translate(80,120)" opacity=".25"><line x1="0" y1="30" x2="30" y2="0" stroke="rgba(201,169,97,.5)" stroke-width="1"/><line x1="30" y1="30" x2="0" y2="0" stroke="rgba(201,169,97,.5)" stroke-width="1"/><rect x="12" y="12" width="6" height="6" rx="1" fill="none" stroke="rgba(201,169,97,.3)" stroke-width=".6"/></g>
+    <g transform="translate(1810,120)" opacity=".25"><line x1="0" y1="30" x2="30" y2="0" stroke="rgba(201,169,97,.5)" stroke-width="1"/><line x1="30" y1="30" x2="0" y2="0" stroke="rgba(201,169,97,.5)" stroke-width="1"/><rect x="12" y="12" width="6" height="6" rx="1" fill="none" stroke="rgba(201,169,97,.3)" stroke-width=".6"/></g>
+    <!-- Gaming: D20 Dice -->
+    <g transform="translate(150,900)" opacity=".25"><polygon points="15,0 30,10 26,28 4,28 0,10" fill="none" stroke="rgba(145,70,255,.45)" stroke-width=".8"/><line x1="15" y1="0" x2="4" y2="28" stroke="rgba(145,70,255,.2)" stroke-width=".4"/><line x1="15" y1="0" x2="26" y2="28" stroke="rgba(145,70,255,.2)" stroke-width=".4"/><line x1="0" y1="10" x2="26" y2="28" stroke="rgba(145,70,255,.15)" stroke-width=".3"/><line x1="30" y1="10" x2="4" y2="28" stroke="rgba(145,70,255,.15)" stroke-width=".3"/><text x="15" y="20" text-anchor="middle" font-family="Cinzel,serif" font-size="7" fill="rgba(145,70,255,.25)">20</text></g>
+    <g transform="translate(1740,900)" opacity=".25"><polygon points="15,0 30,10 26,28 4,28 0,10" fill="none" stroke="rgba(145,70,255,.45)" stroke-width=".8"/><line x1="15" y1="0" x2="4" y2="28" stroke="rgba(145,70,255,.2)" stroke-width=".4"/><line x1="15" y1="0" x2="26" y2="28" stroke="rgba(145,70,255,.2)" stroke-width=".4"/><text x="15" y="20" text-anchor="middle" font-family="Cinzel,serif" font-size="7" fill="rgba(145,70,255,.25)">20</text></g>
+    <!-- Gaming: HP/MP Bars -->
+    <g transform="translate(100,950)" opacity=".3"><rect x="0" y="0" width="60" height="6" rx="1" fill="none" stroke="rgba(200,35,45,.45)" stroke-width=".6"/><rect x="1" y="1" width="40" height="4" rx=".5" fill="rgba(200,35,45,.2)"/><text x="-2" y="5" font-family="Cinzel,serif" font-size="4" fill="rgba(200,35,45,.3)">HP</text></g>
+    <g transform="translate(100,962)" opacity=".3"><rect x="0" y="0" width="60" height="6" rx="1" fill="none" stroke="rgba(70,100,255,.4)" stroke-width=".6"/><rect x="1" y="1" width="50" height="4" rx=".5" fill="rgba(70,100,255,.18)"/><text x="-2" y="5" font-family="Cinzel,serif" font-size="4" fill="rgba(70,100,255,.3)">MP</text></g>
+    <g transform="translate(1760,950)" opacity=".3"><rect x="0" y="0" width="60" height="6" rx="1" fill="none" stroke="rgba(201,169,97,.4)" stroke-width=".6"/><rect x="1" y="1" width="35" height="4" rx=".5" fill="rgba(201,169,97,.15)"/><text x="-2" y="5" font-family="Cinzel,serif" font-size="4" fill="rgba(201,169,97,.3)">XP</text></g>
+    <!-- Gaming: Potion Flask -->
+    <g transform="translate(200,100)" opacity=".25"><rect x="6" y="0" width="8" height="5" rx="1" fill="none" stroke="rgba(145,70,255,.4)" stroke-width=".6"/><path d="M4,5 Q4,8 2,12 Q0,18 0,22 Q0,28 10,28 Q20,28 20,22 Q20,18 18,12 Q16,8 16,5 Z" fill="none" stroke="rgba(145,70,255,.45)" stroke-width=".7"/><ellipse cx="10" cy="20" rx="6" ry="4" fill="rgba(145,70,255,.12)"/></g>
+    <g transform="translate(1700,100)" opacity=".25"><rect x="6" y="0" width="8" height="5" rx="1" fill="none" stroke="rgba(200,35,45,.4)" stroke-width=".6"/><path d="M4,5 Q4,8 2,12 Q0,18 0,22 Q0,28 10,28 Q20,28 20,22 Q20,18 18,12 Q16,8 16,5 Z" fill="none" stroke="rgba(200,35,45,.45)" stroke-width=".7"/><ellipse cx="10" cy="20" rx="6" ry="4" fill="rgba(200,35,45,.1)"/></g>
+    <!-- Gaming: Crosshair -->
+    <g transform="translate(300,930)" opacity=".2"><circle cx="15" cy="15" r="12" fill="none" stroke="rgba(200,35,45,.4)" stroke-width=".6"/><circle cx="15" cy="15" r="5" fill="none" stroke="rgba(200,35,45,.3)" stroke-width=".4"/><line x1="15" y1="0" x2="15" y2="8" stroke="rgba(200,35,45,.3)" stroke-width=".5"/><line x1="15" y1="22" x2="15" y2="30" stroke="rgba(200,35,45,.3)" stroke-width=".5"/><line x1="0" y1="15" x2="8" y2="15" stroke="rgba(200,35,45,.3)" stroke-width=".5"/><line x1="22" y1="15" x2="30" y2="15" stroke="rgba(200,35,45,.3)" stroke-width=".5"/></g>
+    <g transform="translate(1590,930)" opacity=".2"><circle cx="15" cy="15" r="12" fill="none" stroke="rgba(200,35,45,.4)" stroke-width=".6"/><circle cx="15" cy="15" r="5" fill="none" stroke="rgba(200,35,45,.3)" stroke-width=".4"/><line x1="15" y1="0" x2="15" y2="8" stroke="rgba(200,35,45,.3)" stroke-width=".5"/><line x1="15" y1="22" x2="15" y2="30" stroke="rgba(200,35,45,.3)" stroke-width=".5"/><line x1="0" y1="15" x2="8" y2="15" stroke="rgba(200,35,45,.3)" stroke-width=".5"/><line x1="22" y1="15" x2="30" y2="15" stroke="rgba(200,35,45,.3)" stroke-width=".5"/></g>
+    <!-- Gaming: Treasure Chest -->
+    <g transform="translate(340,100)" opacity=".25"><rect x="0" y="10" width="28" height="16" rx="1" fill="none" stroke="rgba(201,169,97,.5)" stroke-width=".8"/><path d="M0,10 Q14,0 28,10" fill="none" stroke="rgba(201,169,97,.5)" stroke-width=".8"/><line x1="0" y1="16" x2="28" y2="16" stroke="rgba(201,169,97,.3)" stroke-width=".5"/><rect x="11" y="14" width="6" height="5" rx="1" fill="none" stroke="rgba(201,169,97,.35)" stroke-width=".5"/><circle cx="14" cy="17" r="1.2" fill="rgba(201,169,97,.25)"/></g>
+    <g transform="translate(1550,100)" opacity=".25"><rect x="0" y="10" width="28" height="16" rx="1" fill="none" stroke="rgba(201,169,97,.5)" stroke-width=".8"/><path d="M0,10 Q14,0 28,10" fill="none" stroke="rgba(201,169,97,.5)" stroke-width=".8"/><line x1="0" y1="16" x2="28" y2="16" stroke="rgba(201,169,97,.3)" stroke-width=".5"/><rect x="11" y="14" width="6" height="5" rx="1" fill="none" stroke="rgba(201,169,97,.35)" stroke-width=".5"/><circle cx="14" cy="17" r="1.2" fill="rgba(201,169,97,.25)"/></g>
+    <!-- Gaming: Crown -->
+    <g transform="translate(80,950)" opacity=".22"><path d="M0,20 L4,6 L8,14 L12,0 L16,14 L20,6 L24,20 Z" fill="none" stroke="rgba(201,169,97,.55)" stroke-width=".7"/><line x1="0" y1="20" x2="24" y2="20" stroke="rgba(201,169,97,.45)" stroke-width=".6"/><circle cx="12" cy="0" r="1.5" fill="rgba(201,169,97,.3)"/></g>
+    <g transform="translate(1820,950)" opacity=".22"><path d="M0,20 L4,6 L8,14 L12,0 L16,14 L20,6 L24,20 Z" fill="none" stroke="rgba(201,169,97,.55)" stroke-width=".7"/><line x1="0" y1="20" x2="24" y2="20" stroke="rgba(201,169,97,.45)" stroke-width=".6"/><circle cx="12" cy="0" r="1.5" fill="rgba(201,169,97,.3)"/></g>
+    <!-- Gaming: Heart (Lives) -->
+    <g transform="translate(220,940)" opacity=".25"><path d="M10,18 Q0,10 0,5 Q0,0 5,0 Q10,0 10,5 Q10,0 15,0 Q20,0 20,5 Q20,10 10,18 Z" fill="none" stroke="rgba(200,35,45,.5)" stroke-width=".7"/></g>
+    <g transform="translate(1680,940)" opacity=".25"><path d="M10,18 Q0,10 0,5 Q0,0 5,0 Q10,0 10,5 Q10,0 15,0 Q20,0 20,5 Q20,10 10,18 Z" fill="none" stroke="rgba(200,35,45,.5)" stroke-width=".7"/></g>
+    <!-- Gaming: Diamond Gem -->
+    <g transform="translate(160,860)" opacity=".2"><polygon points="12,0 24,8 12,24 0,8" fill="none" stroke="rgba(145,70,255,.45)" stroke-width=".7"/><line x1="0" y1="8" x2="24" y2="8" stroke="rgba(145,70,255,.25)" stroke-width=".4"/><line x1="12" y1="0" x2="6" y2="8" stroke="rgba(145,70,255,.2)" stroke-width=".3"/><line x1="12" y1="0" x2="18" y2="8" stroke="rgba(145,70,255,.2)" stroke-width=".3"/><line x1="6" y1="8" x2="12" y2="24" stroke="rgba(145,70,255,.15)" stroke-width=".3"/><line x1="18" y1="8" x2="12" y2="24" stroke="rgba(145,70,255,.15)" stroke-width=".3"/></g>
+    <g transform="translate(1740,860)" opacity=".2"><polygon points="12,0 24,8 12,24 0,8" fill="none" stroke="rgba(145,70,255,.45)" stroke-width=".7"/><line x1="0" y1="8" x2="24" y2="8" stroke="rgba(145,70,255,.25)" stroke-width=".4"/><line x1="12" y1="0" x2="6" y2="8" stroke="rgba(145,70,255,.2)" stroke-width=".3"/><line x1="12" y1="0" x2="18" y2="8" stroke="rgba(145,70,255,.2)" stroke-width=".3"/></g>
+    <!-- Gaming: Headset -->
+    <g transform="translate(370,870)" opacity=".2"><path d="M5,18 Q5,6 15,6 Q25,6 25,18" fill="none" stroke="rgba(145,70,255,.45)" stroke-width=".7"/><rect x="2" y="16" width="6" height="8" rx="2" fill="none" stroke="rgba(145,70,255,.35)" stroke-width=".6"/><rect x="22" y="16" width="6" height="8" rx="2" fill="none" stroke="rgba(145,70,255,.35)" stroke-width=".6"/><path d="M2,24 Q2,28 8,30" fill="none" stroke="rgba(145,70,255,.25)" stroke-width=".5"/></g>
+    <g transform="translate(1520,870)" opacity=".2"><path d="M5,18 Q5,6 15,6 Q25,6 25,18" fill="none" stroke="rgba(145,70,255,.45)" stroke-width=".7"/><rect x="2" y="16" width="6" height="8" rx="2" fill="none" stroke="rgba(145,70,255,.35)" stroke-width=".6"/><rect x="22" y="16" width="6" height="8" rx="2" fill="none" stroke="rgba(145,70,255,.35)" stroke-width=".6"/></g>
+    <!-- Hex Patterns -->
+    <g transform="translate(50,680)" opacity=".12"><polygon points="10,0 20,5 20,15 10,20 0,15 0,5" fill="none" stroke="rgba(201,169,97,.4)" stroke-width=".5"/><polygon points="30,10 40,15 40,25 30,30 20,25 20,15" fill="none" stroke="rgba(201,169,97,.35)" stroke-width=".4"/><polygon points="10,20 20,25 20,35 10,40 0,35 0,25" fill="none" stroke="rgba(201,169,97,.3)" stroke-width=".4"/></g>
+    <g transform="translate(1850,680)" opacity=".12"><polygon points="10,0 20,5 20,15 10,20 0,15 0,5" fill="none" stroke="rgba(201,169,97,.4)" stroke-width=".5"/><polygon points="30,10 40,15 40,25 30,30 20,25 20,15" fill="none" stroke="rgba(201,169,97,.35)" stroke-width=".4"/><polygon points="10,20 20,25 20,35 10,40 0,35 0,25" fill="none" stroke="rgba(201,169,97,.3)" stroke-width=".4"/></g>
+  </svg>
+
+  <!-- ====== GAMING SVG ORNAMENTS (Extended) ====== -->
+  <svg width="1920" height="1080" viewBox="0 0 1920 1080" style="position:absolute;top:0;left:0;z-index:11;pointer-events:none">
+    <!-- Sword — Left margin -->
+    <g transform="translate(12,120)" opacity=".4"><line x1="8" y1="0" x2="8" y2="65" stroke="rgba(201,169,97,.7)" stroke-width="1.2"/><line x1="8" y1="0" x2="8" y2="10" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/><line x1="2" y1="55" x2="14" y2="55" stroke="rgba(201,169,97,.6)" stroke-width="1.5"/><rect x="5" y="58" width="6" height="10" rx="1" fill="none" stroke="rgba(201,169,97,.5)" stroke-width=".9"/><line x1="4" y1="57" x2="12" y2="57" stroke="rgba(201,169,97,.5)" stroke-width="1"/><polygon points="8,0 6,6 10,6" fill="rgba(201,169,97,.45)"/></g>
+    <!-- Sword — Right margin -->
+    <g transform="translate(1896,120)" opacity=".4"><line x1="8" y1="0" x2="8" y2="65" stroke="rgba(201,169,97,.7)" stroke-width="1.2"/><line x1="8" y1="0" x2="8" y2="10" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/><line x1="2" y1="55" x2="14" y2="55" stroke="rgba(201,169,97,.6)" stroke-width="1.5"/><rect x="5" y="58" width="6" height="10" rx="1" fill="none" stroke="rgba(201,169,97,.5)" stroke-width=".9"/><polygon points="8,0 6,6 10,6" fill="rgba(201,169,97,.45)"/></g>
+    <!-- Shield — Left edge -->
+    <g transform="translate(8,460)" opacity=".4"><path d="M16,0 L30,6 L30,22 Q30,32 16,38 Q2,32 2,22 L2,6 Z" fill="none" stroke="rgba(145,70,255,.5)" stroke-width="1.2"/><path d="M16,5 L25,9 L25,20 Q25,27 16,31 Q7,27 7,20 L7,9 Z" fill="none" stroke="rgba(145,70,255,.3)" stroke-width=".7"/><line x1="16" y1="8" x2="16" y2="28" stroke="rgba(145,70,255,.4)" stroke-width=".8"/><line x1="9" y1="16" x2="23" y2="16" stroke="rgba(145,70,255,.4)" stroke-width=".8"/><circle cx="16" cy="16" r="3" fill="none" stroke="rgba(201,169,97,.3)" stroke-width=".6"/></g>
+    <!-- Shield — Right edge -->
+    <g transform="translate(1888,460)" opacity=".4"><path d="M16,0 L30,6 L30,22 Q30,32 16,38 Q2,32 2,22 L2,6 Z" fill="none" stroke="rgba(145,70,255,.5)" stroke-width="1.2"/><path d="M16,5 L25,9 L25,20 Q25,27 16,31 Q7,27 7,20 L7,9 Z" fill="none" stroke="rgba(145,70,255,.3)" stroke-width=".7"/><line x1="16" y1="8" x2="16" y2="28" stroke="rgba(145,70,255,.4)" stroke-width=".8"/><line x1="9" y1="16" x2="23" y2="16" stroke="rgba(145,70,255,.4)" stroke-width=".8"/><circle cx="16" cy="16" r="3" fill="none" stroke="rgba(201,169,97,.3)" stroke-width=".6"/></g>
+    <!-- Game Coin — Left bottom -->
+    <g transform="translate(750,960)" opacity=".35"><circle cx="10" cy="10" r="9" fill="none" stroke="rgba(201,169,97,.6)" stroke-width="1"/><circle cx="10" cy="10" r="7" fill="none" stroke="rgba(201,169,97,.3)" stroke-width=".5"/><text x="10" y="13" text-anchor="middle" fill="rgba(201,169,97,.5)" font-size="9" font-family="Cinzel" font-weight="700">B</text><line x1="3" y1="3" x2="5" y2="5" stroke="rgba(255,255,255,.15)" stroke-width=".4"/></g>
+    <!-- Game Coin — Right bottom -->
+    <g transform="translate(1140,960)" opacity=".3"><circle cx="10" cy="10" r="9" fill="none" stroke="rgba(201,169,97,.55)" stroke-width="1"/><circle cx="10" cy="10" r="7" fill="none" stroke="rgba(201,169,97,.25)" stroke-width=".5"/><text x="10" y="13" text-anchor="middle" fill="rgba(201,169,97,.45)" font-size="9" font-family="Cinzel" font-weight="700">B</text></g>
+    <!-- Arrow/Bow — Left margin -->
+    <g transform="translate(15,280)" opacity=".3"><path d="M4,0 Q20,20 4,40" fill="none" stroke="rgba(201,169,97,.5)" stroke-width="1"/><line x1="4" y1="0" x2="4" y2="40" stroke="rgba(201,169,97,.3)" stroke-width=".5" stroke-dasharray="2 2"/><line x1="18" y1="20" x2="4" y2="20" stroke="rgba(201,169,97,.5)" stroke-width=".8"/><polygon points="18,17 24,20 18,23" fill="rgba(200,35,45,.4)"/></g>
+    <!-- Magic Wand — Right margin -->
+    <g transform="translate(1898,280)" opacity=".3"><line x1="6" y1="0" x2="6" y2="40" stroke="rgba(145,70,255,.5)" stroke-width="1.2"/><circle cx="6" cy="0" r="3" fill="none" stroke="rgba(145,70,255,.4)" stroke-width=".8"/><circle cx="6" cy="0" r="1" fill="rgba(145,70,255,.3)"/><rect x="3" y="32" width="6" height="3" rx="1" fill="rgba(201,169,97,.3)"/><line x1="2" y1="-3" x2="3" y2="-5" stroke="rgba(201,169,97,.3)" stroke-width=".5"/><line x1="10" y1="-3" x2="9" y2="-5" stroke="rgba(201,169,97,.3)" stroke-width=".5"/><line x1="6" y1="-4" x2="6" y2="-7" stroke="rgba(201,169,97,.35)" stroke-width=".5"/></g>
+    <!-- Key — Center area -->
+    <g transform="translate(850,950)" opacity=".3"><circle cx="8" cy="8" r="6" fill="none" stroke="rgba(201,169,97,.55)" stroke-width="1"/><circle cx="8" cy="8" r="3" fill="none" stroke="rgba(201,169,97,.3)" stroke-width=".6"/><line x1="14" y1="8" x2="28" y2="8" stroke="rgba(201,169,97,.5)" stroke-width="1"/><line x1="24" y1="8" x2="24" y2="12" stroke="rgba(201,169,97,.4)" stroke-width=".8"/><line x1="28" y1="8" x2="28" y2="14" stroke="rgba(201,169,97,.45)" stroke-width=".9"/></g>
+    <!-- Scroll -->
+    <g transform="translate(620,958)" opacity=".35"><rect x="4" y="3" width="26" height="22" fill="none" stroke="rgba(201,169,97,.5)" stroke-width=".8"/><ellipse cx="4" cy="14" rx="3" ry="11" fill="none" stroke="rgba(201,169,97,.5)" stroke-width="1"/><ellipse cx="30" cy="14" rx="3" ry="11" fill="none" stroke="rgba(201,169,97,.5)" stroke-width="1"/><line x1="8" y1="8" x2="26" y2="8" stroke="rgba(201,169,97,.2)" stroke-width=".4"/><line x1="8" y1="12" x2="22" y2="12" stroke="rgba(201,169,97,.18)" stroke-width=".4"/><line x1="8" y1="16" x2="24" y2="16" stroke="rgba(201,169,97,.15)" stroke-width=".4"/><line x1="8" y1="20" x2="18" y2="20" stroke="rgba(201,169,97,.12)" stroke-width=".4"/></g>
+    <!-- Pixel Stars -->
+    <g opacity=".25"><rect x="30" y="760" width="2" height="2" fill="rgba(201,169,97,.5)"/><rect x="28" y="762" width="2" height="2" fill="rgba(201,169,97,.35)"/><rect x="32" y="762" width="2" height="2" fill="rgba(201,169,97,.35)"/><rect x="30" y="764" width="2" height="2" fill="rgba(201,169,97,.35)"/><rect x="30" y="758" width="2" height="2" fill="rgba(201,169,97,.35)"/></g>
+    <g opacity=".2"><rect x="1890" y="760" width="2" height="2" fill="rgba(145,70,255,.5)"/><rect x="1888" y="762" width="2" height="2" fill="rgba(145,70,255,.35)"/><rect x="1892" y="762" width="2" height="2" fill="rgba(145,70,255,.35)"/><rect x="1890" y="764" width="2" height="2" fill="rgba(145,70,255,.35)"/><rect x="1890" y="758" width="2" height="2" fill="rgba(145,70,255,.35)"/></g>
+    <!-- Hourglass -->
+    <g transform="translate(1000,960)" opacity=".3"><line x1="2" y1="0" x2="18" y2="0" stroke="rgba(201,169,97,.5)" stroke-width="1"/><line x1="2" y1="28" x2="18" y2="28" stroke="rgba(201,169,97,.5)" stroke-width="1"/><path d="M4,0 L10,14 L4,28" fill="none" stroke="rgba(201,169,97,.45)" stroke-width=".8"/><path d="M16,0 L10,14 L16,28" fill="none" stroke="rgba(201,169,97,.45)" stroke-width=".8"/><rect x="6" y="18" width="8" height="8" fill="rgba(201,169,97,.12)"/><circle cx="10" cy="14" r="1.5" fill="rgba(201,169,97,.25)"/></g>
+    <!-- Compass Rose -->
+    <g transform="translate(450,960)" opacity=".3"><circle cx="15" cy="15" r="12" fill="none" stroke="rgba(201,169,97,.5)" stroke-width=".8"/><circle cx="15" cy="15" r="9" fill="none" stroke="rgba(201,169,97,.25)" stroke-width=".5"/><polygon points="15,3 13,12 15,10 17,12" fill="rgba(200,35,45,.3)"/><polygon points="15,27 13,18 15,20 17,18" fill="rgba(201,169,97,.25)"/><polygon points="3,15 12,13 10,15 12,17" fill="rgba(201,169,97,.2)"/><polygon points="27,15 18,13 20,15 18,17" fill="rgba(201,169,97,.2)"/><circle cx="15" cy="15" r="2" fill="none" stroke="rgba(201,169,97,.4)" stroke-width=".6"/></g>
+    <!-- Achievement Badge -->
+    <g transform="translate(1300,950)" opacity=".35"><circle cx="12" cy="10" r="9" fill="none" stroke="rgba(201,169,97,.6)" stroke-width="1"/><polygon points="5,16 12,28 19,16" fill="none" stroke="rgba(200,35,45,.35)" stroke-width=".7"/><polygon points="8,16 12,26 16,16" fill="none" stroke="rgba(145,70,255,.25)" stroke-width=".5"/><polygon points="12,3 13.5,7 18,7 14.5,10 16,14 12,11.5 8,14 9.5,10 6,7 10.5,7" fill="rgba(201,169,97,.4)"/></g>
+    <!-- WASD Keys -->
+    <g transform="translate(1640,952)" opacity=".3"><rect x="11" y="0" width="11" height="11" rx="1.5" fill="none" stroke="rgba(145,70,255,.4)" stroke-width=".8"/><text x="16.5" y="8.5" text-anchor="middle" fill="rgba(145,70,255,.4)" font-size="7" font-family="Cinzel">W</text><rect x="0" y="13" width="11" height="11" rx="1.5" fill="none" stroke="rgba(145,70,255,.35)" stroke-width=".8"/><text x="5.5" y="21.5" text-anchor="middle" fill="rgba(145,70,255,.35)" font-size="7" font-family="Cinzel">A</text><rect x="11" y="13" width="11" height="11" rx="1.5" fill="none" stroke="rgba(145,70,255,.35)" stroke-width=".8"/><text x="16.5" y="21.5" text-anchor="middle" fill="rgba(145,70,255,.35)" font-size="7" font-family="Cinzel">S</text><rect x="22" y="13" width="11" height="11" rx="1.5" fill="none" stroke="rgba(145,70,255,.35)" stroke-width=".8"/><text x="27.5" y="21.5" text-anchor="middle" fill="rgba(145,70,255,.35)" font-size="7" font-family="Cinzel">D</text></g>
+    <!-- Game Map Marker — Left -->
+    <g transform="translate(35,780)" opacity=".3"><path d="M8,0 Q16,0 16,8 Q16,16 8,22 Q0,16 0,8 Q0,0 8,0 Z" fill="none" stroke="rgba(200,35,45,.5)" stroke-width="1"/><circle cx="8" cy="8" r="3" fill="rgba(200,35,45,.25)"/></g>
+    <!-- Game Map Marker — Right -->
+    <g transform="translate(1880,780)" opacity=".3"><path d="M8,0 Q16,0 16,8 Q16,16 8,22 Q0,16 0,8 Q0,0 8,0 Z" fill="none" stroke="rgba(145,70,255,.5)" stroke-width="1"/><circle cx="8" cy="8" r="3" fill="rgba(145,70,255,.25)"/></g>
+    <!-- Lightning Bolt Icons -->
+    <g transform="translate(300,50)" opacity=".3"><polygon points="8,0 0,14 6,14 2,24 14,9 8,9 12,0" fill="rgba(201,169,97,.35)" stroke="rgba(201,169,97,.5)" stroke-width=".7"/></g>
+    <g transform="translate(1600,50)" opacity=".3"><polygon points="8,0 0,14 6,14 2,24 14,9 8,9 12,0" fill="rgba(145,70,255,.3)" stroke="rgba(145,70,255,.45)" stroke-width=".7"/></g>
+    <!-- Mouse Cursor -->
+    <g transform="translate(1540,958)" opacity=".25"><path d="M0,0 L0,18 L5,14 L9,22 L12,20 L8,12 L14,10 Z" fill="none" stroke="rgba(201,169,97,.5)" stroke-width=".8"/><path d="M0,0 L0,18 L5,14 L9,22 L12,20 L8,12 L14,10 Z" fill="rgba(201,169,97,.15)"/></g>
+    <!-- Art Deco Brackets -->
+    <g transform="translate(880,35)" opacity=".35"><path d="M0,0 L8,0 L8,3 L3,3 L3,30 L8,30 L8,33 L0,33 Z" fill="none" stroke="rgba(201,169,97,.6)" stroke-width=".9"/><line x1="4" y1="6" x2="4" y2="27" stroke="rgba(201,169,97,.2)" stroke-width=".3"/></g>
+    <g transform="translate(1030,35)" opacity=".35"><path d="M8,0 L0,0 L0,3 L5,3 L5,30 L0,30 L0,33 L8,33 Z" fill="none" stroke="rgba(201,169,97,.6)" stroke-width=".9"/><line x1="4" y1="6" x2="4" y2="27" stroke="rgba(201,169,97,.2)" stroke-width=".3"/></g>
+    <!-- Art Deco Brackets bottom -->
+    <g transform="translate(880,1010)" opacity=".35"><path d="M0,0 L8,0 L8,3 L3,3 L3,30 L8,30 L8,33 L0,33 Z" fill="none" stroke="rgba(201,169,97,.6)" stroke-width=".9"/><line x1="4" y1="6" x2="4" y2="27" stroke="rgba(201,169,97,.2)" stroke-width=".3"/></g>
+    <g transform="translate(1030,1010)" opacity=".35"><path d="M8,0 L0,0 L0,3 L5,3 L5,30 L0,30 L0,33 L8,33 Z" fill="none" stroke="rgba(201,169,97,.6)" stroke-width=".9"/><line x1="4" y1="6" x2="4" y2="27" stroke="rgba(201,169,97,.2)" stroke-width=".3"/></g>
+    <!-- Chevron bottom border -->
+    <g transform="translate(200,1020)" opacity=".3"><line x1="0" y1="0" x2="1520" y2="0" stroke="rgba(201,169,97,.25)" stroke-width="1.5"/><line x1="0" y1="5" x2="1520" y2="5" stroke="rgba(201,169,97,.12)" stroke-width="1"/></g>
+    <!-- Separator dots -->
+    <g opacity=".45"><circle cx="400" cy="1030" r="1" fill="rgba(201,169,97,.5)"/><circle cx="600" cy="1030" r="1" fill="rgba(201,169,97,.5)"/><circle cx="960" cy="1030" r="1" fill="rgba(201,169,97,.5)"/><circle cx="1320" cy="1030" r="1" fill="rgba(201,169,97,.5)"/><circle cx="1520" cy="1030" r="1" fill="rgba(201,169,97,.5)"/></g>
+    <!-- Stars / Rating -->
+    <g transform="translate(850,1035)" opacity=".25"><polygon points="6,0 7.5,4 12,4 8.5,6.5 9.5,11 6,8.5 2.5,11 3.5,6.5 0,4 4.5,4" fill="rgba(201,169,97,.5)"/></g>
+    <g transform="translate(868,1035)" opacity=".2"><polygon points="6,0 7.5,4 12,4 8.5,6.5 9.5,11 6,8.5 2.5,11 3.5,6.5 0,4 4.5,4" fill="rgba(201,169,97,.5)"/></g>
+    <g transform="translate(886,1035)" opacity=".15"><polygon points="6,0 7.5,4 12,4 8.5,6.5 9.5,11 6,8.5 2.5,11 3.5,6.5 0,4 4.5,4" fill="rgba(201,169,97,.5)"/></g>
+    <!-- Info Bar Diamonds -->
+    <rect x="940" y="1025" width="8" height="8" fill="rgba(15,10,25,.9)" stroke="rgba(201,169,97,.35)" stroke-width="1" transform="rotate(45,944,1029)"/>
+    <rect x="740" y="1026" width="6" height="6" fill="rgba(20,10,35,.9)" stroke="rgba(145,70,255,.25)" stroke-width=".8" transform="rotate(45,743,1029)"/>
+    <rect x="1140" y="1026" width="6" height="6" fill="rgba(25,8,10,.9)" stroke="rgba(200,35,45,.22)" stroke-width=".8" transform="rotate(45,1143,1029)"/>
+    <!-- Chat Bubble -->
+    <g transform="translate(1800,550)" opacity=".35"><rect x="0" y="0" width="28" height="18" rx="4" fill="none" stroke="rgba(145,70,255,.5)" stroke-width="1"/><polygon points="6,18 10,24 14,18" fill="none" stroke="rgba(145,70,255,.4)" stroke-width=".8"/><line x1="5" y1="6" x2="23" y2="6" stroke="rgba(145,70,255,.22)" stroke-width=".5"/><line x1="5" y1="10" x2="19" y2="10" stroke="rgba(145,70,255,.18)" stroke-width=".5"/><line x1="5" y1="14" x2="15" y2="14" stroke="rgba(145,70,255,.14)" stroke-width=".5"/></g>
+    <g transform="translate(92,550)" opacity=".35"><rect x="0" y="0" width="28" height="18" rx="4" fill="none" stroke="rgba(145,70,255,.5)" stroke-width="1"/><polygon points="6,18 10,24 14,18" fill="none" stroke="rgba(145,70,255,.4)" stroke-width=".8"/><line x1="5" y1="6" x2="23" y2="6" stroke="rgba(145,70,255,.22)" stroke-width=".5"/><line x1="5" y1="10" x2="19" y2="10" stroke="rgba(145,70,255,.18)" stroke-width=".5"/></g>
+  </svg>
 
   <!-- ====== SCANNER (body overlay vertical sweep) ====== -->
   <div class="scanner" style="--scd:25s;--scdelay:0s"></div>
