@@ -6,7 +6,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{width:1920px;height:1080px;background:rgb(8,5,14);overflow:visible;font-family:'Cinzel',serif}
+body{width:1920px;height:1080px;background:transparent;overflow:visible;font-family:'Cinzel',serif}
 
 /* ============ BANNER BASE ============ */
 .banner{
@@ -206,38 +206,40 @@ body{width:1920px;height:1080px;background:rgb(8,5,14);overflow:visible;font-fam
 /* ============ CENTER LOGO (transparent) ============ */
 .logo-area{
   position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  width:320px;text-align:center;z-index:10;
+  width:750px;text-align:center;z-index:10;
 }
 .logo-img{
-  width:280px;height:120px;object-fit:contain;
+  width:680px;height:180px;object-fit:contain;
   filter:drop-shadow(0 2px 15px rgba(145,70,255,.35)) drop-shadow(0 0 6px rgba(200,35,45,.1));
   animation:logoGlow 5s ease-in-out infinite, logoFloat 4s ease-in-out infinite, logoPulse 8s ease-in-out infinite;
 }
 @keyframes logoGlow{
-  0%,100%{filter:drop-shadow(0 2px 12px rgba(145,70,255,.25)) drop-shadow(0 0 25px rgba(145,70,255,.08)) drop-shadow(0 0 4px rgba(200,35,45,.05))}
-  50%{filter:drop-shadow(0 2px 30px rgba(145,70,255,.5)) drop-shadow(0 0 60px rgba(145,70,255,.15)) drop-shadow(0 0 40px rgba(200,35,45,.08)) drop-shadow(0 0 80px rgba(145,70,255,.06))}
+  0%,100%{filter:drop-shadow(0 2px 18px rgba(145,70,255,.35)) drop-shadow(0 0 35px rgba(145,70,255,.12)) drop-shadow(0 0 6px rgba(200,35,45,.08)) drop-shadow(0 0 50px rgba(201,169,97,.04))}
+  50%{filter:drop-shadow(0 2px 40px rgba(145,70,255,.6)) drop-shadow(0 0 80px rgba(145,70,255,.2)) drop-shadow(0 0 50px rgba(200,35,45,.12)) drop-shadow(0 0 100px rgba(145,70,255,.08)) drop-shadow(0 0 30px rgba(201,169,97,.06))}
 }
-/* Subtle floating motion */
+/* Floating motion */
 @keyframes logoFloat{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-3px)}
+  0%,100%{transform:translateY(0) rotate(0deg)}
+  25%{transform:translateY(-2px) rotate(.2deg)}
+  50%{transform:translateY(-5px) rotate(0deg)}
+  75%{transform:translateY(-2px) rotate(-.2deg)}
 }
 /* Breathing scale pulse */
 @keyframes logoPulse{
   0%,100%{transform:scale(1) translateY(0)}
-  25%{transform:scale(1.01) translateY(-1px)}
-  50%{transform:scale(1) translateY(-3px)}
-  75%{transform:scale(1.015) translateY(-1px)}
+  25%{transform:scale(1.015) translateY(-2px)}
+  50%{transform:scale(1) translateY(-5px)}
+  75%{transform:scale(1.02) translateY(-2px)}
 }
 /* Shine sweep across logo */
 .logo-shine{
   position:absolute;top:0;left:-100%;width:100%;height:100%;
-  background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.06) 45%,rgba(255,255,255,.12) 50%,rgba(255,255,255,.06) 55%,transparent 60%);
-  animation:logoShineSweep 6s ease-in-out infinite;
+  background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.08) 42%,rgba(255,255,255,.18) 50%,rgba(255,255,255,.08) 58%,transparent 65%);
+  animation:logoShineSweep 4.5s ease-in-out infinite;
   pointer-events:none;z-index:1;
 }
 @keyframes logoShineSweep{
-  0%,70%{left:-100%;opacity:1}
+  0%,60%{left:-100%;opacity:1}
   100%{left:200%;opacity:0}
 }
 /* Energy ring expanding from logo */
@@ -256,12 +258,262 @@ body{width:1920px;height:1080px;background:rgb(8,5,14);overflow:visible;font-fam
 /* Glow aura behind logo */
 .logo-aura{
   position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  width:300px;height:140px;border-radius:50%;
-  background:radial-gradient(ellipse,rgba(145,70,255,.1),rgba(200,35,45,.03),rgba(145,70,255,.02),transparent);
-  animation:auraBreath 6s ease-in-out infinite alternate;
+  width:500px;height:200px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(145,70,255,.15),rgba(200,35,45,.05),rgba(201,169,97,.03),rgba(145,70,255,.02),transparent);
+  animation:auraBreath 5s ease-in-out infinite alternate;
   z-index:9;pointer-events:none;
 }
-@keyframes auraBreath{0%{opacity:.3;transform:translate(-50%,-50%) scale(.9)}100%{opacity:.8;transform:translate(-50%,-50%) scale(1.1)}}
+@keyframes auraBreath{0%{opacity:.4;transform:translate(-50%,-50%) scale(.85)}100%{opacity:.9;transform:translate(-50%,-50%) scale(1.15)}}
+
+/* Second shine sweep (golden, slower, opposite angle) */
+.logo-shine2{
+  position:absolute;top:0;left:-100%;width:100%;height:100%;
+  background:linear-gradient(75deg,transparent 38%,rgba(201,169,97,.04) 43%,rgba(201,169,97,.1) 50%,rgba(201,169,97,.04) 57%,transparent 62%);
+  animation:logoShineSweep2 9s ease-in-out infinite;
+  animation-delay:3s;
+  pointer-events:none;z-index:1;
+}
+@keyframes logoShineSweep2{
+  0%,60%{left:-100%;opacity:1}
+  100%{left:200%;opacity:0}
+}
+
+/* Chromatic glitch (rare, subtle RGB split) */
+.logo-glitch{
+  position:relative;display:inline-block;
+}
+.logo-glitch::before,.logo-glitch::after{
+  content:'';position:absolute;inset:0;
+  background:inherit;pointer-events:none;
+  opacity:0;mix-blend-mode:screen;
+}
+.logo-glitch::before{animation:glitchR 5s ease-in-out infinite}
+.logo-glitch::after{animation:glitchB 5s ease-in-out infinite}
+@keyframes glitchR{
+  0%,82%,88%,100%{transform:none;opacity:0}
+  83%{transform:translate(3px,-2px) skewX(1deg);opacity:.25;filter:hue-rotate(-40deg) saturate(2.5)}
+  85%{transform:translate(-2px,1px) skewX(-0.5deg);opacity:.15;filter:hue-rotate(-40deg) saturate(2)}
+  87%{transform:translate(1px,-1px);opacity:.2;filter:hue-rotate(-30deg) saturate(1.8)}
+}
+@keyframes glitchB{
+  0%,82%,88%,100%{transform:none;opacity:0}
+  83.5%{transform:translate(-3px,2px) skewX(-1deg);opacity:.2;filter:hue-rotate(40deg) saturate(2)}
+  85.5%{transform:translate(2px,-1px) skewX(0.5deg);opacity:.12;filter:hue-rotate(40deg) saturate(1.8)}
+  87.5%{transform:translate(-1px,1px);opacity:.15;filter:hue-rotate(30deg) saturate(1.5)}
+}
+
+/* Rotating light orbit behind logo */
+.logo-orbit{
+  position:absolute;top:50%;left:50%;
+  width:500px;height:120px;
+  transform:translate(-50%,-50%);
+  pointer-events:none;z-index:8;
+}
+.logo-orbit-dot{
+  position:absolute;width:6px;height:6px;border-radius:50%;
+  top:50%;left:50%;margin:-3px 0 0 -3px;
+  filter:blur(2px);
+}
+.logo-orbit-dot:nth-child(1){
+  background:rgba(145,70,255,.5);
+  animation:orbitSpin 6s linear infinite;
+}
+.logo-orbit-dot:nth-child(2){
+  background:rgba(201,169,97,.4);
+  animation:orbitSpin 6s linear infinite reverse;
+  animation-delay:-3s;
+}
+.logo-orbit-dot:nth-child(3){
+  background:rgba(200,35,45,.35);
+  animation:orbitSpin 8s linear infinite;
+  animation-delay:-2s;
+}
+@keyframes orbitSpin{
+  0%{transform:rotate(0deg) translateX(250px) rotate(0deg);opacity:.6}
+  25%{opacity:.9}
+  50%{opacity:.5}
+  75%{opacity:.8}
+  100%{transform:rotate(360deg) translateX(250px) rotate(-360deg);opacity:.6}
+}
+
+/* Logo embers (rising sparks) */
+.logo-ember{
+  position:absolute;width:3px;height:3px;border-radius:50%;
+  pointer-events:none;z-index:11;
+  opacity:0;
+  animation:logoEmberRise var(--ed,4s) ease-out infinite;
+  animation-delay:var(--edelay,0s);
+}
+@keyframes logoEmberRise{
+  0%{transform:translateY(0) translateX(0) scale(1);opacity:0}
+  10%{opacity:var(--eo,.5)}
+  40%{opacity:var(--eo,.5)}
+  100%{transform:translateY(-60px) translateX(var(--ex,5px)) scale(.2);opacity:0}
+}
+
+/* Third energy ring (red, slower) */
+.logo-ring-red{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:100px;height:40px;border-radius:50%;
+  border:1px solid rgba(200,35,45,.12);
+  opacity:0;pointer-events:none;
+  animation:logoRingExpandRed 7s ease-out infinite;
+}
+@keyframes logoRingExpandRed{
+  0%{width:100px;height:40px;opacity:.3;border-color:rgba(200,35,45,.18)}
+  100%{width:500px;height:200px;opacity:0;border-color:rgba(200,35,45,0)}
+}
+
+/* Gold edge highlight */
+.logo-edge-glow{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:700px;height:185px;
+  border-radius:6px;
+  box-shadow:inset 0 0 30px rgba(201,169,97,.04),0 0 20px rgba(201,169,97,.03);
+  pointer-events:none;z-index:11;
+  animation:edgeGlowPulse 4s ease-in-out infinite alternate;
+}
+@keyframes edgeGlowPulse{
+  0%{box-shadow:inset 0 0 20px rgba(201,169,97,.02),0 0 15px rgba(201,169,97,.02)}
+  100%{box-shadow:inset 0 0 40px rgba(201,169,97,.06),0 0 30px rgba(201,169,97,.05),0 0 60px rgba(145,70,255,.03)}
+}
+
+/* Rotating conic beam behind logo */
+@property --logo-beam{syntax:'<angle>';initial-value:0deg;inherits:false}
+.logo-conic-beam{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:700px;height:200px;border-radius:50%;
+  background:conic-gradient(from var(--logo-beam),
+    transparent 0%,rgba(145,70,255,.08) 8%,rgba(145,70,255,.2) 15%,transparent 22%,
+    transparent 35%,rgba(201,169,97,.06) 42%,rgba(201,169,97,.15) 48%,transparent 55%,
+    transparent 70%,rgba(200,35,45,.05) 76%,rgba(200,35,45,.12) 82%,transparent 88%,
+    transparent 100%);
+  animation:logoBeamSpin 10s linear infinite;
+  pointer-events:none;z-index:8;filter:blur(6px);
+}
+@keyframes logoBeamSpin{to{--logo-beam:360deg}}
+
+/* Pulsing halo ring */
+.logo-halo{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:600px;height:160px;border-radius:50%;
+  border:2px solid transparent;
+  background:linear-gradient(90deg,transparent,rgba(145,70,255,.08),rgba(201,169,97,.06),rgba(145,70,255,.08),transparent) border-box;
+  -webkit-mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);
+  mask-composite:exclude;
+  pointer-events:none;z-index:9;
+  animation:haloPulse 3s ease-in-out infinite alternate;
+}
+@keyframes haloPulse{
+  0%{opacity:.2;transform:translate(-50%,-50%) scale(.95)}
+  100%{opacity:.6;transform:translate(-50%,-50%) scale(1.05)}
+}
+
+/* Energy wave (horizontal sweep across logo) */
+.logo-wave{
+  position:absolute;top:50%;left:-100%;transform:translateY(-50%);
+  width:80px;height:180px;
+  background:linear-gradient(90deg,transparent,rgba(145,70,255,.12),rgba(255,255,255,.06),rgba(145,70,255,.12),transparent);
+  pointer-events:none;z-index:12;filter:blur(3px);
+  animation:logoWaveSweep 5s ease-in-out infinite;
+}
+.logo-wave:nth-child(2){
+  animation-delay:2.5s;
+  height:160px;
+  background:linear-gradient(90deg,transparent,rgba(201,169,97,.08),rgba(255,255,255,.04),rgba(201,169,97,.08),transparent);
+}
+@keyframes logoWaveSweep{
+  0%,65%{left:-15%;opacity:0}
+  10%{opacity:1}
+  55%{opacity:1}
+  100%{left:115%;opacity:0}
+}
+
+/* Trailing comet sparks orbiting */
+.logo-comet{
+  position:absolute;top:50%;left:50%;margin:-2px 0 0 -2px;
+  width:4px;height:4px;border-radius:50%;
+  pointer-events:none;z-index:11;filter:blur(1px);
+}
+.logo-comet::after{
+  content:'';position:absolute;top:0;left:0;
+  width:20px;height:2px;border-radius:2px;
+  transform-origin:left center;
+  animation:cometTailFlicker 1s ease-in-out infinite alternate;
+}
+@keyframes cometTailFlicker{0%{opacity:.5}100%{opacity:.8}}
+.logo-comet:nth-child(1){
+  background:rgba(145,70,255,.7);
+  animation:cometOrbit1 4s linear infinite;
+}
+.logo-comet:nth-child(1)::after{
+  background:linear-gradient(90deg,rgba(145,70,255,.6),transparent);
+}
+.logo-comet:nth-child(2){
+  background:rgba(201,169,97,.6);
+  animation:cometOrbit2 5.5s linear infinite;
+}
+.logo-comet:nth-child(2)::after{
+  background:linear-gradient(90deg,rgba(201,169,97,.5),transparent);
+}
+.logo-comet:nth-child(3){
+  background:rgba(200,35,45,.5);
+  animation:cometOrbit3 7s linear infinite;
+}
+.logo-comet:nth-child(3)::after{
+  background:linear-gradient(90deg,rgba(200,35,45,.4),transparent);
+}
+@keyframes cometOrbit1{
+  0%{transform:rotate(0deg) translateX(300px) rotate(0deg)}
+  100%{transform:rotate(360deg) translateX(300px) rotate(-360deg)}
+}
+@keyframes cometOrbit2{
+  0%{transform:rotate(120deg) translateX(280px) rotate(-120deg)}
+  100%{transform:rotate(480deg) translateX(280px) rotate(-480deg)}
+}
+@keyframes cometOrbit3{
+  0%{transform:rotate(240deg) translateX(320px) rotate(-240deg)}
+  100%{transform:rotate(600deg) translateX(320px) rotate(-600deg)}
+}
+
+/* Flickering spotlight behind logo */
+.logo-spotlight{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:500px;height:300px;
+  background:radial-gradient(ellipse 200px 100px at 50% 50%,rgba(145,70,255,.12),transparent 60%),
+    radial-gradient(ellipse 150px 80px at 35% 45%,rgba(201,169,97,.06),transparent 50%),
+    radial-gradient(ellipse 150px 80px at 65% 55%,rgba(200,35,45,.05),transparent 50%);
+  pointer-events:none;z-index:7;
+  animation:spotlightFlicker 6s ease-in-out infinite;
+}
+@keyframes spotlightFlicker{
+  0%,100%{opacity:.4}
+  15%{opacity:.7}
+  30%{opacity:.3}
+  45%{opacity:.8}
+  60%{opacity:.5}
+  75%{opacity:.9}
+  90%{opacity:.35}
+}
+
+/* Electric arc flash (periodic bright flash) */
+.logo-arc-flash{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:750px;height:200px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(255,255,255,.08),rgba(145,70,255,.04),transparent 60%);
+  pointer-events:none;z-index:12;
+  opacity:0;
+  animation:arcFlash 12s ease-in-out infinite;
+}
+@keyframes arcFlash{
+  0%,88%,92%,100%{opacity:0}
+  89%{opacity:1}
+  89.5%{opacity:0}
+  90%{opacity:.8}
+  90.5%{opacity:0}
+  91%{opacity:.5}
+}
 
 /* ============ LIGHTNING BOLTS AROUND LOGO ============ */
 .lightning-container{
@@ -581,7 +833,7 @@ body{width:1920px;height:1080px;background:rgb(8,5,14);overflow:visible;font-fam
    Banner bleibt 160px hoch, aber nur 1080px breit.
    ============================================================ */
 .portrait body{width:1080px;height:1920px;overflow:hidden}
-.portrait .banner{width:1080px;overflow:hidden}
+.portrait .banner{width:1080px;overflow:visible}
 
 /* Logo zentriert halten (nutzt bereits left:50%;transform:translate(-50%,-50%)) */
 .portrait .logo-area{left:50% !important;transform:translate(-50%,-50%) !important}
@@ -1958,12 +2210,55 @@ body{width:1920px;height:1080px;background:rgb(8,5,14);overflow:visible;font-fam
         <svg width="42" height="48" viewBox="0 0 42 48"><path d="M20,0 L26,14 L19,12 L28,30 L22,28 L32,48" fill="none" stroke="rgba(180,140,255,.65)" stroke-width="1.1" stroke-linecap="round"/><path d="M20,0 L26,14 L19,12 L28,30 L22,28 L32,48" fill="none" stroke="rgba(255,255,255,.3)" stroke-width=".6" stroke-linecap="round"/></svg>
       </div>
     </div>
-    <div style="position:relative;display:inline-block">
+    <div class="logo-glitch" style="position:relative;display:inline-block">
       <img class="logo-img" src="beardflix_logo_nobg.png" alt="BEARDFLIX">
       <div class="logo-shine"></div>
+      <div class="logo-shine2"></div>
     </div>
+    <div class="logo-edge-glow"></div>
+    <!-- Rotating conic beam -->
+    <div class="logo-conic-beam"></div>
+    <!-- Flickering spotlight -->
+    <div class="logo-spotlight"></div>
+    <!-- Pulsing halo -->
+    <div class="logo-halo"></div>
+    <!-- Energy rings -->
     <div class="logo-ring"></div>
     <div class="logo-ring"></div>
+    <div class="logo-ring-red"></div>
+    <!-- Electric arc flash -->
+    <div class="logo-arc-flash"></div>
+    <!-- Energy waves sweeping across -->
+    <div class="logo-wave"></div>
+    <div class="logo-wave"></div>
+    <!-- Comet sparks orbiting -->
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:200px;pointer-events:none;z-index:11">
+      <div class="logo-comet"></div>
+      <div class="logo-comet"></div>
+      <div class="logo-comet"></div>
+    </div>
+    <!-- Orbiting light dots -->
+    <div class="logo-orbit">
+      <div class="logo-orbit-dot"></div>
+      <div class="logo-orbit-dot"></div>
+      <div class="logo-orbit-dot"></div>
+    </div>
+    <!-- Rising embers -->
+    <div class="logo-ember" style="left:42%;bottom:10px;background:rgba(201,169,97,.6);--ed:3.5s;--eo:.45;--ex:-4px"></div>
+    <div class="logo-ember" style="left:48%;bottom:8px;background:rgba(145,70,255,.5);--ed:4s;--eo:.4;--ex:6px;--edelay:.8s"></div>
+    <div class="logo-ember" style="left:55%;bottom:12px;background:rgba(201,169,97,.5);--ed:3.8s;--eo:.35;--ex:-3px;--edelay:1.6s"></div>
+    <div class="logo-ember" style="left:38%;bottom:6px;background:rgba(200,35,45,.4);--ed:4.5s;--eo:.3;--ex:5px;--edelay:2.4s"></div>
+    <div class="logo-ember" style="left:60%;bottom:10px;background:rgba(145,70,255,.45);--ed:3.2s;--eo:.4;--ex:-7px;--edelay:3.2s"></div>
+    <div class="logo-ember" style="left:45%;bottom:14px;background:rgba(201,169,97,.55);--ed:5s;--eo:.35;--ex:3px;--edelay:1.2s"></div>
+    <div class="logo-ember" style="left:52%;bottom:5px;background:rgba(200,35,45,.35);--ed:4.2s;--eo:.3;--ex:-5px;--edelay:2s"></div>
+    <div class="logo-ember" style="left:35%;bottom:8px;background:rgba(145,70,255,.4);--ed:3.6s;--eo:.38;--ex:8px;--edelay:3.8s"></div>
+    <!-- Extra embers (more movement) -->
+    <div class="logo-ember" style="left:30%;bottom:3px;background:rgba(201,169,97,.5);--ed:3s;--eo:.4;--ex:10px;--edelay:.5s"></div>
+    <div class="logo-ember" style="left:65%;bottom:7px;background:rgba(145,70,255,.55);--ed:3.4s;--eo:.42;--ex:-8px;--edelay:1s"></div>
+    <div class="logo-ember" style="left:50%;bottom:0px;background:rgba(200,35,45,.45);--ed:4.8s;--eo:.35;--ex:4px;--edelay:2.8s"></div>
+    <div class="logo-ember" style="left:40%;bottom:16px;background:rgba(255,255,255,.3);--ed:5.5s;--eo:.25;--ex:-2px;--edelay:4.2s"></div>
+    <div class="logo-ember" style="left:58%;bottom:2px;background:rgba(201,169,97,.45);--ed:2.8s;--eo:.4;--ex:6px;--edelay:3.5s"></div>
+    <div class="logo-ember" style="left:33%;bottom:11px;background:rgba(145,70,255,.5);--ed:3.9s;--eo:.38;--ex:-9px;--edelay:.3s"></div>
   </div>
 
 </div>
