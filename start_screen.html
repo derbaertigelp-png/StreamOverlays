@@ -297,6 +297,56 @@ body{overflow:hidden;background:transparent}
   z-index:0;object-fit:cover;
   background:#000;
 }
+
+/* ---- Card Transition Overlay ---- */
+.card-trans{
+  position:absolute;top:0;left:0;width:100%;height:100%;z-index:5;
+  pointer-events:none;border-radius:5px;
+  background:radial-gradient(ellipse at 50% 50%,rgba(12,6,25,.97),rgba(6,2,15,1));
+  opacity:1;transition:opacity .6s ease-in-out;
+}
+.card-trans.hide{opacity:0}
+.card-trans .ct-line{
+  position:absolute;top:50%;left:0;right:0;height:1px;transform:translateY(-50%) scaleX(0);
+  background:linear-gradient(90deg,transparent,rgba(201,169,97,.5) 20%,rgba(145,70,255,.6) 50%,rgba(201,169,97,.5) 80%,transparent);
+}
+.card-trans.playing .ct-line{
+  animation:ctLine 1s .2s ease-in-out forwards;
+}
+@keyframes ctLine{
+  0%{transform:translateY(-50%) scaleX(0);opacity:0}
+  40%{transform:translateY(-50%) scaleX(1);opacity:1}
+  100%{transform:translateY(-50%) scaleX(1.1);opacity:0}
+}
+.card-trans .ct-name{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-family:'Cinzel',serif;font-weight:700;font-size:11px;
+  letter-spacing:4px;text-transform:uppercase;white-space:nowrap;
+  color:rgba(201,169,97,.8);opacity:0;
+  text-shadow:0 0 12px rgba(145,70,255,.3);
+}
+.card-trans.playing .ct-name{
+  animation:ctName 1.2s .1s ease-in-out forwards;
+}
+@keyframes ctName{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.85)}
+  25%{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  75%{opacity:1}
+  100%{opacity:0;transform:translate(-50%,-50%) scale(1.05)}
+}
+.card-trans .ct-sweep{
+  position:absolute;top:0;left:-100%;width:60%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(145,70,255,.08) 30%,rgba(201,169,97,.1) 50%,rgba(145,70,255,.08) 70%,transparent);
+  filter:blur(8px);
+}
+.card-trans.playing .ct-sweep{
+  animation:ctSweep 1s .3s ease-in-out forwards;
+}
+@keyframes ctSweep{
+  0%{left:-60%;opacity:0}
+  30%{opacity:1}
+  100%{left:160%;opacity:0}
+}
 .reco-card::after{
   content:'';position:absolute;inset:0;pointer-events:none;
   border:1px solid rgba(145,70,255,.08);border-radius:5px;
@@ -1326,7 +1376,8 @@ body.portrait .p-lightning{display:block}
       <div class="reco-wrap">
         <div class="reco-label label-nisdede">Nisdede_</div>
         <div class="reco-card">
-          <video class="clip-video" data-channel="Nisdede_" muted autoplay playsinline loop></video>
+          <video class="clip-video" data-channel="Nisdede_" data-name="Nisdede" muted playsinline></video>
+          <div class="card-trans" data-for="Nisdede_"><div class="ct-sweep"></div><div class="ct-line"></div><div class="ct-name">Nisdede</div></div>
           <div class="card-dot tl"></div><div class="card-dot tr"></div>
           <div class="card-dot bl"></div><div class="card-dot br"></div>
           <div class="card-shine" style="--csd:7s;--csdelay:0s"></div>
@@ -1335,7 +1386,8 @@ body.portrait .p-lightning{display:block}
       <div class="reco-wrap">
         <div class="reco-label label-mona">Monamitsuki</div>
         <div class="reco-card">
-          <video class="clip-video" data-channel="Monamitsuki" muted autoplay playsinline loop></video>
+          <video class="clip-video" data-channel="Monamitsuki" data-name="Monamitsuki" muted playsinline></video>
+          <div class="card-trans" data-for="Monamitsuki"><div class="ct-sweep"></div><div class="ct-line"></div><div class="ct-name">Monamitsuki</div></div>
           <div class="card-dot tl"></div><div class="card-dot tr"></div>
           <div class="card-dot bl"></div><div class="card-dot br"></div>
           <div class="card-shine" style="--csd:9s;--csdelay:1.5s"></div>
@@ -1344,7 +1396,8 @@ body.portrait .p-lightning{display:block}
       <div class="reco-wrap">
         <div class="reco-label label-paddy">Paddyeve</div>
         <div class="reco-card">
-          <video class="clip-video" data-channel="Paddyeve" muted autoplay playsinline loop></video>
+          <video class="clip-video" data-channel="Paddyeve" data-name="Paddyeve" muted playsinline></video>
+          <div class="card-trans" data-for="Paddyeve"><div class="ct-sweep"></div><div class="ct-line"></div><div class="ct-name">Paddyeve</div></div>
           <div class="card-dot tl"></div><div class="card-dot tr"></div>
           <div class="card-dot bl"></div><div class="card-dot br"></div>
           <div class="card-shine" style="--csd:8s;--csdelay:3s"></div>
@@ -1353,7 +1406,8 @@ body.portrait .p-lightning{display:block}
       <div class="reco-wrap">
         <div class="reco-label label-berry">Berry_Ninja</div>
         <div class="reco-card">
-          <video class="clip-video" data-channel="Berry_Ninja" muted autoplay playsinline loop></video>
+          <video class="clip-video" data-channel="Berry_Ninja" data-name="Berry Ninja" muted playsinline></video>
+          <div class="card-trans" data-for="Berry_Ninja"><div class="ct-sweep"></div><div class="ct-line"></div><div class="ct-name">Berry Ninja</div></div>
           <div class="card-dot tl"></div><div class="card-dot tr"></div>
           <div class="card-dot bl"></div><div class="card-dot br"></div>
           <div class="card-shine" style="--csd:10s;--csdelay:2s"></div>
@@ -1362,7 +1416,8 @@ body.portrait .p-lightning{display:block}
       <div class="reco-wrap">
         <div class="reco-label label-olib">ItsMeOlib</div>
         <div class="reco-card">
-          <video class="clip-video" data-channel="Itsmeolib" muted autoplay playsinline loop></video>
+          <video class="clip-video" data-channel="Itsmeolib" data-name="ItsMeOlib" muted playsinline></video>
+          <div class="card-trans" data-for="Itsmeolib"><div class="ct-sweep"></div><div class="ct-line"></div><div class="ct-name">ItsMeOlib</div></div>
           <div class="card-dot tl"></div><div class="card-dot tr"></div>
           <div class="card-dot bl"></div><div class="card-dot br"></div>
           <div class="card-shine" style="--csd:8.5s;--csdelay:4s"></div>
@@ -1926,43 +1981,77 @@ body.portrait .p-lightning{display:block}
   }
 })();
 
-/* ====== Load recommendation card clips (staggered, native video) ====== */
+/* ====== Load recommendation card clips (with transition per card) ====== */
 (function(){
   var API_SERVERS=[
     'https://twitchapi.teklynk.com',
     'https://twitchapi.teklynk.dev',
     'https://twitchapi2.teklynk.dev'
   ];
-  var INITIAL_DELAY=8000;
+  var INITIAL_DELAY=6000;
   var STAGGER=2000;
+  var TRANS_DUR=1400;
 
   function api(){return API_SERVERS[Math.floor(Math.random()*API_SERVERS.length)]}
 
-  var cards=document.querySelectorAll('.clip-video[data-channel]');
-  cards.forEach(function(vid,i){
+  function initCard(vid,delay){
+    var ch=vid.getAttribute('data-channel');
+    var trans=vid.parentElement.querySelector('.card-trans');
+    var clipData=[];
+    var cIdx=0;
+
+    function playTrans(){
+      trans.classList.remove('playing','hide');
+      void trans.offsetWidth;
+      trans.classList.add('playing');
+      trans.style.opacity='1';
+    }
+
+    function hideTrans(){
+      trans.classList.add('hide');
+    }
+
+    function loadAndPlay(){
+      if(clipData.length===0)return;
+      var clip=clipData[cIdx % clipData.length];
+      cIdx++;
+      playTrans();
+      vid.src=clip.clip_url;
+      vid.poster=clip.thumbnail_url||'';
+      vid.muted=true;
+      vid.load();
+      setTimeout(function(){
+        var p=vid.play();
+        if(p&&p.catch)p.catch(function(){});
+        hideTrans();
+      },TRANS_DUR);
+    }
+
+    vid.addEventListener('ended',function(){
+      loadAndPlay();
+    });
+
+    vid.addEventListener('error',function(){
+      cIdx++;
+      setTimeout(loadAndPlay,500);
+    });
+
     setTimeout(function(){
-      var ch=vid.getAttribute('data-channel');
       fetch(api()+'/getuserclips.php?channel='+ch+'&limit=5&shuffle=true')
         .then(function(r){return r.json()})
         .then(function(json){
           if(json.data&&json.data.length>0){
-            var clip=json.data[0];
-            vid.src=clip.clip_url;
-            vid.poster=clip.thumbnail_url||'';
-            vid.muted=true;
-            vid.load();
-            var p=vid.play();
-            if(p&&p.catch)p.catch(function(){});
-            vid.addEventListener('ended',function(){
-              var next=json.data[Math.floor(Math.random()*json.data.length)];
-              vid.src=next.clip_url;
-              vid.load();
-              vid.play().catch(function(){});
-            });
+            clipData=json.data;
+            loadAndPlay();
           }
         })
-        .catch(function(e){console.warn('[RecoClip] '+ch+' Fehler:',e)});
-    },INITIAL_DELAY+i*STAGGER);
+        .catch(function(e){console.warn('[RecoClip] '+ch+':',e)});
+    },delay);
+  }
+
+  var cards=document.querySelectorAll('.clip-video[data-channel]');
+  cards.forEach(function(vid,i){
+    initCard(vid,INITIAL_DELAY+i*STAGGER);
   });
 })();
 
@@ -1991,6 +2080,7 @@ window.addEventListener('load',function(){
   var poster=document.getElementById('heroPoster');
   var video=document.getElementById('heroClipVideo');
   var transition=document.getElementById('heroTransition');
+  var htText=transition.querySelector('.ht-text');
   if(!poster||!video||!transition)return;
 
   var API_SERVERS=[
@@ -2002,101 +2092,89 @@ window.addEventListener('load',function(){
   var LIMIT=10;
   var POSTER_TIME=14000;
   var CLIP_SHOW_TIME=30000;
-  var TRANS_IN=800;
-  var TRANS_HOLD=1600;
+  var TRANS_TOTAL=2400;
 
   var clips=[];
   var clipIdx=0;
   var clipsReady=false;
 
-  /* Zufaelligen API-Server waehlen */
   function apiServer(){
     return API_SERVERS[Math.floor(Math.random()*API_SERVERS.length)];
   }
 
-  /* Clips von API holen */
   function fetchClips(){
-    var url=apiServer()+'/getuserclips.php?channel='+CHANNEL+'&limit='+LIMIT+'&shuffle=true';
-    fetch(url)
+    fetch(apiServer()+'/getuserclips.php?channel='+CHANNEL+'&limit='+LIMIT+'&shuffle=true')
       .then(function(r){return r.json()})
       .then(function(json){
         if(json.data&&json.data.length>0){
           clips=json.data;
           clipsReady=true;
-          console.log('[BeardflixClips] '+clips.length+' Clips geladen');
+          console.log('[HeroClips] '+clips.length+' Clips geladen');
+          preloadNext();
         }else{
-          console.warn('[BeardflixClips] Keine Clips gefunden, versuche erneut...');
           setTimeout(fetchClips,5000);
         }
       })
-      .catch(function(err){
-        console.error('[BeardflixClips] API Fehler:',err);
-        setTimeout(fetchClips,5000);
-      });
+      .catch(function(){setTimeout(fetchClips,5000)});
   }
 
-  /* Naechsten Clip abspielen */
-  function playNextClip(){
+  function preloadNext(){
     if(!clipsReady||clips.length===0)return;
     var clip=clips[clipIdx % clips.length];
-    clipIdx++;
     video.src=clip.clip_url;
     video.poster=clip.thumbnail_url||'';
     video.muted=true;
     video.load();
-    var p=video.play();
-    if(p&&p.catch)p.catch(function(e){console.warn('[BeardflixClips] Play blocked:',e)});
-    console.log('[BeardflixClips] Spiele: '+clip.broadcaster_name+' — '+clip.title);
+    console.log('[HeroClips] Vorgeladen: '+clip.broadcaster_name+' — '+clip.title);
   }
 
-  /* Wenn ein Clip fertig ist: naechsten starten */
-  video.addEventListener('ended',function(){
-    playNextClip();
-  });
-
-  /* Fallback: wenn Video aus irgendeinem Grund stockt */
-  video.addEventListener('error',function(){
-    console.warn('[BeardflixClips] Video-Fehler, lade naechsten Clip');
-    setTimeout(playNextClip,500);
-  });
-
-  /* Transition-Helfer */
-  function playTransition(){
+  function playTransition(text){
+    if(htText)htText.textContent=text||'Beardflix';
     transition.classList.remove('active');
     void transition.offsetWidth;
     transition.classList.add('active');
   }
+
   function hideTransition(){
     transition.classList.remove('active');
   }
 
-  /* Poster ausblenden → Clips zeigen */
+  /* Poster → Transition → Clip sichtbar (erst NACH Transition) */
   function revealClips(){
-    if(!clipsReady){
-      setTimeout(revealClips,1000);
-      return;
-    }
-    playTransition();
+    if(!clipsReady){setTimeout(revealClips,1000);return}
+    playTransition('Beardflix');
     setTimeout(function(){
-      playNextClip();
       poster.classList.add('hidden');
-    },TRANS_IN);
-    setTimeout(hideTransition,TRANS_IN+TRANS_HOLD);
-    setTimeout(coverWithPoster,TRANS_IN+TRANS_HOLD+CLIP_SHOW_TIME);
+      var p=video.play();
+      if(p&&p.catch)p.catch(function(){});
+      hideTransition();
+      clipIdx++;
+    },TRANS_TOTAL);
+    setTimeout(coverWithPoster,TRANS_TOTAL+CLIP_SHOW_TIME);
   }
 
-  /* Poster einblenden → Clips verdecken */
+  /* Clip → Transition → Poster */
   function coverWithPoster(){
-    playTransition();
+    playTransition('Beardflix');
     setTimeout(function(){
       poster.classList.remove('hidden');
       video.pause();
-    },TRANS_IN);
-    setTimeout(hideTransition,TRANS_IN+TRANS_HOLD);
-    setTimeout(revealClips,TRANS_IN+TRANS_HOLD+POSTER_TIME);
+      hideTransition();
+      preloadNext();
+    },TRANS_TOTAL);
+    setTimeout(revealClips,TRANS_TOTAL+POSTER_TIME);
   }
 
-  /* Start: Clips vorladen, nach POSTER_TIME erster Wechsel */
+  video.addEventListener('ended',function(){
+    clipIdx++;
+    preloadNext();
+  });
+
+  video.addEventListener('error',function(){
+    clipIdx++;
+    preloadNext();
+  });
+
   fetchClips();
   setTimeout(revealClips,POSTER_TIME);
 })();
@@ -2127,7 +2205,7 @@ window.addEventListener('load',function(){
   ];
 
   var FADE_MS=3000;
-  var VOLUME=0.35;
+  var VOLUME=0.5;
   var FADE_STEP=50;
 
   var playlist=[];
