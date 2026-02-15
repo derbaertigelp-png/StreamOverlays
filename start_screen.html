@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <title>BEARDFLIX — Start Screen</title>
+<link rel="preconnect" href="https://twitch-clips-player.pages.dev" crossorigin>
+<link rel="dns-prefetch" href="https://twitch-clips-player.pages.dev">
+<link rel="preconnect" href="https://clips.twitch.tv" crossorigin>
+<link rel="dns-prefetch" href="https://clips.twitch.tv">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -1198,7 +1202,7 @@ body.portrait .p-lightning{display:block}
         <div class="poster-spark" style="left:70%;top:90%;width:3px;height:3px;background:rgba(201,169,97,.55);--skd:4s;--skdelay:6s;--sko:.5;--sky:-130px;--skx:-8px"></div>
       </div>
       <!-- ---- Clips iframe ---- -->
-      <iframe class="hero-media-clips" id="heroClips" src="https://twitch-clips-player.pages.dev/clips?channel=beardflix&exclude=&limit=100&dateRange=0&themeOption=2&preferFeatured=false&showText=false&showDetails=false&detailsText=&mainAccount=beardflix&command=&customText=&showFollowing=false&ref=&clientId=&muted=true&mute=true&volume=0" allow="autoplay" muted></iframe>
+      <iframe class="hero-media-clips" id="heroClips" src="https://twitch-clips-player.pages.dev/clips?channel=beardflix&exclude=&limit=25&dateRange=0&themeOption=2&preferFeatured=false&showText=false&showDetails=false&detailsText=&mainAccount=beardflix&command=&customText=&showFollowing=false&ref=&clientId=&muted=true&mute=true&volume=0" allow="autoplay" muted fetchpriority="high"></iframe>
     </div>
     <div class="hero-side hero-side-l"></div>
     <div class="hero-side hero-side-r"></div>
@@ -1262,7 +1266,7 @@ body.portrait .p-lightning{display:block}
       <div class="reco-wrap">
         <div class="reco-label label-nisdede">Nisdede_</div>
         <div class="reco-card">
-          <iframe class="clip-frame" src="https://twitch-clips-player.pages.dev/clips?channel=Nisdede_&exclude=&limit=100&dateRange=0&themeOption=2&preferFeatured=false&showText=false&showDetails=false&detailsText=&mainAccount=Nisdede_&command=&customText=&showFollowing=false&ref=&clientId=&muted=true&mute=true&volume=0" allow="autoplay" muted></iframe>
+          <iframe class="clip-frame" data-src="https://twitch-clips-player.pages.dev/clips?channel=Nisdede_&exclude=&limit=25&dateRange=0&themeOption=2&preferFeatured=false&showText=false&showDetails=false&detailsText=&mainAccount=Nisdede_&command=&customText=&showFollowing=false&ref=&clientId=&muted=true&mute=true&volume=0" allow="autoplay" muted></iframe>
           <div class="card-dot tl"></div><div class="card-dot tr"></div>
           <div class="card-dot bl"></div><div class="card-dot br"></div>
           <div class="card-shine" style="--csd:7s;--csdelay:0s"></div>
@@ -1271,7 +1275,7 @@ body.portrait .p-lightning{display:block}
       <div class="reco-wrap">
         <div class="reco-label label-mona">Monamitsuki</div>
         <div class="reco-card">
-          <iframe class="clip-frame" src="https://twitch-clips-player.pages.dev/clips?channel=Monamitsuki&exclude=&limit=100&dateRange=0&themeOption=2&preferFeatured=false&showText=false&showDetails=false&detailsText=&mainAccount=Monamitsuki&command=&customText=&showFollowing=false&ref=&clientId=&muted=true&mute=true&volume=0" allow="autoplay" muted></iframe>
+          <iframe class="clip-frame" data-src="https://twitch-clips-player.pages.dev/clips?channel=Monamitsuki&exclude=&limit=25&dateRange=0&themeOption=2&preferFeatured=false&showText=false&showDetails=false&detailsText=&mainAccount=Monamitsuki&command=&customText=&showFollowing=false&ref=&clientId=&muted=true&mute=true&volume=0" allow="autoplay" muted></iframe>
           <div class="card-dot tl"></div><div class="card-dot tr"></div>
           <div class="card-dot bl"></div><div class="card-dot br"></div>
           <div class="card-shine" style="--csd:9s;--csdelay:1.5s"></div>
@@ -1280,7 +1284,7 @@ body.portrait .p-lightning{display:block}
       <div class="reco-wrap">
         <div class="reco-label label-paddy">Paddyeve</div>
         <div class="reco-card">
-          <iframe class="clip-frame" src="https://twitch-clips-player.pages.dev/clips?channel=Paddyeve&exclude=&limit=100&dateRange=0&themeOption=2&preferFeatured=false&showText=false&showDetails=false&detailsText=&mainAccount=Paddyeve&command=&customText=&showFollowing=false&ref=&clientId=&muted=true&mute=true&volume=0" allow="autoplay" muted></iframe>
+          <iframe class="clip-frame" data-src="https://twitch-clips-player.pages.dev/clips?channel=Paddyeve&exclude=&limit=25&dateRange=0&themeOption=2&preferFeatured=false&showText=false&showDetails=false&detailsText=&mainAccount=Paddyeve&command=&customText=&showFollowing=false&ref=&clientId=&muted=true&mute=true&volume=0" allow="autoplay" muted></iframe>
           <div class="card-dot tl"></div><div class="card-dot tr"></div>
           <div class="card-dot bl"></div><div class="card-dot br"></div>
           <div class="card-shine" style="--csd:8s;--csdelay:3s"></div>
@@ -1289,7 +1293,7 @@ body.portrait .p-lightning{display:block}
       <div class="reco-wrap">
         <div class="reco-label label-berry">Berry_Ninja</div>
         <div class="reco-card">
-          <iframe class="clip-frame" src="https://twitch-clips-player.pages.dev/clips?channel=Berry_Ninja&exclude=&limit=100&dateRange=0&themeOption=2&preferFeatured=false&showText=false&showDetails=false&detailsText=&mainAccount=Berry_Ninja&command=&customText=&showFollowing=false&ref=&clientId=&muted=true&mute=true&volume=0" allow="autoplay" muted></iframe>
+          <iframe class="clip-frame" data-src="https://twitch-clips-player.pages.dev/clips?channel=Berry_Ninja&exclude=&limit=25&dateRange=0&themeOption=2&preferFeatured=false&showText=false&showDetails=false&detailsText=&mainAccount=Berry_Ninja&command=&customText=&showFollowing=false&ref=&clientId=&muted=true&mute=true&volume=0" allow="autoplay" muted></iframe>
           <div class="card-dot tl"></div><div class="card-dot tr"></div>
           <div class="card-dot bl"></div><div class="card-dot br"></div>
           <div class="card-shine" style="--csd:10s;--csdelay:2s"></div>
@@ -1298,7 +1302,7 @@ body.portrait .p-lightning{display:block}
       <div class="reco-wrap">
         <div class="reco-label label-olib">ItsMeOlib</div>
         <div class="reco-card">
-          <iframe class="clip-frame" src="https://twitch-clips-player.pages.dev/clips?channel=Itsmeolib&exclude=&limit=100&dateRange=0&themeOption=2&preferFeatured=false&showText=false&showDetails=false&detailsText=&mainAccount=Itsmeolib&command=&customText=&showFollowing=false&ref=&clientId=&muted=true&mute=true&volume=0" allow="autoplay" muted></iframe>
+          <iframe class="clip-frame" data-src="https://twitch-clips-player.pages.dev/clips?channel=Itsmeolib&exclude=&limit=25&dateRange=0&themeOption=2&preferFeatured=false&showText=false&showDetails=false&detailsText=&mainAccount=Itsmeolib&command=&customText=&showFollowing=false&ref=&clientId=&muted=true&mute=true&volume=0" allow="autoplay" muted></iframe>
           <div class="card-dot tl"></div><div class="card-dot tr"></div>
           <div class="card-dot bl"></div><div class="card-dot br"></div>
           <div class="card-shine" style="--csd:8.5s;--csdelay:4s"></div>
@@ -1860,6 +1864,19 @@ body.portrait .p-lightning{display:block}
   if(params.get('portrait')==='true'){
     document.body.classList.add('portrait');
   }
+})();
+
+/* ====== Lazy-load recommendation iframes (staggered) ====== */
+(function(){
+  var INITIAL_DELAY=5000;
+  var STAGGER=1500;
+  var frames=document.querySelectorAll('.clip-frame[data-src]');
+  frames.forEach(function(f,i){
+    setTimeout(function(){
+      f.src=f.getAttribute('data-src');
+      f.removeAttribute('data-src');
+    },INITIAL_DELAY+i*STAGGER);
+  });
 })();
 
 /* ====== Refine card cutout mask after layout ====== */
