@@ -3,10 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <title>BEARDFLIX — Start Screen</title>
-<link rel="preconnect" href="https://twitch-clips-player.pages.dev" crossorigin>
-<link rel="dns-prefetch" href="https://twitch-clips-player.pages.dev">
-<link rel="preconnect" href="https://clips.twitch.tv" crossorigin>
-<link rel="dns-prefetch" href="https://clips.twitch.tv">
+<link rel="preconnect" href="https://twitchapi.teklynk.com" crossorigin>
+<link rel="dns-prefetch" href="https://twitchapi.teklynk.com">
+<link rel="preconnect" href="https://twitchapi.teklynk.dev" crossorigin>
+<link rel="dns-prefetch" href="https://twitchapi.teklynk.dev">
+<link rel="preconnect" href="https://clips-media-assets2.twitch.tv" crossorigin>
+<link rel="dns-prefetch" href="https://clips-media-assets2.twitch.tv">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -286,12 +288,14 @@ body{overflow:hidden;background:transparent}
   border:1px solid rgba(201,169,97,.2);
   background:transparent;
 }
-/* Clip iframe inside card */
-.clip-frame{
-  position:absolute;top:0;left:0;
-  width:100%;height:100%;
+/* Clip video inside card */
+.clip-video{
+  position:absolute;top:50%;left:50%;
+  min-width:100%;min-height:100%;width:auto;height:auto;
+  transform:translate(-50%,-50%);
   border:none;border-radius:5px;
-  z-index:0;
+  z-index:0;object-fit:cover;
+  background:#000;
 }
 .reco-card::after{
   content:'';position:absolute;inset:0;pointer-events:none;
@@ -725,9 +729,9 @@ body{overflow:hidden;background:transparent}
 }
 /* ---- Atmospheric Poster ---- */
 .hero-poster{
-  position:absolute;top:0;left:0;width:100%;height:100%;
+  position:absolute;top:0;left:0;width:100%;height:100%;z-index:2;
   background:radial-gradient(ellipse at 50% 50%,rgba(18,8,35,.75) 0%,rgba(8,4,20,.95) 55%,rgba(6,2,15,1) 100%);
-  opacity:1;transition:opacity 1.8s ease-in-out;overflow:hidden;
+  opacity:1;transition:opacity 1.2s ease-in-out;overflow:hidden;
 }
 .hero-poster.hidden{opacity:0}
 
@@ -784,16 +788,66 @@ body{overflow:hidden;background:transparent}
 }
 @keyframes sweepAcross{0%{opacity:0;transform:translateX(-100%)}15%{opacity:.6}85%{opacity:.6}100%{opacity:0;transform:translateX(200%)}}
 
-/* ---- Clips iframe ---- */
-.hero-media-clips{
-  position:absolute;top:45%;left:50%;
-  width:105%;height:120%;
+/* ---- Native Clip Video ---- */
+.hero-clip-video{
+  position:absolute;top:50%;left:50%;
+  min-width:100%;min-height:100%;width:auto;height:auto;
   transform:translate(-50%,-50%);
-  border:none;
-  opacity:0;
-  transition:opacity 1.8s ease-in-out;
+  z-index:1;object-fit:cover;
+  background:#000;
 }
-.hero-media-clips.visible{opacity:1}
+
+/* ---- Hero Transition Overlay ---- */
+.hero-transition{
+  position:absolute;top:0;left:0;width:100%;height:100%;z-index:10;
+  pointer-events:none;opacity:0;
+  background:radial-gradient(ellipse at 50% 50%,rgba(12,6,25,.97),rgba(6,2,15,1));
+  transition:opacity .8s ease-in-out;
+}
+.hero-transition.active{opacity:1}
+.hero-transition .ht-sweep{
+  position:absolute;top:0;left:-100%;width:50%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(201,169,97,.12) 30%,rgba(145,70,255,.2) 50%,rgba(201,169,97,.12) 70%,transparent);
+  filter:blur(20px);
+}
+.hero-transition.active .ht-sweep{
+  animation:htSweep 1.6s .4s ease-in-out forwards;
+}
+@keyframes htSweep{
+  0%{left:-50%;opacity:0}
+  30%{opacity:1}
+  70%{opacity:1}
+  100%{left:150%;opacity:0}
+}
+.hero-transition .ht-line{
+  position:absolute;top:50%;left:0;right:0;height:1px;transform:translateY(-50%);
+  background:linear-gradient(90deg,transparent,rgba(201,169,97,.4) 20%,rgba(145,70,255,.5) 50%,rgba(201,169,97,.4) 80%,transparent);
+  opacity:0;
+}
+.hero-transition.active .ht-line{
+  animation:htLine 1.2s .6s ease-in-out forwards;
+}
+@keyframes htLine{
+  0%{opacity:0;transform:translateY(-50%) scaleX(0)}
+  40%{opacity:1;transform:translateY(-50%) scaleX(1)}
+  100%{opacity:0;transform:translateY(-50%) scaleX(1.2)}
+}
+.hero-transition .ht-text{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-family:'Cinzel',serif;font-weight:700;font-size:16px;
+  letter-spacing:10px;text-transform:uppercase;
+  color:rgba(201,169,97,.7);opacity:0;
+  text-shadow:0 0 20px rgba(145,70,255,.3);
+}
+.hero-transition.active .ht-text{
+  animation:htText 1.4s .5s ease-in-out forwards;
+}
+@keyframes htText{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.9)}
+  30%{opacity:.8;transform:translate(-50%,-50%) scale(1)}
+  70%{opacity:.8}
+  100%{opacity:0;transform:translate(-50%,-50%) scale(1.05)}
+}
 
 /* ================================================================
    PORTRAIT MODE (1080 x 1920) — activated via ?portrait=true
@@ -820,8 +874,8 @@ body.portrait .hero-media{
   -webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 3%,black 97%,transparent 100%);
   mask-image:linear-gradient(to bottom,transparent 0%,black 3%,black 97%,transparent 100%);
 }
-body.portrait .hero-media-clips{
-  width:120%;height:140%;top:45%;
+body.portrait .hero-clip-video{
+  min-width:100%;min-height:100%;
 }
 body.portrait .hero-fade{
   bottom:-60px;height:250px;
@@ -1201,8 +1255,14 @@ body.portrait .p-lightning{display:block}
         <div class="poster-spark" style="left:40%;top:20%;width:2px;height:2px;background:rgba(145,70,255,.35);--skd:7s;--skdelay:3s;--sko:.3;--sky:-70px;--skx:18px"></div>
         <div class="poster-spark" style="left:70%;top:90%;width:3px;height:3px;background:rgba(201,169,97,.55);--skd:4s;--skdelay:6s;--sko:.5;--sky:-130px;--skx:-8px"></div>
       </div>
-      <!-- ---- Clips iframe ---- -->
-      <iframe class="hero-media-clips" id="heroClips" src="https://twitch-clips-player.pages.dev/clips?channel=beardflix&exclude=&limit=25&dateRange=0&themeOption=2&preferFeatured=false&showText=false&showDetails=false&detailsText=&mainAccount=beardflix&command=&customText=&showFollowing=false&ref=&clientId=&muted=true&mute=true&volume=0" allow="autoplay" muted fetchpriority="high"></iframe>
+      <!-- ---- Native Clip Video ---- -->
+      <video class="hero-clip-video" id="heroClipVideo" muted autoplay playsinline></video>
+      <!-- ---- Transition Overlay ---- -->
+      <div class="hero-transition" id="heroTransition">
+        <div class="ht-sweep"></div>
+        <div class="ht-line"></div>
+        <div class="ht-text">Beardflix</div>
+      </div>
     </div>
     <div class="hero-side hero-side-l"></div>
     <div class="hero-side hero-side-r"></div>
@@ -1266,7 +1326,7 @@ body.portrait .p-lightning{display:block}
       <div class="reco-wrap">
         <div class="reco-label label-nisdede">Nisdede_</div>
         <div class="reco-card">
-          <iframe class="clip-frame" data-src="https://twitch-clips-player.pages.dev/clips?channel=Nisdede_&exclude=&limit=25&dateRange=0&themeOption=2&preferFeatured=false&showText=false&showDetails=false&detailsText=&mainAccount=Nisdede_&command=&customText=&showFollowing=false&ref=&clientId=&muted=true&mute=true&volume=0" allow="autoplay" muted></iframe>
+          <video class="clip-video" data-channel="Nisdede_" muted autoplay playsinline loop></video>
           <div class="card-dot tl"></div><div class="card-dot tr"></div>
           <div class="card-dot bl"></div><div class="card-dot br"></div>
           <div class="card-shine" style="--csd:7s;--csdelay:0s"></div>
@@ -1275,7 +1335,7 @@ body.portrait .p-lightning{display:block}
       <div class="reco-wrap">
         <div class="reco-label label-mona">Monamitsuki</div>
         <div class="reco-card">
-          <iframe class="clip-frame" data-src="https://twitch-clips-player.pages.dev/clips?channel=Monamitsuki&exclude=&limit=25&dateRange=0&themeOption=2&preferFeatured=false&showText=false&showDetails=false&detailsText=&mainAccount=Monamitsuki&command=&customText=&showFollowing=false&ref=&clientId=&muted=true&mute=true&volume=0" allow="autoplay" muted></iframe>
+          <video class="clip-video" data-channel="Monamitsuki" muted autoplay playsinline loop></video>
           <div class="card-dot tl"></div><div class="card-dot tr"></div>
           <div class="card-dot bl"></div><div class="card-dot br"></div>
           <div class="card-shine" style="--csd:9s;--csdelay:1.5s"></div>
@@ -1284,7 +1344,7 @@ body.portrait .p-lightning{display:block}
       <div class="reco-wrap">
         <div class="reco-label label-paddy">Paddyeve</div>
         <div class="reco-card">
-          <iframe class="clip-frame" data-src="https://twitch-clips-player.pages.dev/clips?channel=Paddyeve&exclude=&limit=25&dateRange=0&themeOption=2&preferFeatured=false&showText=false&showDetails=false&detailsText=&mainAccount=Paddyeve&command=&customText=&showFollowing=false&ref=&clientId=&muted=true&mute=true&volume=0" allow="autoplay" muted></iframe>
+          <video class="clip-video" data-channel="Paddyeve" muted autoplay playsinline loop></video>
           <div class="card-dot tl"></div><div class="card-dot tr"></div>
           <div class="card-dot bl"></div><div class="card-dot br"></div>
           <div class="card-shine" style="--csd:8s;--csdelay:3s"></div>
@@ -1293,7 +1353,7 @@ body.portrait .p-lightning{display:block}
       <div class="reco-wrap">
         <div class="reco-label label-berry">Berry_Ninja</div>
         <div class="reco-card">
-          <iframe class="clip-frame" data-src="https://twitch-clips-player.pages.dev/clips?channel=Berry_Ninja&exclude=&limit=25&dateRange=0&themeOption=2&preferFeatured=false&showText=false&showDetails=false&detailsText=&mainAccount=Berry_Ninja&command=&customText=&showFollowing=false&ref=&clientId=&muted=true&mute=true&volume=0" allow="autoplay" muted></iframe>
+          <video class="clip-video" data-channel="Berry_Ninja" muted autoplay playsinline loop></video>
           <div class="card-dot tl"></div><div class="card-dot tr"></div>
           <div class="card-dot bl"></div><div class="card-dot br"></div>
           <div class="card-shine" style="--csd:10s;--csdelay:2s"></div>
@@ -1302,7 +1362,7 @@ body.portrait .p-lightning{display:block}
       <div class="reco-wrap">
         <div class="reco-label label-olib">ItsMeOlib</div>
         <div class="reco-card">
-          <iframe class="clip-frame" data-src="https://twitch-clips-player.pages.dev/clips?channel=Itsmeolib&exclude=&limit=25&dateRange=0&themeOption=2&preferFeatured=false&showText=false&showDetails=false&detailsText=&mainAccount=Itsmeolib&command=&customText=&showFollowing=false&ref=&clientId=&muted=true&mute=true&volume=0" allow="autoplay" muted></iframe>
+          <video class="clip-video" data-channel="Itsmeolib" muted autoplay playsinline loop></video>
           <div class="card-dot tl"></div><div class="card-dot tr"></div>
           <div class="card-dot bl"></div><div class="card-dot br"></div>
           <div class="card-shine" style="--csd:8.5s;--csdelay:4s"></div>
@@ -1866,15 +1926,42 @@ body.portrait .p-lightning{display:block}
   }
 })();
 
-/* ====== Lazy-load recommendation iframes (staggered) ====== */
+/* ====== Load recommendation card clips (staggered, native video) ====== */
 (function(){
-  var INITIAL_DELAY=5000;
-  var STAGGER=1500;
-  var frames=document.querySelectorAll('.clip-frame[data-src]');
-  frames.forEach(function(f,i){
+  var API_SERVERS=[
+    'https://twitchapi.teklynk.com',
+    'https://twitchapi.teklynk.dev',
+    'https://twitchapi2.teklynk.dev'
+  ];
+  var INITIAL_DELAY=8000;
+  var STAGGER=2000;
+
+  function api(){return API_SERVERS[Math.floor(Math.random()*API_SERVERS.length)]}
+
+  var cards=document.querySelectorAll('.clip-video[data-channel]');
+  cards.forEach(function(vid,i){
     setTimeout(function(){
-      f.src=f.getAttribute('data-src');
-      f.removeAttribute('data-src');
+      var ch=vid.getAttribute('data-channel');
+      fetch(api()+'/getuserclips.php?channel='+ch+'&limit=5&shuffle=true')
+        .then(function(r){return r.json()})
+        .then(function(json){
+          if(json.data&&json.data.length>0){
+            var clip=json.data[0];
+            vid.src=clip.clip_url;
+            vid.poster=clip.thumbnail_url||'';
+            vid.muted=true;
+            vid.load();
+            var p=vid.play();
+            if(p&&p.catch)p.catch(function(){});
+            vid.addEventListener('ended',function(){
+              var next=json.data[Math.floor(Math.random()*json.data.length)];
+              vid.src=next.clip_url;
+              vid.load();
+              vid.play().catch(function(){});
+            });
+          }
+        })
+        .catch(function(e){console.warn('[RecoClip] '+ch+' Fehler:',e)});
     },INITIAL_DELAY+i*STAGGER);
   });
 })();
@@ -1897,73 +1984,246 @@ window.addEventListener('load',function(){
   bs.style.webkitMaskSize=bsR.width+'px '+bsR.height+'px';
   bs.style.maskSize=bsR.width+'px '+bsR.height+'px';
 
-  /* Mute all clip iframes */
-  document.querySelectorAll('.clip-frame').forEach(function(f){
-    try{
-      f.contentWindow.postMessage('{"event":"command","func":"mute","args":""}','*');
-      var v=f.contentDocument&&f.contentDocument.querySelectorAll('video,audio');
-      if(v)v.forEach(function(el){el.muted=true;el.volume=0;});
-    }catch(e){}
-  });
 });
-/* Repeat mute attempts for late-loading clips */
-setInterval(function(){
-  document.querySelectorAll('.clip-frame,.hero-media-clips').forEach(function(f){
-    try{
-      f.contentWindow.postMessage('{"event":"command","func":"mute","args":""}','*');
-      var v=f.contentDocument&&f.contentDocument.querySelectorAll('video,audio');
-      if(v)v.forEach(function(el){el.muted=true;el.volume=0;});
-    }catch(e){}
-  });
-},2000);
 
-/* ====== Hero media cycle: poster <-> clips ====== */
+/* ====== Native Clip Player: API fetch + <video> ====== */
 (function(){
   var poster=document.getElementById('heroPoster');
-  var clips=document.getElementById('heroClips');
-  if(!poster||!clips)return;
+  var video=document.getElementById('heroClipVideo');
+  var transition=document.getElementById('heroTransition');
+  if(!poster||!video||!transition)return;
 
-  var POSTER_TIME=12000;  /* 12s Poster anzeigen */
-  var CLIP_DURATION=30000; /* 30s pro Clip (Twitch-Clips sind 10-60s, Schnitt ~30s) */
-  var TRANSITION=1800;     /* 1.8s Fade-Dauer */
-  var showingPoster=true;
-  var clipCount=0;
-  var CLIPS_PER_CYCLE=2;   /* 2 Clips zeigen, dann zurueck zum Poster */
+  var API_SERVERS=[
+    'https://twitchapi.teklynk.com',
+    'https://twitchapi.teklynk.dev',
+    'https://twitchapi2.teklynk.dev'
+  ];
+  var CHANNEL='beardflix';
+  var LIMIT=10;
+  var POSTER_TIME=14000;
+  var CLIP_SHOW_TIME=30000;
+  var TRANS_IN=800;
+  var TRANS_HOLD=1600;
 
-  function showClips(){
-    poster.classList.add('hidden');
-    clips.classList.add('visible');
-    showingPoster=false;
-    clipCount++;
-    /* Nach einem Clip: pruefen ob Poster-Pause oder naechster Clip */
+  var clips=[];
+  var clipIdx=0;
+  var clipsReady=false;
+
+  /* Zufaelligen API-Server waehlen */
+  function apiServer(){
+    return API_SERVERS[Math.floor(Math.random()*API_SERVERS.length)];
+  }
+
+  /* Clips von API holen */
+  function fetchClips(){
+    var url=apiServer()+'/getuserclips.php?channel='+CHANNEL+'&limit='+LIMIT+'&shuffle=true';
+    fetch(url)
+      .then(function(r){return r.json()})
+      .then(function(json){
+        if(json.data&&json.data.length>0){
+          clips=json.data;
+          clipsReady=true;
+          console.log('[BeardflixClips] '+clips.length+' Clips geladen');
+        }else{
+          console.warn('[BeardflixClips] Keine Clips gefunden, versuche erneut...');
+          setTimeout(fetchClips,5000);
+        }
+      })
+      .catch(function(err){
+        console.error('[BeardflixClips] API Fehler:',err);
+        setTimeout(fetchClips,5000);
+      });
+  }
+
+  /* Naechsten Clip abspielen */
+  function playNextClip(){
+    if(!clipsReady||clips.length===0)return;
+    var clip=clips[clipIdx % clips.length];
+    clipIdx++;
+    video.src=clip.clip_url;
+    video.poster=clip.thumbnail_url||'';
+    video.muted=true;
+    video.load();
+    var p=video.play();
+    if(p&&p.catch)p.catch(function(e){console.warn('[BeardflixClips] Play blocked:',e)});
+    console.log('[BeardflixClips] Spiele: '+clip.broadcaster_name+' — '+clip.title);
+  }
+
+  /* Wenn ein Clip fertig ist: naechsten starten */
+  video.addEventListener('ended',function(){
+    playNextClip();
+  });
+
+  /* Fallback: wenn Video aus irgendeinem Grund stockt */
+  video.addEventListener('error',function(){
+    console.warn('[BeardflixClips] Video-Fehler, lade naechsten Clip');
+    setTimeout(playNextClip,500);
+  });
+
+  /* Transition-Helfer */
+  function playTransition(){
+    transition.classList.remove('active');
+    void transition.offsetWidth;
+    transition.classList.add('active');
+  }
+  function hideTransition(){
+    transition.classList.remove('active');
+  }
+
+  /* Poster ausblenden → Clips zeigen */
+  function revealClips(){
+    if(!clipsReady){
+      setTimeout(revealClips,1000);
+      return;
+    }
+    playTransition();
     setTimeout(function(){
-      if(clipCount>=CLIPS_PER_CYCLE){
-        showPoster();
+      playNextClip();
+      poster.classList.add('hidden');
+    },TRANS_IN);
+    setTimeout(hideTransition,TRANS_IN+TRANS_HOLD);
+    setTimeout(coverWithPoster,TRANS_IN+TRANS_HOLD+CLIP_SHOW_TIME);
+  }
+
+  /* Poster einblenden → Clips verdecken */
+  function coverWithPoster(){
+    playTransition();
+    setTimeout(function(){
+      poster.classList.remove('hidden');
+      video.pause();
+    },TRANS_IN);
+    setTimeout(hideTransition,TRANS_IN+TRANS_HOLD);
+    setTimeout(revealClips,TRANS_IN+TRANS_HOLD+POSTER_TIME);
+  }
+
+  /* Start: Clips vorladen, nach POSTER_TIME erster Wechsel */
+  fetchClips();
+  setTimeout(revealClips,POSTER_TIME);
+})();
+
+/* ====== Beardflix Music Player: Shuffle + Crossfade + Loop ====== */
+(function(){
+  var BASE='https://raw.githubusercontent.com/derbaertigelp-png/StreamOverlays/main/Musik/';
+  var SONGS=[
+    'Beardflix%20Dreams.mp3',
+    'Beardflix--Schatten-und-Licht-.mp3',
+    'Beardflix-Hymne-.mp3',
+    'Clair%20Obscure.mp3',
+    'Join%20the%20FlixFam.mp3',
+    'Level%20Up!.mp3',
+    'One%20Click.mp3',
+    'Rappelz.mp3',
+    'Trim_beardflix-unplugged_1.mp3',
+    'Were%20Alive!.mp3',
+    'When%20Beardflix%20is%20gone.mp3',
+    'beardflix-nights.mp3',
+    'beardflix-rising.m4a',
+    'dark-aria-for-beardflix.m4a',
+    'hero-of-the-stream.m4a',
+    'it%20takes%20control.mp3',
+    'leveling-up-with-beardflix.mp3',
+    'the-rise-of-beardflix.m4a',
+    'warm-vibes-from-beardflix.mp3'
+  ];
+
+  var FADE_MS=3000;
+  var VOLUME=0.35;
+  var FADE_STEP=50;
+
+  var playlist=[];
+  var idx=0;
+
+  var audioA=new Audio();
+  var audioB=new Audio();
+  audioA.volume=0;
+  audioB.volume=0;
+  var current=audioA;
+  var next=audioB;
+
+  function shuffle(arr){
+    for(var i=arr.length-1;i>0;i--){
+      var j=Math.floor(Math.random()*(i+1));
+      var t=arr[i];arr[i]=arr[j];arr[j]=t;
+    }
+    return arr;
+  }
+
+  function buildPlaylist(){
+    playlist=shuffle(SONGS.slice());
+    idx=0;
+  }
+
+  function getNextSong(){
+    if(idx>=playlist.length) buildPlaylist();
+    return BASE+playlist[idx++];
+  }
+
+  function fadeIn(audio,cb){
+    audio.volume=0;
+    var step=VOLUME/(FADE_MS/FADE_STEP);
+    var iv=setInterval(function(){
+      var v=audio.volume+step;
+      if(v>=VOLUME){
+        audio.volume=VOLUME;
+        clearInterval(iv);
+        if(cb)cb();
       }else{
-        /* Kurzes Blinken beim Clip-Wechsel */
-        clips.classList.remove('visible');
-        setTimeout(function(){
-          clips.classList.add('visible');
-          clipCount++;
-          setTimeout(function(){
-            if(clipCount>=CLIPS_PER_CYCLE) showPoster();
-            else showClips();
-          },CLIP_DURATION);
-        },400);
+        audio.volume=v;
       }
-    },CLIP_DURATION);
+    },FADE_STEP);
   }
 
-  function showPoster(){
-    poster.classList.remove('hidden');
-    clips.classList.remove('visible');
-    showingPoster=true;
-    clipCount=0;
-    setTimeout(showClips,POSTER_TIME);
+  function fadeOut(audio,cb){
+    var step=VOLUME/(FADE_MS/FADE_STEP);
+    var iv=setInterval(function(){
+      var v=audio.volume-step;
+      if(v<=0){
+        audio.volume=0;
+        audio.pause();
+        clearInterval(iv);
+        if(cb)cb();
+      }else{
+        audio.volume=v;
+      }
+    },FADE_STEP);
   }
 
-  /* Start: Poster zuerst, dann nach POSTER_TIME zu Clips wechseln */
-  setTimeout(showClips,POSTER_TIME);
+  function crossfadeToNext(){
+    var tmp=current;
+    current=next;
+    next=tmp;
+
+    current.src=getNextSong();
+    current.load();
+    var p=current.play();
+    if(p&&p.catch)p.catch(function(e){console.warn('[Music] Play:',e)});
+    fadeIn(current);
+    fadeOut(next);
+
+    setupEndWatch();
+  }
+
+  function setupEndWatch(){
+    current.ontimeupdate=function(){
+      if(current.duration&&current.currentTime>=current.duration-FADE_MS/1000){
+        current.ontimeupdate=null;
+        crossfadeToNext();
+      }
+    };
+  }
+
+  function start(){
+    buildPlaylist();
+    current.src=getNextSong();
+    current.load();
+    var p=current.play();
+    if(p&&p.catch)p.catch(function(e){console.warn('[Music] Autoplay blocked:',e)});
+    fadeIn(current);
+    setupEndWatch();
+    console.log('[Music] Beardflix Musik-Player gestartet — '+SONGS.length+' Songs');
+  }
+
+  start();
 })();
 </script>
 </body>
