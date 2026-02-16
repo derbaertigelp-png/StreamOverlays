@@ -1401,5 +1401,131 @@ y      <div class="lp-value">Demnächst</div>
   <div class="scanner" style="--scd:25s;--scdelay:0s"></div>
   <div class="scanner" style="--scd:30s;--scdelay:8s;background:linear-gradient(180deg,transparent,rgba(200,35,45,.08),rgba(200,35,45,.15),rgba(200,35,45,.08),transparent);opacity:.2"></div>
 
+<script>
+/* ====== Beardflix Music Player: Shuffle + Crossfade + Loop ====== */
+(function(){
+  var BASE='https://raw.githubusercontent.com/derbaertigelp-png/StreamOverlays/main/Musik/';
+  var SONGS=[
+    'Beardflix%20Dreams.mp3',
+    'Beardflix--Schatten-und-Licht-.mp3',
+    'Beardflix-Hymne-.mp3',
+    'Clair%20Obscure.mp3',
+    'Join%20the%20FlixFam.mp3',
+    'Level%20Up!.mp3',
+    'One%20Click.mp3',
+    'Rappelz.mp3',
+    'Trim_beardflix-unplugged_1.mp3',
+    'Were%20Alive!.mp3',
+    'When%20Beardflix%20is%20gone.mp3',
+    'beardflix-nights.mp3',
+    'beardflix-rising.m4a',
+    'dark-aria-for-beardflix.m4a',
+    'hero-of-the-stream.m4a',
+    'it%20takes%20control.mp3',
+    'leveling-up-with-beardflix.mp3',
+    'the-rise-of-beardflix.m4a',
+    'warm-vibes-from-beardflix.mp3'
+  ];
+
+  var FADE_MS=3000;
+  var VOLUME=0.5;
+  var FADE_STEP=50;
+
+  var playlist=[];
+  var idx=0;
+
+  var audioA=new Audio();
+  var audioB=new Audio();
+  audioA.volume=0;
+  audioB.volume=0;
+  var current=audioA;
+  var next=audioB;
+
+  function shuffle(arr){
+    for(var i=arr.length-1;i>0;i--){
+      var j=Math.floor(Math.random()*(i+1));
+      var t=arr[i];arr[i]=arr[j];arr[j]=t;
+    }
+    return arr;
+  }
+
+  function buildPlaylist(){
+    playlist=shuffle(SONGS.slice());
+    idx=0;
+  }
+
+  function getNextSong(){
+    if(idx>=playlist.length) buildPlaylist();
+    return BASE+playlist[idx++];
+  }
+
+  function fadeIn(audio,cb){
+    audio.volume=0;
+    var step=VOLUME/(FADE_MS/FADE_STEP);
+    var iv=setInterval(function(){
+      var v=audio.volume+step;
+      if(v>=VOLUME){
+        audio.volume=VOLUME;
+        clearInterval(iv);
+        if(cb)cb();
+      }else{
+        audio.volume=v;
+      }
+    },FADE_STEP);
+  }
+
+  function fadeOut(audio,cb){
+    var step=VOLUME/(FADE_MS/FADE_STEP);
+    var iv=setInterval(function(){
+      var v=audio.volume-step;
+      if(v<=0){
+        audio.volume=0;
+        audio.pause();
+        clearInterval(iv);
+        if(cb)cb();
+      }else{
+        audio.volume=v;
+      }
+    },FADE_STEP);
+  }
+
+  function crossfadeToNext(){
+    var tmp=current;
+    current=next;
+    next=tmp;
+
+    current.src=getNextSong();
+    current.load();
+    var p=current.play();
+    if(p&&p.catch)p.catch(function(e){console.warn('[Music] Play:',e)});
+    fadeIn(current);
+    fadeOut(next);
+
+    setupEndWatch();
+  }
+
+  function setupEndWatch(){
+    current.ontimeupdate=function(){
+      if(current.duration&&current.currentTime>=current.duration-FADE_MS/1000){
+        current.ontimeupdate=null;
+        crossfadeToNext();
+      }
+    };
+  }
+
+  function start(){
+    buildPlaylist();
+    current.src=getNextSong();
+    current.load();
+    var p=current.play();
+    if(p&&p.catch)p.catch(function(e){console.warn('[Music] Autoplay blocked:',e)});
+    fadeIn(current);
+    setupEndWatch();
+    console.log('[Music] Beardflix Musik-Player gestartet — '+SONGS.length+' Songs');
+  }
+
+  start();
+})();
+</script>
 </body>
 </html>
